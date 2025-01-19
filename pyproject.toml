@@ -1,0 +1,107 @@
+[project]
+name = "kanban"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Jon Webb",email = "webbja123@gmail.com"}
+]
+readme = "README.rst"
+requires-python = ">=3.13"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+flake8 = "^7.1.1"
+mypy = "^1.14.1"
+black = "^24.10.0"
+isort = "^5.13.2"
+flake8-bandit = "^4.1.1"
+flake8-bugbear = "^24.12.12"
+flake8-builtins = "^2.5.0"
+flake8-comprehensions = "^3.16.0"
+flake8-implicit-str-concat = "^0.5.0"
+flake8-print = "^5.0.0"
+tox = "^4.23.2"
+pytest-cov = "^6.0.0"
+pyupgrade = "^3.19.1"
+pre-commit = "^4.0.1"
+
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+	"Operating System :: POSIX :: Linux",
+]
+
+[tool.isort]
+profile = 'black'
+
+[tool.black]
+line-length = 90
+target-version = ['py313']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  # The following are specific to Black, you probably don't want those.
+  | blib2to3
+  | tests/data
+  | profiling
+)/
+'''
+
+[tool.tox]
+legacy_tox_ini = """
+	[tox]
+    env_list = py313, mypy, lint
+
+    [testenv]
+	description = run tests with pytest
+    deps = pytest
+    commands = pytest tests -v {posargs}
+
+	[testeng:mypy]
+	deps = mypy
+	commands = mypy kanban
+
+	[testenv:lint]
+	deps = pre-commit
+	commands = pre-commit run --all-files --show-diff-on-failure
+
+	[gh-actions]
+	python =
+		3.13: py313, mypy, lint
+"""
+
+[tool.mypy]
+exclude = ["docs", "tests"]
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+console_output_style = "progress"
+
+[project.urls]
+"Homepage" = "https://github.com/Jon-Webb-79/kanban"
