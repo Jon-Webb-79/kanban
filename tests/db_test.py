@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from kanban.kanban import DatabaseManager, KanbanDataError, TaskManager
+from kanban.kanban import DatabaseManager, KanbanDataError, PeriodManager, TaskManager
 
 # ==========================================================================================
 # ==========================================================================================
@@ -407,6 +407,129 @@ class TestDatabaseManager:
 
             task_id = task_manager.create_task("Test Task", None, "Test Project")
             assert task_id is not None
+
+    # ================================================================================
+    # ================================================================================
+
+    class TestPeriodValidation:
+        """Test suite for period validation functionality"""
+
+        def test_create_period_with_empty_name(self, db_manager, temp_db_file):
+            """Test creating period with empty name."""
+            db_manager.connect(temp_db_file)
+            db_manager.create_schema()
+            period_manager = PeriodManager(db_manager)
+
+            with pytest.raises(KanbanDataError) as exc:
+                period_manager.create_period("", "2024-01-01", "2024-12-31")
+            assert "Period name cannot be empty" in str(exc.value)
+
+        # --------------------------------------------------------------------------------
+
+        def test_create_period_with_whitespace_name(self, db_manager, temp_db_file):
+            """Test creating period with whitespace-only name."""
+            db_manager.connect(temp_db_file)
+            db_manager.create_schema()
+            period_manager = PeriodManager(db_manager)
+
+            with pytest.raises(KanbanDataError) as exc:
+                period_manager.create_period("   ", "2024-01-01", "2024-12-31")
+                assert "Period name cannot be empty" in str(exc.value)
+
+        # --------------------------------------------------------------------------------
+
+        def test_create_period_with_invalid_dates(self, db_manager, temp_db_file):
+            """Test creating period with invalid date format."""
+            db_manager.connect(temp_db_file)
+            db_manager.create_schema()
+            period_manager = PeriodManager(db_manager)
+
+            with pytest.raises(KanbanDataError) as exc:
+                period_manager.create_period("Test Period", "invalid-date", "2024-12-31")
+            assert "Invalid date format" in str(exc.value)
+
+        # --------------------------------------------------------------------------------
+
+        def test_create_period_with_end_before_start(self, db_manager, temp_db_file):
+            """Test creating period with end date before start date."""
+            db_manager.connect(temp_db_file)
+            db_manager.create_schema()
+            period_manager = PeriodManager(db_manager)
+
+            with pytest.raises(KanbanDataError) as exc:
+                period_manager.create_period("Test Period", "2024-12-31", "2024-01-01")
+            assert "End date cannot be before start date" in str(exc.value)
+
+        # --------------------------------------------------------------------------------
+
+        def test_create_duplicate_period(self, db_manager, temp_db_file):
+            """Test creating period with duplicate name."""
+            db_manager.connect(temp_db_file)
+            db_manager.create_schema()
+            period_manager = PeriodManager(db_manager)
+
+            # Create first period
+            period_manager.create_period("Test Period", "2024-01-01", "2024-06-30")
+
+            # Try to create second period with same name
+            with pytest.raises(KanbanDataError) as exc:
+                period_manager.create_period("Test Period", "2024-07-01", "2024-12-31")
+            assert "already exists" in str(exc.value)
+
+        # --------------------------------------------------------------------------------
+
+        def test_create_period_without_connection(self, db_manager):
+            """Test creating period without database connection."""
+            period_manager = PeriodManager(db_manager)  # No connection established
+
+            result = period_manager.create_period(
+                "Test Period", "2024-01-01", "2024-12-31"
+            )
+            assert result is None
+
+        # --------------------------------------------------------------------------------
+
+        def test_create_valid_period(self, db_manager, temp_db_file):
+            """Test creating period with valid data."""
+            db_manager.connect(temp_db_file)
+            db_manager.create_schema()
+            period_manager = PeriodManager(db_manager)
+
+            period_id = period_manager.create_period(
+                "Test Period", "2024-01-01", "2024-12-31"
+            )
+            assert period_id is not None
+
+            # Verify period was created correctly
+            db_manager.cursor.execute(
+                "SELECT name, start_date, end_date FROM performance_periods WHERE id = ?",
+                (period_id,),
+            )
+            period = db_manager.cursor.fetchone()
+            assert period is not None
+            assert period[0] == "Test Period"
+            assert period[1] == "2024-01-01"
+            assert period[2] == "2024-12-31"
+
+        # --------------------------------------------------------------------------------
+
+        def test_create_period_strips_whitespace(self, db_manager, temp_db_file):
+            """Test that whitespace is stripped from period name."""
+            db_manager.connect(temp_db_file)
+            db_manager.create_schema()
+            period_manager = PeriodManager(db_manager)
+
+            period_id = period_manager.create_period(
+                "  Test Period  ", "2024-01-01", "2024-12-31"
+            )
+            assert period_id is not None
+
+            # Verify whitespace was stripped
+            db_manager.cursor.execute(
+                "SELECT name FROM performance_periods WHERE id = ?", (period_id,)
+            )
+            period = db_manager.cursor.fetchone()
+            assert period[0] == "Test Period"
 
 
 # ==========================================================================================

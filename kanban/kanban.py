@@ -248,6 +248,44 @@ class DatabaseManager:
         if not project or not project.strip():
             raise KanbanDataError("Project name cannot be empty")
 
+    # --------------------------------------------------------------------------------
+
+    def validate_period_data(self, name: str, start_date: str, end_date: str) -> None:
+        """
+        Validate period data before insertion or update.
+
+        Args:
+            name (str): Period name
+            start_date (str): Period start date in ISO format
+            end_date (str): Period end date in ISO format
+
+        Raises:
+            KanbanDataError: If validation fails
+        """
+        # Check for empty name
+        if not name or not name.strip():
+            raise KanbanDataError("Period name cannot be empty")
+
+        try:
+            # Parse dates
+            start = datetime.fromisoformat(start_date).date()
+            end = datetime.fromisoformat(end_date).date()
+
+            # Check date order
+            if end < start:
+                raise KanbanDataError("End date cannot be before start date")
+
+            # Check for existing period name
+            if self.conn and self.cursor:
+                self.cursor.execute(
+                    "SELECT name FROM performance_periods WHERE name = ?", (name.strip(),)
+                )
+                if self.cursor.fetchone():
+                    raise KanbanDataError(f"Period with name '{name}' already exists")
+
+        except ValueError:
+            raise KanbanDataError("Invalid date format")
+
 
 # ================================================================================
 # ================================================================================
@@ -461,21 +499,39 @@ class PeriodManager:
     # --------------------------------------------------------------------------------
 
     def create_period(self, name: str, start_date: str, end_date: str) -> Optional[int]:
-        """Create a new performance period"""
+        """
+        Create a new performance period with validation.
+
+        Args:
+            name (str): Period name
+            start_date (str): Start date in ISO format
+            end_date (str): End date in ISO format
+
+        Returns:
+            Optional[int]: ID of created period if successful, None if failed
+
+        Raises:
+            KanbanDataError: If period data validation fails
+            sqlite3.Error: If database operation fails
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return None
+
+            # Validate period data
+            self.db.validate_period_data(name, start_date, end_date)
 
             self.db.cursor.execute(
                 """
                 INSERT INTO performance_periods (name, start_date, end_date)
                 VALUES (?, ?, ?)
             """,
-                (name, start_date, end_date),
+                (name.strip(), start_date, end_date),
             )
 
             self.db.conn.commit()
             return self.db.cursor.lastrowid
+
         except sqlite3.Error as e:
             print(f"Period creation error: {e}")
             return None
