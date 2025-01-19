@@ -1,4 +1,4 @@
-#!/bin/zsh 
+#!/bin/zsh
 
 # reun_tests.sh
 
