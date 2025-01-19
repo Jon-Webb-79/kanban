@@ -7,9 +7,21 @@ authors = [
 ]
 readme = "README.rst"
 requires-python = ">=3.13"
-dependencies = [
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+	"Operating System :: POSIX :: Linux",
 ]
 
+[tool.poetry.dependencies]
+python = ">=3.13"
+customtkinter = "^5.2.2"
+pandas = "^2.2.3"
+pillow = "^11.1.0"
+tkcalendar = "^1.6.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -31,16 +43,6 @@ tox = "^4.23.2"
 pytest-cov = "^6.0.0"
 pyupgrade = "^3.19.1"
 pre-commit = "^4.0.1"
-
-
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Programming Language :: Python :: 3",
-	"Programming Language :: Python :: 3.13",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: MacOS",
-	"Operating System :: POSIX :: Linux",
-]
 
 [tool.isort]
 profile = 'black'

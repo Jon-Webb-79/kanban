@@ -1,28 +1,58 @@
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
-import customtkinter as ctk
-from tkcalendar import DateEntry
 import sqlite3
+import tkinter as tk
 from datetime import datetime
+from tkinter import filedialog, messagebox, ttk
+from typing import Dict, List, Optional, Tuple
+
+import customtkinter as ctk
 import pandas as pd
-from PIL import Image, ImageTk
-from typing import Optional, List, Dict, Tuple
+
+# from PIL import Image, ImageTk
+from tkcalendar import DateEntry
 
 # ================================================================================
+# ================================================================================
+
+
+class KanbanDataError(Exception):
+    """Exception raised for data validation errors in Kanban manager."""
+
+    pass
+
+
 # ================================================================================
 
 
 class DatabaseManager:
-    """Handles all database operations and queries"""
+    """
+    Handles all database operations and queries for the Kanban Task Manager.
+
+    This class manages the SQLite database connection and provides methods for
+    database operations including schema creation, verification, and period management.
+
+    Attributes:
+        conn (Optional[sqlite3.Connection]): SQLite database connection object
+        cursor (Optional[sqlite3.Cursor]): Database cursor for executing SQL commands
+    """
 
     def __init__(self):
+        """Initialize DatabaseManager with no active connection."""
         self.conn: Optional[sqlite3.Connection] = None
         self.cursor: Optional[sqlite3.Cursor] = None
 
-    # --------------------------------------------------------------------------------
-
     def connect(self, filename: str) -> bool:
-        """Connect to a database file"""
+        """
+        Establish a connection to a SQLite database file.
+
+        Args:
+            filename (str): Path to the SQLite database file
+
+        Returns:
+            bool: True if connection successful, False otherwise
+
+        Raises:
+            sqlite3.Error: If database connection fails
+        """
         try:
             if self.conn:
                 self.conn.close()
@@ -37,7 +67,19 @@ class DatabaseManager:
     # --------------------------------------------------------------------------------
 
     def create_schema(self) -> bool:
-        """Create database schema if it doesn't exist"""
+        """
+        Create the database schema if it doesn't exist.
+
+        Creates two tables:
+            - performance_periods: Stores period information
+            - tasks: Stores task information with foreign key to periods
+
+        Returns:
+            bool: True if schema creation successful, False otherwise
+
+        Raises:
+            sqlite3.Error: If schema creation fails
+        """
         try:
             if not self.conn or not self.cursor:
                 return False
@@ -47,25 +89,25 @@ class DatabaseManager:
                 """
                 CREATE TABLE IF NOT EXISTS performance_periods (
                     id INTEGER PRIMARY KEY,
-                    start_date TEXT,
-                    end_date TEXT,
-                    name TEXT UNIQUE
+                    start_date TEXT NOT NULL,
+                    end_date TEXT NOT NULL,
+                    name TEXT UNIQUE NOT NULL
                 )
             """
             )
 
-            # Create tasks table
+            # Create tasks table with NOT NULL constraints
             self.cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS tasks (
                     id INTEGER PRIMARY KEY,
-                    title TEXT,
+                    title TEXT NOT NULL,
                     description TEXT,
-                    status TEXT,
+                    status TEXT NOT NULL,
                     resource TEXT,
-                    project TEXT,
+                    project TEXT NOT NULL,
                     period_id INTEGER,
-                    created_datetime TEXT,
+                    created_datetime TEXT NOT NULL,
                     todo_datetime TEXT,
                     inwork_datetime TEXT,
                     completed_datetime TEXT,
@@ -83,7 +125,19 @@ class DatabaseManager:
     # --------------------------------------------------------------------------------
 
     def verify_schema(self) -> bool:
-        """Verify that the database has the correct schema"""
+        """
+        Verify that the database has the correct schema structure.
+
+        Checks for the existence of required tables and their columns:
+            - performance_periods: id, start_date, end_date, name
+            - tasks: all task-related columns including timestamps
+
+        Returns:
+            bool: True if schema verification successful, False otherwise
+
+        Raises:
+            sqlite3.Error: If schema verification fails
+        """
         try:
             if not self.conn or not self.cursor:
                 return False
@@ -127,7 +181,12 @@ class DatabaseManager:
     # --------------------------------------------------------------------------------
 
     def close(self):
-        """Close the database connection"""
+        """
+        Close the database connection and reset connection objects.
+
+        This method ensures proper cleanup of database resources by closing
+        the active connection and setting connection objects to None.
+        """
         if self.conn:
             self.conn.close()
             self.conn = None
@@ -136,7 +195,18 @@ class DatabaseManager:
     # --------------------------------------------------------------------------------
 
     def get_current_period(self) -> Optional[str]:
-        """Get the period name that contains the current date"""
+        """
+        Get the period name that contains the current date.
+
+        Queries the performance_periods table to find a period where the current
+        date falls between the start_date and end_date.
+
+        Returns:
+            Optional[str]: Name of the current period if found, None otherwise
+
+        Raises:
+            sqlite3.Error: If database query fails
+        """
         try:
             if not self.conn or not self.cursor:
                 return None
@@ -145,9 +215,9 @@ class DatabaseManager:
 
             self.cursor.execute(
                 """
-                SELECT name 
-                FROM performance_periods 
-                WHERE date(start_date) <= date(?) 
+                SELECT name
+                FROM performance_periods
+                WHERE date(start_date) <= date(?)
                 AND date(end_date) >= date(?)
             """,
                 (current_date.isoformat(), current_date.isoformat()),
@@ -159,6 +229,24 @@ class DatabaseManager:
         except sqlite3.Error as e:
             print(f"Error getting current period: {e}")
             return None
+
+    # --------------------------------------------------------------------------------
+
+    def validate_task_data(self, title: str, project: str) -> None:
+        """
+        Validate task data before insertion or update.
+
+        Args:
+            title (str): Task title
+            project (str): Project name
+
+        Raises:
+            KanbanDataError: If validation fails
+        """
+        if not title or not title.strip():
+            raise KanbanDataError("Task title cannot be empty")
+        if not project or not project.strip():
+            raise KanbanDataError("Project name cannot be empty")
 
 
 # ================================================================================
@@ -174,10 +262,27 @@ class TaskManager:
     # --------------------------------------------------------------------------------
 
     def create_task(self, title: str, description: str, project: str) -> Optional[int]:
-        """Create a new task"""
+        """
+        Create a new task with validation.
+
+        Args:
+            title (str): Task title
+            description (str): Task description
+            project (str): Project name
+
+        Returns:
+            Optional[int]: ID of the created task if successful, None if failed
+
+        Raises:
+            KanbanDataError: If task data validation fails
+            sqlite3.Error: If database operation fails
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return None
+
+            # Validate task data
+            self.db.validate_task_data(title, project)
 
             self.db.cursor.execute(
                 """
@@ -185,11 +290,18 @@ class TaskManager:
                     title, description, status, project, created_datetime
                 ) VALUES (?, ?, ?, ?, ?)
             """,
-                (title, description, "unassigned", project, datetime.now().isoformat()),
+                (
+                    title.strip(),
+                    description,
+                    "unassigned",
+                    project.strip(),
+                    datetime.now().isoformat(),
+                ),
             )
 
             self.db.conn.commit()
             return self.db.cursor.lastrowid
+
         except sqlite3.Error as e:
             print(f"Task creation error: {e}")
             return None
@@ -204,7 +316,7 @@ class TaskManager:
 
             self.db.cursor.execute(
                 """
-                UPDATE tasks 
+                UPDATE tasks
                 SET status = 'todo',
                     period_id = ?,
                     todo_datetime = ?
@@ -440,7 +552,7 @@ class StatisticsManager:
                 return {}
 
             query = """
-                SELECT 
+                SELECT
                     status,
                     todo_datetime,
                     inwork_datetime,
@@ -561,7 +673,7 @@ class StatisticsManager:
                 return []
 
             query = """
-                SELECT 
+                SELECT
                     t.id,
                     t.title,
                     t.status,
@@ -737,7 +849,7 @@ class UIComponents:
         }
 
         # OptionMenu configurations (without border_width)
-        option_config = {"corner_radius": 8, "height": 32, "font": ("Helvetica", 16)}
+        # option_config = {"corner_radius": 8, "height": 32, "font": ("Helvetica", 16)}
 
         # Create period button
         create_period_btn = ctk.CTkButton(
@@ -879,24 +991,8 @@ class UIComponents:
 
         return self.unassigned_frame, container
 
-    # def create_unassigned_tab(self, notebook: ttk.Notebook) -> Tuple[ctk.CTkFrame, ctk.CTkScrollableFrame]:
-    #     """Create the unassigned tasks tab"""
-    #     unassigned_frame = ctk.CTkFrame(
-    #         notebook,
-    #         fg_color=self.colors['bg_light'],
-    #         corner_radius=0
-    #     )
-    #     notebook.add(unassigned_frame, text="Unassigned Tasks")
-    #
-    #     container = ctk.CTkScrollableFrame(
-    #         unassigned_frame,
-    #         fg_color="transparent",
-    #         corner_radius=0
-    #     )
-    #     container.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
-    #
-    #     return unassigned_frame, container
     # --------------------------------------------------------------------------------
+
     def create_statistics_tab(self, notebook: ttk.Notebook) -> ctk.CTkFrame:
         """Create the statistics tab"""
         self.stats_frame = ctk.CTkFrame(  # Store reference
@@ -905,15 +1001,6 @@ class UIComponents:
         notebook.add(self.stats_frame, text="Statistics")
         return self.stats_frame
 
-    # def create_statistics_tab(self, notebook: ttk.Notebook) -> ctk.CTkFrame:
-    #     """Create the statistics tab"""
-    #     stats_frame = ctk.CTkFrame(
-    #         notebook,
-    #         fg_color=self.colors['bg_light'],
-    #         corner_radius=0
-    #     )
-    #     notebook.add(stats_frame, text="Statistics")
-    #     return stats_frame
     # --------------------------------------------------------------------------------
 
     def create_task_card(
