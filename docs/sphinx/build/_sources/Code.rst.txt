@@ -1,18 +1,18 @@
 Code Documentation
 ==================
 
-This section contains the automatically generated API documentation for the 
+This section contains the automatically generated API documentation for the
 Kanban application.
 
 .. toctree::
    :maxdepth: 2
 
-KanbanDataError
-###############
-.. autoclass:: kanban.kanban.KanbanDataError
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. KanbanDataError
+.. ###############
+.. .. autoclass:: kanban.kanban.KanbanDataError
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
 
 DatabaseManager
 ###############
@@ -78,3 +78,17 @@ TaskManager
    :members:
    :undoc-members:
    :show-inheritance:
+
+PeriodManager
+#############
+.. autoclass:: kanban.kanban.PeriodManager
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. StatisticsManager
+.. #################
+.. .. autoclass:: kanban.kanban.StatisticsManager
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:

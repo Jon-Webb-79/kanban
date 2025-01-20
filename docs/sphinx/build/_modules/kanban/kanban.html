@@ -9,7 +9,7 @@
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
-  
+
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
@@ -17,17 +17,17 @@
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="../../index.html" class="icon icon-home">
             Kanban
           </a>
@@ -67,7 +67,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <h1>Source code for kanban.kanban</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tk</span>
@@ -394,18 +394,35 @@
 <div class="viewcode-block" id="TaskManager">
 <a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskManager</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages task-related operations&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages task-related operations for the Kanban system.</span>
+
+<span class="sd">    This class handles all task operations including creation, status updates,</span>
+<span class="sd">    and queries. It works in conjunction with the DatabaseManager to persist</span>
+<span class="sd">    task data.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        db (DatabaseManager): Database manager instance for data persistence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_manager</span><span class="p">:</span> <span class="n">DatabaseManager</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db_manager</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize TaskManager with a database manager.</span>
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="sd">        Args:</span>
+<span class="sd">            db_manager (DatabaseManager): Database manager instance for task operations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db_manager</span>
 
 <div class="viewcode-block" id="TaskManager.create_task">
 <a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.create_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">project</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new task with validation.</span>
+
+<span class="sd">        Creates a new task in the database with provided details. The task</span>
+<span class="sd">        is initially created with &#39;unassigned&#39; status and validates required</span>
+<span class="sd">        fields before creation.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title (str): Task title</span>
@@ -416,16 +433,14 @@
 <span class="sd">            Optional[int]: ID of the created task if successful, None if failed</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            KanbanDataError: If task data validation fails</span>
+<span class="sd">            KanbanDataError: If task data validation fails (empty title or project)</span>
 <span class="sd">            sqlite3.Error: If database operation fails</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
-            <span class="c1"># Validate task data</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">validate_task_data</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">project</span><span class="p">)</span>
-
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
 <span class="w">                </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">                INSERT INTO tasks (</span>
@@ -449,12 +464,22 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="TaskManager.move_to_todo">
 <a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.move_to_todo">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">move_to_todo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">period_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move a task to Todo status&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move a task to Todo status.</span>
+
+<span class="sd">        Updates the task&#39;s status to &#39;todo&#39; and assigns it to a specific period.</span>
+<span class="sd">        Also records the timestamp when the task was moved to todo status.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            task_id (int): ID of the task to move</span>
+<span class="sd">            period_id (int): ID of the period to assign the task to</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if successful, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
@@ -477,12 +502,22 @@
             <span class="k">return</span> <span class="kc">False</span></div>
 
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="TaskManager.assign_resource">
 <a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.assign_resource">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">assign_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign a resource to a task&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assign a resource to a task.</span>
+
+<span class="sd">        Updates the task to assign a specific resource (typically a person)</span>
+<span class="sd">        to be responsible for the task.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            task_id (int): ID of the task to assign</span>
+<span class="sd">            resource (str): Name or identifier of the resource</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if assignment successful, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
@@ -503,12 +538,21 @@
             <span class="k">return</span> <span class="kc">False</span></div>
 
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="TaskManager.start_task">
 <a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.start_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move task to In Work status&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move task to In Work status.</span>
+
+<span class="sd">        Updates the task status to &#39;inwork&#39; and records the timestamp</span>
+<span class="sd">        when work was started.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            task_id (int): ID of the task to start</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if status update successful, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
@@ -530,12 +574,21 @@
             <span class="k">return</span> <span class="kc">False</span></div>
 
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="TaskManager.complete_task">
 <a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.complete_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">complete_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move task to Completed status&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move task to Completed status.</span>
+
+<span class="sd">        Updates the task status to &#39;completed&#39; and records the completion</span>
+<span class="sd">        timestamp.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            task_id (int): ID of the task to complete</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if status update successful, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
@@ -557,12 +610,22 @@
             <span class="k">return</span> <span class="kc">False</span></div>
 
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="TaskManager.get_tasks_by_period">
 <a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.get_tasks_by_period">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_tasks_by_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all tasks for a specific period&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all tasks for a specific period.</span>
+
+<span class="sd">        Retrieves all non-unassigned tasks associated with the specified period.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            period_id (int): ID of the period to get tasks for</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: List of tasks, each task represented as a dictionary</span>
+<span class="sd">                with keys: id, title, description, status, resource, project.</span>
+<span class="sd">                Returns empty list if no tasks found or on error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">[]</span>
@@ -583,12 +646,19 @@
             <span class="k">return</span> <span class="p">[]</span></div>
 
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="TaskManager.get_unassigned_tasks">
 <a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.get_unassigned_tasks">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_unassigned_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all unassigned tasks&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all unassigned tasks.</span>
+
+<span class="sd">        Retrieves all tasks with &#39;unassigned&#39; status.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: List of unassigned tasks, each task represented as a dictionary</span>
+<span class="sd">                with keys: id, title, description, project, resource, status.</span>
+<span class="sd">                Returns empty list if no tasks found or on error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">[]</span>
@@ -615,28 +685,50 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">PeriodManager</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages performance periods&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages performance periods in the Kanban system.</span>
+
+<span class="sd">    This class handles all operations related to performance periods including</span>
+<span class="sd">    creation, retrieval, and validation. Performance periods are used to organize</span>
+<span class="sd">    tasks into specific time frames.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        db (DatabaseManager): Database manager instance for data persistence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_manager</span><span class="p">:</span> <span class="n">DatabaseManager</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db_manager</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize PeriodManager with a database manager.</span>
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="sd">        Args:</span>
+<span class="sd">            db_manager (DatabaseManager): Database manager instance for period operations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db_manager</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new performance period with validation.</span>
 
+<span class="sd">        Creates a new period in the database with the specified name and date range.</span>
+<span class="sd">        Dates are expected in MM/DD/YY format and are converted to ISO format for storage.</span>
+<span class="sd">        The period name must be unique.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            name (str): Period name</span>
-<span class="sd">            start_date (str): Start date in ISO format</span>
-<span class="sd">            end_date (str): End date in ISO format</span>
+<span class="sd">            start_date (str): Start date in MM/DD/YY format (e.g., &quot;01/15/24&quot;)</span>
+<span class="sd">            end_date (str): End date in MM/DD/YY format (e.g., &quot;02/15/24&quot;)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Optional[int]: ID of created period if successful, None if failed</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            KanbanDataError: If period data validation fails</span>
+<span class="sd">            KanbanDataError: If period validation fails (invalid dates, duplicate name)</span>
 <span class="sd">            sqlite3.Error: If database operation fails</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; period_id = period_manager.create_period(&quot;Sprint 1&quot;, &quot;1/1/24&quot;, &quot;1/15/24&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; if period_id is not None:</span>
+<span class="sd">            ...     print(f&quot;Created period with ID: {period_id}&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
@@ -659,15 +751,27 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
-
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Period creation error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">get_all_periods</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all performance periods&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all performance periods ordered by start date.</span>
+
+<span class="sd">        Retrieves all periods from the database, ordered chronologically by</span>
+<span class="sd">        start date.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: List of periods, each period represented as a dictionary</span>
+<span class="sd">                with keys: id, name, start_date, end_date.</span>
+<span class="sd">                Returns empty list if no periods found or on error.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; periods = period_manager.get_all_periods()</span>
+<span class="sd">            &gt;&gt;&gt; for period in periods:</span>
+<span class="sd">            ...     print(f&quot;{period[&#39;name&#39;]}: {period[&#39;start_date&#39;]} to {period[&#39;end_date&#39;]}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">[]</span>
@@ -686,10 +790,27 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Get periods error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[]</span>
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">get_period_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a period by its name&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a period by its name.</span>
+
+<span class="sd">        Retrieves a specific period from the database using its unique name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the period to retrieve</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[Dict]: Dictionary containing period details with keys:</span>
+<span class="sd">                id, name, start_date, end_date.</span>
+<span class="sd">                Returns None if period not found or on error.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; period = period_manager.get_period_by_name(&quot;Sprint 1&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; if period:</span>
+<span class="sd">            ...     print(f&quot;Found period: {period[&#39;start_date&#39;]} to {period[&#39;end_date&#39;]}&quot;)</span>
+<span class="sd">            ... else:</span>
+<span class="sd">            ...     print(&quot;Period not found&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">conn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
@@ -715,6 +836,107 @@
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Get period error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
+<span class="c1"># class PeriodManager:</span>
+<span class="c1">#     &quot;&quot;&quot;Manages performance periods&quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#     def __init__(self, db_manager: DatabaseManager):</span>
+<span class="c1">#         self.db = db_manager</span>
+<span class="c1">#</span>
+<span class="c1">#     # --------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1">#     def create_period(self, name: str, start_date: str, end_date: str) -&gt; Optional[int]:</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         Create a new performance period with validation.</span>
+<span class="c1">#</span>
+<span class="c1">#         Args:</span>
+<span class="c1">#             name (str): Period name</span>
+<span class="c1">#             start_date (str): Start date in ISO format</span>
+<span class="c1">#             end_date (str): End date in ISO format</span>
+<span class="c1">#</span>
+<span class="c1">#         Returns:</span>
+<span class="c1">#             Optional[int]: ID of created period if successful, None if failed</span>
+<span class="c1">#</span>
+<span class="c1">#         Raises:</span>
+<span class="c1">#             KanbanDataError: If period data validation fails</span>
+<span class="c1">#             sqlite3.Error: If database operation fails</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         try:</span>
+<span class="c1">#             if not self.db.conn or not self.db.cursor:</span>
+<span class="c1">#                 return None</span>
+<span class="c1">#</span>
+<span class="c1">#             # Validate period data</span>
+<span class="c1">#             self.db.validate_period_data(name, start_date, end_date)</span>
+<span class="c1">#</span>
+<span class="c1">#             # Convert dates to ISO format for storage</span>
+<span class="c1">#             start_iso = datetime.strptime(start_date, &quot;%m/%d/%y&quot;).date().isoformat()</span>
+<span class="c1">#             end_iso = datetime.strptime(end_date, &quot;%m/%d/%y&quot;).date().isoformat()</span>
+<span class="c1">#</span>
+<span class="c1">#             self.db.cursor.execute(</span>
+<span class="c1">#                 &quot;&quot;&quot;</span>
+<span class="c1">#                 INSERT INTO performance_periods (name, start_date, end_date)</span>
+<span class="c1">#                 VALUES (?, ?, ?)</span>
+<span class="c1">#             &quot;&quot;&quot;,</span>
+<span class="c1">#                 (name.strip(), start_iso, end_iso),</span>
+<span class="c1">#             )</span>
+<span class="c1">#</span>
+<span class="c1">#             self.db.conn.commit()</span>
+<span class="c1">#             return self.db.cursor.lastrowid</span>
+<span class="c1">#</span>
+<span class="c1">#         except sqlite3.Error as e:</span>
+<span class="c1">#             print(f&quot;Period creation error: {e}&quot;)</span>
+<span class="c1">#             return None</span>
+<span class="c1">#</span>
+<span class="c1">#     # --------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1">#     def get_all_periods(self) -&gt; List[Dict]:</span>
+<span class="c1">#         &quot;&quot;&quot;Get all performance periods&quot;&quot;&quot;</span>
+<span class="c1">#         try:</span>
+<span class="c1">#             if not self.db.conn or not self.db.cursor:</span>
+<span class="c1">#                 return []</span>
+<span class="c1">#</span>
+<span class="c1">#             self.db.cursor.execute(</span>
+<span class="c1">#                 &quot;&quot;&quot;</span>
+<span class="c1">#                 SELECT id, name, start_date, end_date</span>
+<span class="c1">#                 FROM performance_periods</span>
+<span class="c1">#                 ORDER BY start_date</span>
+<span class="c1">#             &quot;&quot;&quot;</span>
+<span class="c1">#             )</span>
+<span class="c1">#</span>
+<span class="c1">#             columns = [&quot;id&quot;, &quot;name&quot;, &quot;start_date&quot;, &quot;end_date&quot;]</span>
+<span class="c1">#             return [dict(zip(columns, row)) for row in self.db.cursor.fetchall()]</span>
+<span class="c1">#         except sqlite3.Error as e:</span>
+<span class="c1">#             print(f&quot;Get periods error: {e}&quot;)</span>
+<span class="c1">#             return []</span>
+<span class="c1">#</span>
+<span class="c1">#     # --------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1">#     def get_period_by_name(self, name: str) -&gt; Optional[Dict]:</span>
+<span class="c1">#         &quot;&quot;&quot;Get a period by its name&quot;&quot;&quot;</span>
+<span class="c1">#         try:</span>
+<span class="c1">#             if not self.db.conn or not self.db.cursor:</span>
+<span class="c1">#                 return None</span>
+<span class="c1">#</span>
+<span class="c1">#             self.db.cursor.execute(</span>
+<span class="c1">#                 &quot;&quot;&quot;</span>
+<span class="c1">#                 SELECT id, name, start_date, end_date</span>
+<span class="c1">#                 FROM performance_periods</span>
+<span class="c1">#                 WHERE name = ?</span>
+<span class="c1">#             &quot;&quot;&quot;,</span>
+<span class="c1">#                 (name,),</span>
+<span class="c1">#             )</span>
+<span class="c1">#</span>
+<span class="c1">#             row = self.db.cursor.fetchone()</span>
+<span class="c1">#             if row:</span>
+<span class="c1">#                 return {</span>
+<span class="c1">#                     &quot;id&quot;: row[0],</span>
+<span class="c1">#                     &quot;name&quot;: row[1],</span>
+<span class="c1">#                     &quot;start_date&quot;: row[2],</span>
+<span class="c1">#                     &quot;end_date&quot;: row[3],</span>
+<span class="c1">#                 }</span>
+<span class="c1">#             return None</span>
+<span class="c1">#         except sqlite3.Error as e:</span>
+<span class="c1">#             print(f&quot;Get period error: {e}&quot;)</span>
+<span class="c1">#             return None</span>
 
 
 <span class="c1"># ================================================================================</span>
@@ -1888,7 +2110,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -1899,7 +2121,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>

@@ -294,16 +294,33 @@ class DatabaseManager:
 
 
 class TaskManager:
-    """Manages task-related operations"""
+    """
+    Manages task-related operations for the Kanban system.
+
+    This class handles all task operations including creation, status updates,
+    and queries. It works in conjunction with the DatabaseManager to persist
+    task data.
+
+    Attributes:
+        db (DatabaseManager): Database manager instance for data persistence
+    """
 
     def __init__(self, db_manager: DatabaseManager):
-        self.db = db_manager
+        """
+        Initialize TaskManager with a database manager.
 
-    # --------------------------------------------------------------------------------
+        Args:
+            db_manager (DatabaseManager): Database manager instance for task operations
+        """
+        self.db = db_manager
 
     def create_task(self, title: str, description: str, project: str) -> Optional[int]:
         """
         Create a new task with validation.
+
+        Creates a new task in the database with provided details. The task
+        is initially created with 'unassigned' status and validates required
+        fields before creation.
 
         Args:
             title (str): Task title
@@ -314,16 +331,14 @@ class TaskManager:
             Optional[int]: ID of the created task if successful, None if failed
 
         Raises:
-            KanbanDataError: If task data validation fails
+            KanbanDataError: If task data validation fails (empty title or project)
             sqlite3.Error: If database operation fails
         """
         try:
             if not self.db.conn or not self.db.cursor:
                 return None
 
-            # Validate task data
             self.db.validate_task_data(title, project)
-
             self.db.cursor.execute(
                 """
                 INSERT INTO tasks (
@@ -346,10 +361,20 @@ class TaskManager:
             print(f"Task creation error: {e}")
             return None
 
-    # --------------------------------------------------------------------------------
-
     def move_to_todo(self, task_id: int, period_id: int) -> bool:
-        """Move a task to Todo status"""
+        """
+        Move a task to Todo status.
+
+        Updates the task's status to 'todo' and assigns it to a specific period.
+        Also records the timestamp when the task was moved to todo status.
+
+        Args:
+            task_id (int): ID of the task to move
+            period_id (int): ID of the period to assign the task to
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return False
@@ -371,10 +396,20 @@ class TaskManager:
             print(f"Move to todo error: {e}")
             return False
 
-    # --------------------------------------------------------------------------------
-
     def assign_resource(self, task_id: int, resource: str) -> bool:
-        """Assign a resource to a task"""
+        """
+        Assign a resource to a task.
+
+        Updates the task to assign a specific resource (typically a person)
+        to be responsible for the task.
+
+        Args:
+            task_id (int): ID of the task to assign
+            resource (str): Name or identifier of the resource
+
+        Returns:
+            bool: True if assignment successful, False otherwise
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return False
@@ -394,10 +429,19 @@ class TaskManager:
             print(f"Resource assignment error: {e}")
             return False
 
-    # --------------------------------------------------------------------------------
-
     def start_task(self, task_id: int) -> bool:
-        """Move task to In Work status"""
+        """
+        Move task to In Work status.
+
+        Updates the task status to 'inwork' and records the timestamp
+        when work was started.
+
+        Args:
+            task_id (int): ID of the task to start
+
+        Returns:
+            bool: True if status update successful, False otherwise
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return False
@@ -418,10 +462,19 @@ class TaskManager:
             print(f"Start task error: {e}")
             return False
 
-    # --------------------------------------------------------------------------------
-
     def complete_task(self, task_id: int) -> bool:
-        """Move task to Completed status"""
+        """
+        Move task to Completed status.
+
+        Updates the task status to 'completed' and records the completion
+        timestamp.
+
+        Args:
+            task_id (int): ID of the task to complete
+
+        Returns:
+            bool: True if status update successful, False otherwise
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return False
@@ -442,10 +495,20 @@ class TaskManager:
             print(f"Complete task error: {e}")
             return False
 
-    # --------------------------------------------------------------------------------
-
     def get_tasks_by_period(self, period_id: int) -> List[Dict]:
-        """Get all tasks for a specific period"""
+        """
+        Get all tasks for a specific period.
+
+        Retrieves all non-unassigned tasks associated with the specified period.
+
+        Args:
+            period_id (int): ID of the period to get tasks for
+
+        Returns:
+            List[Dict]: List of tasks, each task represented as a dictionary
+                with keys: id, title, description, status, resource, project.
+                Returns empty list if no tasks found or on error.
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return []
@@ -465,10 +528,17 @@ class TaskManager:
             print(f"Get tasks error: {e}")
             return []
 
-    # --------------------------------------------------------------------------------
-
     def get_unassigned_tasks(self) -> List[Dict]:
-        """Get all unassigned tasks"""
+        """
+        Get all unassigned tasks.
+
+        Retrieves all tasks with 'unassigned' status.
+
+        Returns:
+            List[Dict]: List of unassigned tasks, each task represented as a dictionary
+                with keys: id, title, description, project, resource, status.
+                Returns empty list if no tasks found or on error.
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return []
@@ -493,28 +563,50 @@ class TaskManager:
 
 
 class PeriodManager:
-    """Manages performance periods"""
+    """
+    Manages performance periods in the Kanban system.
+
+    This class handles all operations related to performance periods including
+    creation, retrieval, and validation. Performance periods are used to organize
+    tasks into specific time frames.
+
+    Attributes:
+        db (DatabaseManager): Database manager instance for data persistence
+    """
 
     def __init__(self, db_manager: DatabaseManager):
-        self.db = db_manager
+        """
+        Initialize PeriodManager with a database manager.
 
-    # --------------------------------------------------------------------------------
+        Args:
+            db_manager (DatabaseManager): Database manager instance for period operations
+        """
+        self.db = db_manager
 
     def create_period(self, name: str, start_date: str, end_date: str) -> Optional[int]:
         """
         Create a new performance period with validation.
 
+        Creates a new period in the database with the specified name and date range.
+        Dates are expected in MM/DD/YY format and are converted to ISO format for storage.
+        The period name must be unique.
+
         Args:
             name (str): Period name
-            start_date (str): Start date in ISO format
-            end_date (str): End date in ISO format
+            start_date (str): Start date in MM/DD/YY format (e.g., "01/15/24")
+            end_date (str): End date in MM/DD/YY format (e.g., "02/15/24")
 
         Returns:
             Optional[int]: ID of created period if successful, None if failed
 
         Raises:
-            KanbanDataError: If period data validation fails
+            KanbanDataError: If period validation fails (invalid dates, duplicate name)
             sqlite3.Error: If database operation fails
+
+        Example:
+            >>> period_id = period_manager.create_period("Sprint 1", "1/1/24", "1/15/24")
+            >>> if period_id is not None:
+            ...     print(f"Created period with ID: {period_id}")
         """
         try:
             if not self.db.conn or not self.db.cursor:
@@ -537,15 +629,28 @@ class PeriodManager:
 
             self.db.conn.commit()
             return self.db.cursor.lastrowid
-
         except sqlite3.Error as e:
             print(f"Period creation error: {e}")
             return None
 
-    # --------------------------------------------------------------------------------
-
     def get_all_periods(self) -> List[Dict]:
-        """Get all performance periods"""
+        """
+        Get all performance periods ordered by start date.
+
+        Retrieves all periods from the database, ordered chronologically by
+        start date.
+
+        Returns:
+            List[Dict]: List of periods, each period represented as a dictionary
+                with keys: id, name, start_date, end_date.
+                Returns empty list if no periods found or on error.
+
+        Example:
+            >>> periods = period_manager.get_all_periods()
+            >>> for period in periods:
+            ...     print(f"{period['name']}: {period['start_date']} to
+                          {period['end_date']}")
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return []
@@ -564,10 +669,27 @@ class PeriodManager:
             print(f"Get periods error: {e}")
             return []
 
-    # --------------------------------------------------------------------------------
-
     def get_period_by_name(self, name: str) -> Optional[Dict]:
-        """Get a period by its name"""
+        """
+        Get a period by its name.
+
+        Retrieves a specific period from the database using its unique name.
+
+        Args:
+            name (str): Name of the period to retrieve
+
+        Returns:
+            Optional[Dict]: Dictionary containing period details with keys:
+                id, name, start_date, end_date.
+                Returns None if period not found or on error.
+
+        Example:
+            >>> period = period_manager.get_period_by_name("Sprint 1")
+            >>> if period:
+            ...     print(f"Found period: {period['start_date']} to {period['end_date']}")
+            ... else:
+            ...     print("Period not found")
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return None
@@ -600,15 +722,62 @@ class PeriodManager:
 
 
 class StatisticsManager:
-    """Handles statistical calculations and reporting"""
+    """
+    Handles statistical calculations and reporting for the Kanban system.
+
+    This class provides functionality for calculating metrics and generating reports
+    about task completion, resource utilization, and project performance. It uses
+    pandas for data analysis and can analyze either all tasks or tasks within a
+    specific period.
+
+    Attributes:
+        db (DatabaseManager): Database manager instance for data access
+    """
 
     def __init__(self, db_manager: DatabaseManager):
+        """
+        Initialize StatisticsManager with a database manager.
+
+        Args:
+            db_manager (DatabaseManager): Database manager instance for
+            statistics operations
+        """
         self.db = db_manager
 
-    # --------------------------------------------------------------------------------
-
     def calculate_task_metrics(self, period_id: Optional[int] = None) -> Dict:
-        """Calculate various task metrics"""
+        """
+        Calculate various task metrics for completed tasks.
+
+        Calculates metrics including average completion times, task counts, and
+        breakdowns by resource and project. All time-based metrics are returned
+        in hours.
+
+        Args:
+            period_id (Optional[int]): ID of period to analyze. If None,
+            analyzes all periods.
+
+        Returns:
+            Dict: Dictionary containing the following metrics:
+                - total_tasks (int): Total number of completed tasks
+                - avg_todo_to_inwork (float): Average time from todo to
+                  in-work status (hours)
+                - avg_inwork_to_complete (float): Average time from in-work
+                  to completion (hours)
+                - avg_total_time (float): Average total time from todo to
+                  completion (hours)
+                - by_resource (Dict): Metrics broken down by resource:
+                    - tasks_completed (int): Number of tasks completed by
+                      resource
+                    - avg_completion_time (float): Average completion time by
+                      resource
+                - by_project (Dict): Metrics broken down by project:
+                    - tasks_completed (int): Number of tasks completed by
+                      project
+                    - avg_completion_time (float): Average completion time by
+                      project
+                Returns empty dictionary with zero values if no tasks found
+                or on error.
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return {}
@@ -726,10 +895,31 @@ class StatisticsManager:
             print(f"Error calculating metrics: {e}")
             return {}
 
-    # --------------------------------------------------------------------------------
-
     def get_task_history(self, period_id: Optional[int] = None) -> List[Dict]:
-        """Get task history for analysis"""
+        """
+        Get detailed task history for analysis.
+
+        Retrieves complete task history including all timestamps and status changes.
+        Can be filtered to a specific period or return history for all periods.
+
+        Args:
+            period_id (Optional[int]): ID of period to get history for.
+                If None, returns history for all periods.
+
+        Returns:
+            List[Dict]: List of task history records, each containing:
+                - id (int): Task ID
+                - title (str): Task title
+                - status (str): Current task status
+                - resource (str): Assigned resource
+                - project (str): Project name
+                - created_datetime (str): Creation timestamp
+                - todo_datetime (str): Time moved to todo
+                - inwork_datetime (str): Time work started
+                - completed_datetime (str): Completion timestamp
+                - period_name (str): Name of associated period
+                Returns empty list if no tasks found or on error.
+        """
         try:
             if not self.db.conn or not self.db.cursor:
                 return []
@@ -791,9 +981,6 @@ class UIComponents:
         self.setup_theme()
         self.setup_main_window()
         self.refresh_views_callback = None  # Will be set by KanbanApp
-        # self.root = root
-        # self.setup_theme()
-        # self.setup_main_window()
 
     # --------------------------------------------------------------------------------
 
