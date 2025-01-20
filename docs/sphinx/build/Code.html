@@ -62,6 +62,19 @@
 <li class="toctree-l3"><a class="reference internal" href="#usage-example">Usage Example</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#taskmanager">TaskManager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.TaskManager"><code class="docutils literal notranslate"><span class="pre">TaskManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.assign_resource"><code class="docutils literal notranslate"><span class="pre">TaskManager.assign_resource()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.complete_task"><code class="docutils literal notranslate"><span class="pre">TaskManager.complete_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.create_task"><code class="docutils literal notranslate"><span class="pre">TaskManager.create_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.get_tasks_by_period"><code class="docutils literal notranslate"><span class="pre">TaskManager.get_tasks_by_period()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.get_unassigned_tasks"><code class="docutils literal notranslate"><span class="pre">TaskManager.get_unassigned_tasks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.move_to_todo"><code class="docutils literal notranslate"><span class="pre">TaskManager.move_to_todo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.start_task"><code class="docutils literal notranslate"><span class="pre">TaskManager.start_task()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -269,6 +282,69 @@ to manage the database schema, verify its integrity, and perform operations.</p>
 </pre></div>
 </div>
 </section>
+</section>
+<section id="taskmanager">
+<h2>TaskManager<a class="headerlink" href="#taskmanager" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">TaskManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kanban.kanban.DatabaseManager" title="kanban.kanban.DatabaseManager"><span class="pre">DatabaseManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages task-related operations</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.assign_resource">
+<span class="sig-name descname"><span class="pre">assign_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.assign_resource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.assign_resource" title="Link to this definition"></a></dt>
+<dd><p>Assign a resource to a task</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.complete_task">
+<span class="sig-name descname"><span class="pre">complete_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.complete_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.complete_task" title="Link to this definition"></a></dt>
+<dd><p>Move task to Completed status</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.create_task">
+<span class="sig-name descname"><span class="pre">create_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.create_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.create_task" title="Link to this definition"></a></dt>
+<dd><p>Create a new task with validation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>title (str): Task title
+description (str): Task description
+project (str): Project name</p>
+</dd>
+<dt>Returns:</dt><dd><p>Optional[int]: ID of the created task if successful, None if failed</p>
+</dd>
+<dt>Raises:</dt><dd><p>KanbanDataError: If task data validation fails
+sqlite3.Error: If database operation fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.get_tasks_by_period">
+<span class="sig-name descname"><span class="pre">get_tasks_by_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.get_tasks_by_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.get_tasks_by_period" title="Link to this definition"></a></dt>
+<dd><p>Get all tasks for a specific period</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.get_unassigned_tasks">
+<span class="sig-name descname"><span class="pre">get_unassigned_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.get_unassigned_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.get_unassigned_tasks" title="Link to this definition"></a></dt>
+<dd><p>Get all unassigned tasks</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.move_to_todo">
+<span class="sig-name descname"><span class="pre">move_to_todo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.move_to_todo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.move_to_todo" title="Link to this definition"></a></dt>
+<dd><p>Move a task to Todo status</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.start_task">
+<span class="sig-name descname"><span class="pre">start_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.start_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.start_task" title="Link to this definition"></a></dt>
+<dd><p>Move task to In Work status</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

@@ -391,6 +391,8 @@
 <span class="c1"># ================================================================================</span>
 
 
+<div class="viewcode-block" id="TaskManager">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages task-related operations&quot;&quot;&quot;</span>
 
@@ -399,6 +401,8 @@
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="TaskManager.create_task">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.create_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">project</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new task with validation.</span>
@@ -442,10 +446,13 @@
 
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Task creation error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="TaskManager.move_to_todo">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.move_to_todo">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">move_to_todo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">period_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Move a task to Todo status&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -467,10 +474,13 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Move to todo error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="TaskManager.assign_resource">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.assign_resource">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">assign_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign a resource to a task&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -490,10 +500,13 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resource assignment error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="TaskManager.start_task">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.start_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Move task to In Work status&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -514,10 +527,13 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start task error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="TaskManager.complete_task">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.complete_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">complete_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Move task to Completed status&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -538,10 +554,13 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Complete task error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="TaskManager.get_tasks_by_period">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.get_tasks_by_period">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_tasks_by_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all tasks for a specific period&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -561,10 +580,13 @@
             <span class="k">return</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span>
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Get tasks error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="p">[]</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="TaskManager.get_unassigned_tasks">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.TaskManager.get_unassigned_tasks">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_unassigned_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all unassigned tasks&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -583,7 +605,9 @@
             <span class="k">return</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span>
         <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Get unassigned tasks error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="p">[]</span></div>
+</div>
+
 
 
 <span class="c1"># ================================================================================</span>

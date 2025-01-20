@@ -118,22 +118,6 @@ jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
-name = "breathe"
-version = "4.35.0"
-description = "Sphinx Doxygen renderer"
-optional = false
-python-versions = "*"
-groups = ["dev"]
-files = [
-    {file = "breathe-4.35.0-py3-none-any.whl", hash = "sha256:52c581f42ca4310737f9e435e3851c3d1f15446205a85fbc272f1f97ed74f5be"},
-    {file = "breathe-4.35.0.tar.gz", hash = "sha256:5165541c3c67b6c7adde8b3ecfe895c6f7844783c4076b6d8d287e4f33d62386"},
-]
-
-[package.dependencies]
-docutils = ">=0.12"
-Sphinx = ">=4.0,<5.0.0 || >5.0.0"
-
-[[package]]
 name = "cachetools"
 version = "5.5.0"
 description = "Extensible memoizing collections and decorators"
@@ -1757,4 +1741,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "e2a8a0ae33e027144a0ae3611923ede39adb21ca4a58432495787db10b0d80dd"
+content-hash = "1b9c2456af6d4e87c9ea75d0f7b67ce31f20154e3faa022457cd9b09f41e8f04"

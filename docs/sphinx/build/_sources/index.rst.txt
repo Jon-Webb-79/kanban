@@ -32,7 +32,7 @@ Requirements
 ============
 
 This library is developed and tested on macOS and Arch Linux operating
-systems. It is developed with ``Python 3.13.1`` using ``tkinter`` as a 
+systems. It is developed with ``Python 3.13.1`` using ``tkinter`` as a
 GUI front end. The package is managed using `Poetry <https://python-poetry.org/>`_
 as a package manager.
 
@@ -75,7 +75,7 @@ Contribute to Code Base
    | Windows              | cmd.exe          | ``C:\> <venv>\\Scripts\\activate.bat``    |
    +                      +------------------+-------------------------------------------+
    |                      | PowerShell       | ``PS C:\\> <venv>\\Scripts\\Activate.ps1``|
-   +----------------------+------------------+-------------------------------------------+ 
+   +----------------------+------------------+-------------------------------------------+
 
 4. Install dependencies:
 
@@ -90,4 +90,3 @@ Contribute to Code Base
    .. code-block:: bash
 
       pip install -r requirements.txt
-

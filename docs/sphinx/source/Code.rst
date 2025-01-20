@@ -72,3 +72,9 @@ to manage the database schema, verify its integrity, and perform operations.
    db_manager.close()
    print("Database connection closed.")
 
+TaskManager
+###########
+.. autoclass:: kanban.kanban.TaskManager
+   :members:
+   :undoc-members:
+   :show-inheritance:

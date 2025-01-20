@@ -43,7 +43,6 @@ tox = "^4.23.2"
 pytest-cov = "^6.0.0"
 pyupgrade = "^3.19.1"
 pre-commit = "^4.0.1"
-breathe = "^4.35.0"
 sphinx-rtd-theme = "^3.0.2"
 
 [tool.isort]
