@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
-
+  
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=01f34227"></script>
@@ -19,17 +19,17 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to PyKanban documentation! (V0.1.0)" href="index.html" />
+    <link rel="prev" title="Welcome to PyKanban documentation! (V0.1.0)" href="index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-
-
+          
+          
           <a href="index.html" class="icon icon-home">
             Kanban
           </a>
@@ -44,12 +44,54 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#kanbandataerror">KanbanDataError</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.KanbanDataError"><code class="docutils literal notranslate"><span class="pre">KanbanDataError</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#databasemanager">DatabaseManager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.DatabaseManager"><code class="docutils literal notranslate"><span class="pre">DatabaseManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.close"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.connect"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.create_schema"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.create_schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.get_current_period"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.get_current_period()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.validate_period_data"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.validate_period_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.validate_task_data"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.validate_task_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.verify_schema"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.verify_schema()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#usage-example">Usage Example</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#taskmanager">TaskManager</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#periodmanager">PeriodManager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#taskmanager">TaskManager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.TaskManager"><code class="docutils literal notranslate"><span class="pre">TaskManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.assign_resource"><code class="docutils literal notranslate"><span class="pre">TaskManager.assign_resource()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.complete_task"><code class="docutils literal notranslate"><span class="pre">TaskManager.complete_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.create_task"><code class="docutils literal notranslate"><span class="pre">TaskManager.create_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.get_tasks_by_period"><code class="docutils literal notranslate"><span class="pre">TaskManager.get_tasks_by_period()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.get_unassigned_tasks"><code class="docutils literal notranslate"><span class="pre">TaskManager.get_unassigned_tasks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.move_to_todo"><code class="docutils literal notranslate"><span class="pre">TaskManager.move_to_todo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.TaskManager.start_task"><code class="docutils literal notranslate"><span class="pre">TaskManager.start_task()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#periodmanager">PeriodManager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.PeriodManager"><code class="docutils literal notranslate"><span class="pre">PeriodManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.PeriodManager.create_period"><code class="docutils literal notranslate"><span class="pre">PeriodManager.create_period()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.PeriodManager.get_all_periods"><code class="docutils literal notranslate"><span class="pre">PeriodManager.get_all_periods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.PeriodManager.get_period_by_name"><code class="docutils literal notranslate"><span class="pre">PeriodManager.get_period_by_name()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#statisticsmanager">StatisticsManager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.StatisticsManager"><code class="docutils literal notranslate"><span class="pre">StatisticsManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.StatisticsManager.calculate_task_metrics"><code class="docutils literal notranslate"><span class="pre">StatisticsManager.calculate_task_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.StatisticsManager.get_task_history"><code class="docutils literal notranslate"><span class="pre">StatisticsManager.get_task_history()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -77,15 +119,136 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-
+             
   <section id="code-documentation">
 <h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Link to this heading"></a></h1>
 <p>This section contains the automatically generated API documentation for the
 Kanban application.</p>
 <div class="toctree-wrapper compound">
 </div>
+<section id="kanbandataerror">
+<h2>KanbanDataError<a class="headerlink" href="#kanbandataerror" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanDataError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">KanbanDataError</span></span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanDataError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanDataError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised for data validation errors in Kanban manager.</p>
+</dd></dl>
+
+</section>
 <section id="databasemanager">
 <h2>DatabaseManager<a class="headerlink" href="#databasemanager" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">DatabaseManager</span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles all database operations and queries for the Kanban Task Manager.</p>
+<p>This class manages the SQLite database connection and provides methods for
+database operations including schema creation, verification, and period management.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>conn (Optional[sqlite3.Connection]): SQLite database connection object
+cursor (Optional[sqlite3.Cursor]): Database cursor for executing SQL commands</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.close" title="Link to this definition"></a></dt>
+<dd><p>Close the database connection and reset connection objects.</p>
+<p>This method ensures proper cleanup of database resources by closing
+the active connection and setting connection objects to None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.connect" title="Link to this definition"></a></dt>
+<dd><p>Establish a connection to a SQLite database file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): Path to the SQLite database file</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if connection successful, False otherwise</p>
+</dd>
+<dt>Raises:</dt><dd><p>sqlite3.Error: If database connection fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.create_schema">
+<span class="sig-name descname"><span class="pre">create_schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.create_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.create_schema" title="Link to this definition"></a></dt>
+<dd><p>Create the database schema if it doesn’t exist.</p>
+<dl class="simple">
+<dt>Creates two tables:</dt><dd><ul class="simple">
+<li><p>performance_periods: Stores period information</p></li>
+<li><p>tasks: Stores task information with foreign key to periods</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if schema creation successful, False otherwise</p>
+</dd>
+<dt>Raises:</dt><dd><p>sqlite3.Error: If schema creation fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.get_current_period">
+<span class="sig-name descname"><span class="pre">get_current_period</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.get_current_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.get_current_period" title="Link to this definition"></a></dt>
+<dd><p>Get the period name that contains the current date.</p>
+<p>Queries the performance_periods table to find a period where the current
+date falls between the start_date and end_date.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Optional[str]: Name of the current period if found, None otherwise</p>
+</dd>
+<dt>Raises:</dt><dd><p>sqlite3.Error: If database query fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.validate_period_data">
+<span class="sig-name descname"><span class="pre">validate_period_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.validate_period_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.validate_period_data" title="Link to this definition"></a></dt>
+<dd><p>Validate period data before insertion or update.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Period name
+start_date (str): Period start date (MM/DD/YY)
+end_date (str): Period end date (MM/DD/YY)</p>
+</dd>
+<dt>Raises:</dt><dd><p>KanbanDataError: If validation fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.validate_task_data">
+<span class="sig-name descname"><span class="pre">validate_task_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.validate_task_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.validate_task_data" title="Link to this definition"></a></dt>
+<dd><p>Validate task data before insertion or update.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>title (str): Task title
+project (str): Project name</p>
+</dd>
+<dt>Raises:</dt><dd><p>KanbanDataError: If validation fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.verify_schema">
+<span class="sig-name descname"><span class="pre">verify_schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.verify_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.verify_schema" title="Link to this definition"></a></dt>
+<dd><p>Verify that the database has the correct schema structure.</p>
+<dl class="simple">
+<dt>Checks for the existence of required tables and their columns:</dt><dd><ul class="simple">
+<li><p>performance_periods: id, start_date, end_date, name</p></li>
+<li><p>tasks: all task-related columns including timestamps</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if schema verification successful, False otherwise</p>
+</dd>
+<dt>Raises:</dt><dd><p>sqlite3.Error: If schema verification fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <section id="usage-example">
 <h3>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading"></a></h3>
 <p>The following example demonstrates how to use the <cite>DatabaseManager</cite> class
@@ -139,9 +302,320 @@ to manage the database schema, verify its integrity, and perform operations.</p>
 </section>
 <section id="taskmanager">
 <h2>TaskManager<a class="headerlink" href="#taskmanager" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">TaskManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kanban.kanban.DatabaseManager" title="kanban.kanban.DatabaseManager"><span class="pre">DatabaseManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages task-related operations for the Kanban system.</p>
+<p>This class handles all task operations including creation, status updates,
+and queries. It works in conjunction with the DatabaseManager to persist
+task data.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>db (DatabaseManager): Database manager instance for data persistence</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.assign_resource">
+<span class="sig-name descname"><span class="pre">assign_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.assign_resource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.assign_resource" title="Link to this definition"></a></dt>
+<dd><p>Assign a resource to a task.</p>
+<p>Updates the task to assign a specific resource (typically a person)
+to be responsible for the task.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>task_id (int): ID of the task to assign
+resource (str): Name or identifier of the resource</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if assignment successful, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.complete_task">
+<span class="sig-name descname"><span class="pre">complete_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.complete_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.complete_task" title="Link to this definition"></a></dt>
+<dd><p>Move task to Completed status.</p>
+<p>Updates the task status to ‘completed’ and records the completion
+timestamp.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>task_id (int): ID of the task to complete</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if status update successful, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.create_task">
+<span class="sig-name descname"><span class="pre">create_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.create_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.create_task" title="Link to this definition"></a></dt>
+<dd><p>Create a new task with validation.</p>
+<p>Creates a new task in the database with provided details. The task
+is initially created with ‘unassigned’ status and validates required
+fields before creation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>title (str): Task title
+description (str): Task description
+project (str): Project name</p>
+</dd>
+<dt>Returns:</dt><dd><p>Optional[int]: ID of the created task if successful, None if failed</p>
+</dd>
+<dt>Raises:</dt><dd><p>KanbanDataError: If task data validation fails (empty title or project)
+sqlite3.Error: If database operation fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.get_tasks_by_period">
+<span class="sig-name descname"><span class="pre">get_tasks_by_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.get_tasks_by_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.get_tasks_by_period" title="Link to this definition"></a></dt>
+<dd><p>Get all tasks for a specific period.</p>
+<p>Retrieves all non-unassigned tasks associated with the specified period.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>period_id (int): ID of the period to get tasks for</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[Dict]: List of tasks, each task represented as a dictionary</dt><dd><p>with keys: id, title, description, status, resource, project.
+Returns empty list if no tasks found or on error.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.get_unassigned_tasks">
+<span class="sig-name descname"><span class="pre">get_unassigned_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.get_unassigned_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.get_unassigned_tasks" title="Link to this definition"></a></dt>
+<dd><p>Get all unassigned tasks.</p>
+<p>Retrieves all tasks with ‘unassigned’ status.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[Dict]: List of unassigned tasks, each task represented as a dictionary</dt><dd><p>with keys: id, title, description, project, resource, status.
+Returns empty list if no tasks found or on error.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.move_to_todo">
+<span class="sig-name descname"><span class="pre">move_to_todo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.move_to_todo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.move_to_todo" title="Link to this definition"></a></dt>
+<dd><p>Move a task to Todo status.</p>
+<p>Updates the task’s status to ‘todo’ and assigns it to a specific period.
+Also records the timestamp when the task was moved to todo status.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>task_id (int): ID of the task to move
+period_id (int): ID of the period to assign the task to</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if successful, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.TaskManager.start_task">
+<span class="sig-name descname"><span class="pre">start_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#TaskManager.start_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.TaskManager.start_task" title="Link to this definition"></a></dt>
+<dd><p>Move task to In Work status.</p>
+<p>Updates the task status to ‘inwork’ and records the timestamp
+when work was started.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>task_id (int): ID of the task to start</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if status update successful, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="periodmanager">
 <h2>PeriodManager<a class="headerlink" href="#periodmanager" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.PeriodManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">PeriodManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kanban.kanban.DatabaseManager" title="kanban.kanban.DatabaseManager"><span class="pre">DatabaseManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#PeriodManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.PeriodManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages performance periods in the Kanban system.</p>
+<p>This class handles all operations related to performance periods including
+creation, retrieval, and validation. Performance periods are used to organize
+tasks into specific time frames.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>db (DatabaseManager): Database manager instance for data persistence</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.PeriodManager.create_period">
+<span class="sig-name descname"><span class="pre">create_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#PeriodManager.create_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.PeriodManager.create_period" title="Link to this definition"></a></dt>
+<dd><p>Create a new performance period with validation.</p>
+<p>Creates a new period in the database with the specified name and date range.
+Dates are expected in MM/DD/YY format and are converted to ISO format for storage.
+The period name must be unique.</p>
+<dl>
+<dt>Args:</dt><dd><p>name (str): Period name
+start_date (str): Start date in MM/DD/YY format (e.g., “01/15/24”)
+end_date (str): End date in MM/DD/YY format (e.g., “02/15/24”)</p>
+</dd>
+<dt>Returns:</dt><dd><p>Optional[int]: ID of created period if successful, None if failed</p>
+</dd>
+<dt>Raises:</dt><dd><p>KanbanDataError: If period validation fails (invalid dates, duplicate name)
+sqlite3.Error: If database operation fails</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">period_id</span> <span class="o">=</span> <span class="n">period_manager</span><span class="o">.</span><span class="n">create_period</span><span class="p">(</span><span class="s2">&quot;Sprint 1&quot;</span><span class="p">,</span> <span class="s2">&quot;1/1/24&quot;</span><span class="p">,</span> <span class="s2">&quot;1/15/24&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">period_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created period with ID: </span><span class="si">{</span><span class="n">period_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.PeriodManager.get_all_periods">
+<span class="sig-name descname"><span class="pre">get_all_periods</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#PeriodManager.get_all_periods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.PeriodManager.get_all_periods" title="Link to this definition"></a></dt>
+<dd><p>Get all performance periods ordered by start date.</p>
+<p>Retrieves all periods from the database, ordered chronologically by
+start date.</p>
+<dl>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>List[Dict]: List of periods, each period represented as a dictionary</dt><dd><p>with keys: id, name, start_date, end_date.
+Returns empty list if no periods found or on error.</p>
+</dd>
+</dl>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">periods</span> <span class="o">=</span> <span class="n">period_manager</span><span class="o">.</span><span class="n">get_all_periods</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="n">periods</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">period</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">period</span><span class="p">[</span><span class="s1">&#39;start_date&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> to</span>
+<span class="go">              {period[&#39;end_date&#39;]}&quot;)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.PeriodManager.get_period_by_name">
+<span class="sig-name descname"><span class="pre">get_period_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#PeriodManager.get_period_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.PeriodManager.get_period_by_name" title="Link to this definition"></a></dt>
+<dd><p>Get a period by its name.</p>
+<p>Retrieves a specific period from the database using its unique name.</p>
+<dl>
+<dt>Args:</dt><dd><p>name (str): Name of the period to retrieve</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Optional[Dict]: Dictionary containing period details with keys:</dt><dd><p>id, name, start_date, end_date.
+Returns None if period not found or on error.</p>
+</dd>
+</dl>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">period</span> <span class="o">=</span> <span class="n">period_manager</span><span class="o">.</span><span class="n">get_period_by_name</span><span class="p">(</span><span class="s2">&quot;Sprint 1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">period</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found period: </span><span class="si">{</span><span class="n">period</span><span class="p">[</span><span class="s1">&#39;start_date&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">period</span><span class="p">[</span><span class="s1">&#39;end_date&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Period not found&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="statisticsmanager">
+<h2>StatisticsManager<a class="headerlink" href="#statisticsmanager" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.StatisticsManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">StatisticsManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kanban.kanban.DatabaseManager" title="kanban.kanban.DatabaseManager"><span class="pre">DatabaseManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#StatisticsManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.StatisticsManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles statistical calculations and reporting for the Kanban system.</p>
+<p>This class provides functionality for calculating metrics and generating reports
+about task completion, resource utilization, and project performance. It uses
+pandas for data analysis and can analyze either all tasks or tasks within a
+specific period.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>db (DatabaseManager): Database manager instance for data access</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.StatisticsManager.calculate_task_metrics">
+<span class="sig-name descname"><span class="pre">calculate_task_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#StatisticsManager.calculate_task_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.StatisticsManager.calculate_task_metrics" title="Link to this definition"></a></dt>
+<dd><p>Calculate various task metrics for completed tasks.</p>
+<p>Calculates metrics including average completion times, task counts, and
+breakdowns by resource and project. All time-based metrics are returned
+in hours.</p>
+<dl>
+<dt>Args:</dt><dd><p>period_id (Optional[int]): ID of period to analyze. If None,
+analyzes all periods.</p>
+</dd>
+<dt>Returns:</dt><dd><dl>
+<dt>Dict: Dictionary containing the following metrics:</dt><dd><ul class="simple">
+<li><p>total_tasks (int): Total number of completed tasks</p></li>
+<li><p>avg_todo_to_inwork (float): Average time from todo to
+in-work status (hours)</p></li>
+<li><p>avg_inwork_to_complete (float): Average time from in-work
+to completion (hours)</p></li>
+<li><p>avg_total_time (float): Average total time from todo to
+completion (hours)</p></li>
+<li><dl class="simple">
+<dt>by_resource (Dict): Metrics broken down by resource:</dt><dd><ul>
+<li><p>tasks_completed (int): Number of tasks completed by
+resource</p></li>
+<li><p>avg_completion_time (float): Average completion time by
+resource</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>by_project (Dict): Metrics broken down by project:</dt><dd><ul>
+<li><p>tasks_completed (int): Number of tasks completed by
+project</p></li>
+<li><p>avg_completion_time (float): Average completion time by
+project</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returns empty dictionary with zero values if no tasks found
+or on error.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.StatisticsManager.get_task_history">
+<span class="sig-name descname"><span class="pre">get_task_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#StatisticsManager.get_task_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.StatisticsManager.get_task_history" title="Link to this definition"></a></dt>
+<dd><p>Get detailed task history for analysis.</p>
+<p>Retrieves complete task history including all timestamps and status changes.
+Can be filtered to a specific period or return history for all periods.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>period_id (Optional[int]): ID of period to get history for.</dt><dd><p>If None, returns history for all periods.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl>
+<dt>List[Dict]: List of task history records, each containing:</dt><dd><ul class="simple">
+<li><p>id (int): Task ID</p></li>
+<li><p>title (str): Task title</p></li>
+<li><p>status (str): Current task status</p></li>
+<li><p>resource (str): Assigned resource</p></li>
+<li><p>project (str): Project name</p></li>
+<li><p>created_datetime (str): Creation timestamp</p></li>
+<li><p>todo_datetime (str): Time moved to todo</p></li>
+<li><p>inwork_datetime (str): Time work started</p></li>
+<li><p>completed_datetime (str): Completion timestamp</p></li>
+<li><p>period_name (str): Name of associated period</p></li>
+</ul>
+<p>Returns empty list if no tasks found or on error.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -161,7 +635,7 @@ to manage the database schema, verify its integrity, and perform operations.</p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
+   
 
 </footer>
         </div>
@@ -172,7 +646,7 @@ to manage the database schema, verify its integrity, and perform operations.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
 
 </body>
 </html>

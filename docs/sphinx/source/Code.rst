@@ -7,12 +7,12 @@ Kanban application.
 .. toctree::
    :maxdepth: 2
 
-.. KanbanDataError
-.. ###############
-.. .. autoclass:: kanban.kanban.KanbanDataError
-..    :members:
-..    :undoc-members:
-..    :show-inheritance:
+KanbanDataError
+###############
+.. autoclass:: kanban.kanban.KanbanDataError
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 DatabaseManager
 ###############
@@ -86,9 +86,9 @@ PeriodManager
    :undoc-members:
    :show-inheritance:
 
-.. StatisticsManager
-.. #################
-.. .. autoclass:: kanban.kanban.StatisticsManager
-..    :members:
-..    :undoc-members:
-..    :show-inheritance:
+StatisticsManager
+#################
+.. autoclass:: kanban.kanban.StatisticsManager
+   :members:
+   :undoc-members:
+   :show-inheritance:
