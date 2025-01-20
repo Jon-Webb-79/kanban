@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Documentation &mdash; Kanban 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to PyKanban documentation! (V0.1.0)" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Kanban
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#kanbandataerror">KanbanDataError</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.KanbanDataError"><code class="docutils literal notranslate"><span class="pre">KanbanDataError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#databasemanager">DatabaseManager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.DatabaseManager"><code class="docutils literal notranslate"><span class="pre">DatabaseManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.close"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.connect"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.create_schema"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.create_schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.get_current_period"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.get_current_period()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.validate_period_data"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.validate_period_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.validate_task_data"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.validate_task_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.DatabaseManager.verify_schema"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.verify_schema()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#usage-example">Usage Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Kanban</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Code Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Code.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="code-documentation">
+<h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Link to this heading"></a></h1>
+<p>This section contains the automatically generated API documentation for the
+Kanban application.</p>
+<div class="toctree-wrapper compound">
+</div>
+<section id="kanbandataerror">
+<h2>KanbanDataError<a class="headerlink" href="#kanbandataerror" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanDataError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">KanbanDataError</span></span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanDataError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanDataError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised for data validation errors in Kanban manager.</p>
+</dd></dl>
+
+</section>
+<section id="databasemanager">
+<h2>DatabaseManager<a class="headerlink" href="#databasemanager" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">DatabaseManager</span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles all database operations and queries for the Kanban Task Manager.</p>
+<p>This class manages the SQLite database connection and provides methods for
+database operations including schema creation, verification, and period management.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>conn (Optional[sqlite3.Connection]): SQLite database connection object
+cursor (Optional[sqlite3.Cursor]): Database cursor for executing SQL commands</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.close" title="Link to this definition"></a></dt>
+<dd><p>Close the database connection and reset connection objects.</p>
+<p>This method ensures proper cleanup of database resources by closing
+the active connection and setting connection objects to None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.connect" title="Link to this definition"></a></dt>
+<dd><p>Establish a connection to a SQLite database file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): Path to the SQLite database file</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if connection successful, False otherwise</p>
+</dd>
+<dt>Raises:</dt><dd><p>sqlite3.Error: If database connection fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.create_schema">
+<span class="sig-name descname"><span class="pre">create_schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.create_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.create_schema" title="Link to this definition"></a></dt>
+<dd><p>Create the database schema if it doesn’t exist.</p>
+<dl class="simple">
+<dt>Creates two tables:</dt><dd><ul class="simple">
+<li><p>performance_periods: Stores period information</p></li>
+<li><p>tasks: Stores task information with foreign key to periods</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if schema creation successful, False otherwise</p>
+</dd>
+<dt>Raises:</dt><dd><p>sqlite3.Error: If schema creation fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.get_current_period">
+<span class="sig-name descname"><span class="pre">get_current_period</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.get_current_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.get_current_period" title="Link to this definition"></a></dt>
+<dd><p>Get the period name that contains the current date.</p>
+<p>Queries the performance_periods table to find a period where the current
+date falls between the start_date and end_date.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Optional[str]: Name of the current period if found, None otherwise</p>
+</dd>
+<dt>Raises:</dt><dd><p>sqlite3.Error: If database query fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.validate_period_data">
+<span class="sig-name descname"><span class="pre">validate_period_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.validate_period_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.validate_period_data" title="Link to this definition"></a></dt>
+<dd><p>Validate period data before insertion or update.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Period name
+start_date (str): Period start date (MM/DD/YY)
+end_date (str): Period end date (MM/DD/YY)</p>
+</dd>
+<dt>Raises:</dt><dd><p>KanbanDataError: If validation fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.validate_task_data">
+<span class="sig-name descname"><span class="pre">validate_task_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.validate_task_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.validate_task_data" title="Link to this definition"></a></dt>
+<dd><p>Validate task data before insertion or update.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>title (str): Task title
+project (str): Project name</p>
+</dd>
+<dt>Raises:</dt><dd><p>KanbanDataError: If validation fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.DatabaseManager.verify_schema">
+<span class="sig-name descname"><span class="pre">verify_schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#DatabaseManager.verify_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.DatabaseManager.verify_schema" title="Link to this definition"></a></dt>
+<dd><p>Verify that the database has the correct schema structure.</p>
+<dl class="simple">
+<dt>Checks for the existence of required tables and their columns:</dt><dd><ul class="simple">
+<li><p>performance_periods: id, start_date, end_date, name</p></li>
+<li><p>tasks: all task-related columns including timestamps</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if schema verification successful, False otherwise</p>
+</dd>
+<dt>Raises:</dt><dd><p>sqlite3.Error: If schema verification fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="usage-example">
+<h3>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading"></a></h3>
+<p>The following example demonstrates how to use the <cite>DatabaseManager</cite> class
+to manage the database schema, verify its integrity, and perform operations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">kanban.kanban</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseManager</span><span class="p">,</span> <span class="n">KanbanDataError</span>
+
+<span class="c1"># Create an instance of DatabaseManager</span>
+<span class="n">db_manager</span> <span class="o">=</span> <span class="n">DatabaseManager</span><span class="p">()</span>
+
+<span class="c1"># Connect to an SQLite database file</span>
+<span class="k">if</span> <span class="n">db_manager</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;kanban_tasks.db&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database connection successful.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create the schema if it doesn&#39;t exist</span>
+<span class="k">if</span> <span class="n">db_manager</span><span class="o">.</span><span class="n">create_schema</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database schema created successfully.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verify the schema structure</span>
+<span class="k">if</span> <span class="n">db_manager</span><span class="o">.</span><span class="n">verify_schema</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Schema verification passed.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Schema verification failed.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Insert and validate period data</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">db_manager</span><span class="o">.</span><span class="n">validate_period_data</span><span class="p">(</span><span class="s2">&quot;Sprint 1&quot;</span><span class="p">,</span> <span class="s2">&quot;01/01/25&quot;</span><span class="p">,</span> <span class="s2">&quot;01/15/25&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valid period data.&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">KanbanDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Period validation error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Insert and validate a task</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">db_manager</span><span class="o">.</span><span class="n">validate_task_data</span><span class="p">(</span><span class="s2">&quot;Design UI&quot;</span><span class="p">,</span> <span class="s2">&quot;Project A&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valid task data.&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">KanbanDataError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Task validation error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get the current period</span>
+<span class="n">current_period</span> <span class="o">=</span> <span class="n">db_manager</span><span class="o">.</span><span class="n">get_current_period</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">current_period</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current period: </span><span class="si">{</span><span class="n">current_period</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No active period found.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Close the database connection</span>
+<span class="n">db_manager</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database connection closed.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to PyKanban documentation! (V0.1.0)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jonathan A. Webb.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
