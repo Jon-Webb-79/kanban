@@ -421,7 +421,7 @@ class TestDatabaseManager:
             period_manager = PeriodManager(db_manager)
 
             with pytest.raises(KanbanDataError) as exc:
-                period_manager.create_period("", "2024-01-01", "2024-12-31")
+                period_manager.create_period("", "1/1/24", "12/31/24")
             assert "Period name cannot be empty" in str(exc.value)
 
         # --------------------------------------------------------------------------------
@@ -433,8 +433,8 @@ class TestDatabaseManager:
             period_manager = PeriodManager(db_manager)
 
             with pytest.raises(KanbanDataError) as exc:
-                period_manager.create_period("   ", "2024-01-01", "2024-12-31")
-                assert "Period name cannot be empty" in str(exc.value)
+                period_manager.create_period("   ", "1/1/24", "12/31/24")
+            assert "Period name cannot be empty" in str(exc.value)
 
         # --------------------------------------------------------------------------------
 
@@ -445,7 +445,7 @@ class TestDatabaseManager:
             period_manager = PeriodManager(db_manager)
 
             with pytest.raises(KanbanDataError) as exc:
-                period_manager.create_period("Test Period", "invalid-date", "2024-12-31")
+                period_manager.create_period("Test Period", "invalid-date", "12/31/24")
             assert "Invalid date format" in str(exc.value)
 
         # --------------------------------------------------------------------------------
@@ -457,7 +457,7 @@ class TestDatabaseManager:
             period_manager = PeriodManager(db_manager)
 
             with pytest.raises(KanbanDataError) as exc:
-                period_manager.create_period("Test Period", "2024-12-31", "2024-01-01")
+                period_manager.create_period("Test Period", "12/31/24", "1/1/24")
             assert "End date cannot be before start date" in str(exc.value)
 
         # --------------------------------------------------------------------------------
@@ -469,11 +469,11 @@ class TestDatabaseManager:
             period_manager = PeriodManager(db_manager)
 
             # Create first period
-            period_manager.create_period("Test Period", "2024-01-01", "2024-06-30")
+            period_manager.create_period("Test Period", "1/1/24", "6/30/24")
 
             # Try to create second period with same name
             with pytest.raises(KanbanDataError) as exc:
-                period_manager.create_period("Test Period", "2024-07-01", "2024-12-31")
+                period_manager.create_period("Test Period", "7/1/24", "12/31/24")
             assert "already exists" in str(exc.value)
 
         # --------------------------------------------------------------------------------
@@ -482,9 +482,7 @@ class TestDatabaseManager:
             """Test creating period without database connection."""
             period_manager = PeriodManager(db_manager)  # No connection established
 
-            result = period_manager.create_period(
-                "Test Period", "2024-01-01", "2024-12-31"
-            )
+            result = period_manager.create_period("Test Period", "1/1/24", "12/31/24")
             assert result is None
 
         # --------------------------------------------------------------------------------
@@ -495,9 +493,7 @@ class TestDatabaseManager:
             db_manager.create_schema()
             period_manager = PeriodManager(db_manager)
 
-            period_id = period_manager.create_period(
-                "Test Period", "2024-01-01", "2024-12-31"
-            )
+            period_id = period_manager.create_period("Test Period", "1/1/24", "12/31/24")
             assert period_id is not None
 
             # Verify period was created correctly
@@ -508,6 +504,7 @@ class TestDatabaseManager:
             period = db_manager.cursor.fetchone()
             assert period is not None
             assert period[0] == "Test Period"
+            # The dates will be stored in ISO format in the database
             assert period[1] == "2024-01-01"
             assert period[2] == "2024-12-31"
 
@@ -520,7 +517,7 @@ class TestDatabaseManager:
             period_manager = PeriodManager(db_manager)
 
             period_id = period_manager.create_period(
-                "  Test Period  ", "2024-01-01", "2024-12-31"
+                "  Test Period  ", "1/1/24", "12/31/24"
             )
             assert period_id is not None
 

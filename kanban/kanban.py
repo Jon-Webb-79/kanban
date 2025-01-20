@@ -256,8 +256,8 @@ class DatabaseManager:
 
         Args:
             name (str): Period name
-            start_date (str): Period start date in ISO format
-            end_date (str): Period end date in ISO format
+            start_date (str): Period start date (MM/DD/YY)
+            end_date (str): Period end date (MM/DD/YY)
 
         Raises:
             KanbanDataError: If validation fails
@@ -267,24 +267,26 @@ class DatabaseManager:
             raise KanbanDataError("Period name cannot be empty")
 
         try:
-            # Parse dates
-            start = datetime.fromisoformat(start_date).date()
-            end = datetime.fromisoformat(end_date).date()
+            # Parse dates using datetime.strptime for MM/DD/YY format
+            start = datetime.strptime(start_date, "%m/%d/%y").date()
+
+            end = datetime.strptime(end_date, "%m/%d/%y").date()
 
             # Check date order
             if end < start:
                 raise KanbanDataError("End date cannot be before start date")
 
-            # Check for existing period name
-            if self.conn and self.cursor:
-                self.cursor.execute(
-                    "SELECT name FROM performance_periods WHERE name = ?", (name.strip(),)
-                )
-                if self.cursor.fetchone():
-                    raise KanbanDataError(f"Period with name '{name}' already exists")
-
-        except ValueError:
+        except ValueError as error:  # Only catch date parsing errors
+            print(f"Debug - Date parsing error: {str(error)}")
             raise KanbanDataError("Invalid date format")
+
+        # Check for existing period name after dates are validated
+        if self.conn and self.cursor:
+            self.cursor.execute(
+                "SELECT name FROM performance_periods WHERE name = ?", (name.strip(),)
+            )
+            if self.cursor.fetchone():
+                raise KanbanDataError(f"Period with name '{name}' already exists")
 
 
 # ================================================================================
@@ -521,12 +523,16 @@ class PeriodManager:
             # Validate period data
             self.db.validate_period_data(name, start_date, end_date)
 
+            # Convert dates to ISO format for storage
+            start_iso = datetime.strptime(start_date, "%m/%d/%y").date().isoformat()
+            end_iso = datetime.strptime(end_date, "%m/%d/%y").date().isoformat()
+
             self.db.cursor.execute(
                 """
                 INSERT INTO performance_periods (name, start_date, end_date)
                 VALUES (?, ?, ?)
             """,
-                (name.strip(), start_date, end_date),
+                (name.strip(), start_iso, end_iso),
             )
 
             self.db.conn.commit()
