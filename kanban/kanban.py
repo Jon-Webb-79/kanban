@@ -314,6 +314,8 @@ class TaskManager:
         """
         self.db = db_manager
 
+    # --------------------------------------------------------------------------------
+
     def create_task(self, title: str, description: str, project: str) -> Optional[int]:
         """
         Create a new task with validation.
@@ -361,6 +363,8 @@ class TaskManager:
             print(f"Task creation error: {e}")
             return None
 
+    # --------------------------------------------------------------------------------
+
     def move_to_todo(self, task_id: int, period_id: int) -> bool:
         """
         Move a task to Todo status.
@@ -396,6 +400,8 @@ class TaskManager:
             print(f"Move to todo error: {e}")
             return False
 
+    # --------------------------------------------------------------------------------
+
     def assign_resource(self, task_id: int, resource: str) -> bool:
         """
         Assign a resource to a task.
@@ -428,6 +434,8 @@ class TaskManager:
         except sqlite3.Error as e:
             print(f"Resource assignment error: {e}")
             return False
+
+    # --------------------------------------------------------------------------------
 
     def start_task(self, task_id: int) -> bool:
         """
@@ -462,6 +470,8 @@ class TaskManager:
             print(f"Start task error: {e}")
             return False
 
+    # --------------------------------------------------------------------------------
+
     def complete_task(self, task_id: int) -> bool:
         """
         Move task to Completed status.
@@ -494,6 +504,8 @@ class TaskManager:
         except sqlite3.Error as e:
             print(f"Complete task error: {e}")
             return False
+
+    # --------------------------------------------------------------------------------
 
     def get_tasks_by_period(self, period_id: int) -> List[Dict]:
         """
@@ -528,6 +540,8 @@ class TaskManager:
             print(f"Get tasks error: {e}")
             return []
 
+    # --------------------------------------------------------------------------------
+
     def get_unassigned_tasks(self) -> List[Dict]:
         """
         Get all unassigned tasks.
@@ -557,6 +571,89 @@ class TaskManager:
             print(f"Get unassigned tasks error: {e}")
             return []
 
+    # --------------------------------------------------------------------------------
+
+    def update_task(
+        self, task_id: int, title: str, description: str, project: str
+    ) -> bool:
+        """
+        Update an existing task's details.
+
+        Args:
+            task_id (int): ID of the task to update
+            title (str): New task title
+            description (str): New task description
+            project (str): New project name
+
+        Returns:
+            bool: True if update successful, False otherwise
+
+        Raises:
+            KanbanDataError: If task data validation fails
+        """
+        try:
+            if not self.db.conn or not self.db.cursor:
+                return False
+
+            self.db.validate_task_data(title, project)
+
+            self.db.cursor.execute(
+                """
+                UPDATE tasks
+                SET title = ?, description = ?, project = ?
+                WHERE id = ?
+                """,
+                (title.strip(), description, project.strip(), task_id),
+            )
+
+            self.db.conn.commit()
+            return True
+
+        except sqlite3.Error as e:
+            print(f"Task update error: {e}")
+            return False
+
+    # --------------------------------------------------------------------------------
+
+    def get_task_details(self, task_id: int) -> Optional[Dict]:
+        """
+        Get complete details for a specific task.
+
+        Args:
+            task_id (int): ID of the task to retrieve
+
+        Returns:
+            Optional[Dict]: Task details if found, None otherwise
+        """
+        try:
+            if not self.db.conn or not self.db.cursor:
+                return None
+
+            self.db.cursor.execute(
+                """
+                SELECT id, title, description, project, status, resource
+                FROM tasks
+                WHERE id = ?
+                """,
+                (task_id,),
+            )
+
+            row = self.db.cursor.fetchone()
+            if row:
+                return {
+                    "id": row[0],
+                    "title": row[1],
+                    "description": row[2],
+                    "project": row[3],
+                    "status": row[4],
+                    "resource": row[5],
+                }
+            return None
+
+        except sqlite3.Error as e:
+            print(f"Get task details error: {e}")
+            return None
+
 
 # ================================================================================
 # ================================================================================
@@ -582,6 +679,8 @@ class SprintManager:
             db_manager (DatabaseManager): Database manager instance for period operations
         """
         self.db = db_manager
+
+    # --------------------------------------------------------------------------------
 
     def create_period(self, name: str, start_date: str, end_date: str) -> Optional[int]:
         """
@@ -633,6 +732,8 @@ class SprintManager:
             print(f"Sprint creation error: {e}")
             return None
 
+    # --------------------------------------------------------------------------------
+
     def get_all_periods(self) -> List[Dict]:
         """
         Get all performance periods ordered by start date.
@@ -668,6 +769,8 @@ class SprintManager:
         except sqlite3.Error as e:
             print(f"Get periods error: {e}")
             return []
+
+    # --------------------------------------------------------------------------------
 
     def get_period_by_name(self, name: str) -> Optional[Dict]:
         """
@@ -743,6 +846,8 @@ class StatisticsManager:
             statistics operations
         """
         self.db = db_manager
+
+    # --------------------------------------------------------------------------------
 
     def calculate_task_metrics(self, period_id: Optional[int] = None) -> Dict:
         """
@@ -894,6 +999,8 @@ class StatisticsManager:
         except (sqlite3.Error, pd.Error) as e:
             print(f"Error calculating metrics: {e}")
             return {}
+
+    # --------------------------------------------------------------------------------
 
     def get_task_history(self, period_id: Optional[int] = None) -> List[Dict]:
         """
@@ -1523,6 +1630,23 @@ class UIComponents:
             )
             complete_btn.pack(side=tk.LEFT, padx=2)
 
+        # Add edit functionality to the entire card
+        if "edit_task" in callbacks:
+
+            def handle_click(event):
+                # Check if click was on a button
+                widget = event.widget
+                while widget is not None:
+                    if isinstance(widget, ctk.CTkButton):
+                        return  # Don't trigger edit if clicked on a button
+                    widget = widget.master
+                callbacks["edit_task"](task["id"])
+
+            # Make the card and all its children clickable
+            for widget in [card, content, title, desc, info_frame]:
+                widget.bind("<Button-1>", handle_click)
+                widget.configure(cursor="hand2")
+
         return card
 
     # --------------------------------------------------------------------------------
@@ -1738,6 +1862,109 @@ class UIComponents:
         for element in elements.values():
             if hasattr(element, "configure"):
                 element.configure(state=state)
+
+    # --------------------------------------------------------------------------------
+
+    def create_edit_task_dialog(self, task_data: Dict, callback) -> None:
+        """
+        Create a dialog for editing an existing task.
+
+        Args:
+            task_data (Dict): Current task data including id, title, description,
+                              project
+            callback: Function to call with updated task data.
+                      Expected signature: callback(id, title, description, project)
+                      Should return True if update successful, False otherwise
+        """
+        dialog = ctk.CTkToplevel(self.root)
+        dialog.title("Edit Task")
+        dialog.geometry("500x600")
+        dialog.configure(fg_color=self.colors["bg_light"])
+
+        content = ctk.CTkFrame(dialog, fg_color="transparent")
+        content.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+        # Task title
+        title_label = ctk.CTkLabel(
+            content,
+            text="Task Title:",
+            font=("Helvetica", 14, "bold"),
+            text_color=self.colors["text"],
+        )
+        title_label.pack(pady=(0, 5))
+
+        title_entry = ctk.CTkEntry(
+            content,
+            height=35,
+            font=("Helvetica", 14),
+            corner_radius=6,
+            border_width=1,
+            border_color=self.colors["border"],
+        )
+        title_entry.insert(0, task_data["title"])
+        title_entry.pack(fill=tk.X, pady=(0, 15))
+
+        # Task description
+        desc_label = ctk.CTkLabel(
+            content,
+            text="Description:",
+            font=("Helvetica", 14, "bold"),
+            text_color=self.colors["text"],
+        )
+        desc_label.pack(pady=(0, 5))
+
+        desc_entry = ctk.CTkTextbox(
+            content,
+            height=200,
+            font=("Helvetica", 14),
+            corner_radius=6,
+            border_width=1,
+            border_color=self.colors["border"],
+        )
+        if task_data["description"]:
+            desc_entry.insert("1.0", task_data["description"])
+        desc_entry.pack(fill=tk.X, pady=(0, 15))
+
+        # Project type
+        project_label = ctk.CTkLabel(
+            content,
+            text="Project Type:",
+            font=("Helvetica", 14, "bold"),
+            text_color=self.colors["text"],
+        )
+        project_label.pack(pady=(0, 5))
+
+        project_entry = ctk.CTkEntry(
+            content,
+            height=35,
+            font=("Helvetica", 14),
+            corner_radius=6,
+            border_width=1,
+            border_color=self.colors["border"],
+        )
+        project_entry.insert(0, task_data["project"])
+        project_entry.pack(fill=tk.X, pady=(0, 20))
+
+        def save_changes():
+            success = callback(
+                task_data["id"],
+                title_entry.get(),
+                desc_entry.get("1.0", tk.END),
+                project_entry.get(),
+            )
+            if success:
+                dialog.destroy()
+
+        save_btn = ctk.CTkButton(
+            content,
+            text="Save Changes",
+            command=save_changes,
+            height=38,
+            corner_radius=8,
+            font=("Helvetica", 15, "bold"),
+            fg_color=self.colors["primary"],
+        )
+        save_btn.pack(fill=tk.X, pady=(10, 0))
 
 
 # ================================================================================
@@ -2026,6 +2253,7 @@ class KanbanApp:
                     "assign_resource": self.show_assign_resource_dialog,
                     "start_task": self.start_task,
                     "complete_task": self.complete_task,
+                    "edit_task": self.show_edit_task_dialog,  # Add this line
                 }
 
                 # Sort tasks into columns
@@ -2058,7 +2286,10 @@ class KanbanApp:
         tasks = self.task_manager.get_unassigned_tasks()
 
         # Create callbacks for task cards
-        callbacks = {"move_to_todo": self.move_to_todo}
+        callbacks = {
+            "move_to_todo": self.move_to_todo,
+            "edit_task": self.show_edit_task_dialog,  # Add this line
+        }
 
         # Create task cards
         for task in tasks:
@@ -2269,6 +2500,35 @@ class KanbanApp:
             "period_selector": self.period_selector,
         }
         self.ui.set_ui_state(state, elements)
+
+    # --------------------------------------------------------------------------------
+
+    def show_edit_task_dialog(self, task_id: int) -> None:
+        """Show dialog for editing an existing task.
+
+        Retrieves task details and displays edit dialog. Updates views
+        if the task is successfully modified.
+
+        Args:
+            task_id (int): ID of the task to edit
+        """
+        task_data = self.task_manager.get_task_details(task_id)
+        if not task_data:
+            messagebox.showerror("Error", "Could not retrieve task details")
+            return
+
+        def save_task_changes(task_id, title, description, project):
+            try:
+                if self.task_manager.update_task(task_id, title, description, project):
+                    self.update_kanban_board()
+                    self.update_unassigned_tasks()
+                    return True
+                return False
+            except KanbanDataError as e:
+                messagebox.showerror("Validation Error", str(e))
+                return False
+
+        self.ui.create_edit_task_dialog(task_data, save_task_changes)
 
 
 # ================================================================================
