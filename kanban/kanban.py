@@ -654,6 +654,43 @@ class TaskManager:
             print(f"Get task details error: {e}")
             return None
 
+    # --------------------------------------------------------------------------------
+
+    def delete_task(self, task_id: int) -> bool:
+        """
+        Delete a task from the database.
+
+        Args:
+            task_id (int): ID of the task to delete
+
+        Returns:
+            bool: True if deletion successful, False otherwise
+
+        Note:
+            Will not delete completed tasks.
+        """
+        try:
+            if not self.db.conn or not self.db.cursor:
+                return False
+
+            # First check if task is completed
+            self.db.cursor.execute("SELECT status FROM tasks WHERE id = ?", (task_id,))
+            result = self.db.cursor.fetchone()
+            if not result:
+                return False
+
+            if result[0] == "completed":
+                raise KanbanDataError("Cannot delete completed tasks")
+
+            # Delete the task
+            self.db.cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+            self.db.conn.commit()
+            return True
+
+        except sqlite3.Error as e:
+            print(f"Task deletion error: {e}")
+            return False
+
 
 # ================================================================================
 # ================================================================================
@@ -818,6 +855,80 @@ class SprintManager:
         except sqlite3.Error as e:
             print(f"Get period error: {e}")
             return None
+
+    # --------------------------------------------------------------------------------
+
+    def update_period(
+        self, period_id: int, name: str, start_date: str, end_date: str
+    ) -> bool:
+        """
+        Update an existing performance period.
+
+        Args:
+            period_id (int): ID of the period to update
+            name (str): New period name
+            start_date (str): New start date (MM/DD/YY format)
+            end_date (str): New end date (MM/DD/YY format)
+
+        Returns:
+            bool: True if update successful, False otherwise
+
+        Raises:
+            KanbanDataError: If period validation fails
+        """
+        try:
+            if not self.db.conn or not self.db.cursor:
+                return False
+
+            name = name.strip()
+
+            # First check if the name exists in database
+            self.db.cursor.execute(
+                """
+                SELECT id FROM performance_periods
+                WHERE name = ?
+                """,
+                (name,),
+            )
+            existing = self.db.cursor.fetchone()
+
+            # If a sprint with this name exists and it's not the one we're editing
+            if existing and existing[0] != period_id:
+                raise KanbanDataError(f"Sprint with name '{name}' already exists")
+
+            try:
+                # Parse dates using datetime.strptime for MM/DD/YY format
+                start = datetime.strptime(start_date, "%m/%d/%y").date()
+                end = datetime.strptime(end_date, "%m/%d/%y").date()
+
+                # Check date order
+                if end < start:
+                    raise KanbanDataError("End date cannot be before start date")
+
+            except ValueError as error:
+                print(f"Debug - Date parsing error: {str(error)}")
+                raise KanbanDataError("Invalid date format")
+
+            # Convert dates to ISO format for storage
+            start_iso = start.isoformat()
+            end_iso = end.isoformat()
+
+            # Update the database
+            self.db.cursor.execute(
+                """
+                UPDATE performance_periods
+                SET name = ?, start_date = ?, end_date = ?
+                WHERE id = ?
+                """,
+                (name, start_iso, end_iso, period_id),
+            )
+
+            self.db.conn.commit()
+            return True
+
+        except sqlite3.Error as e:
+            print(f"Sprint update error: {e}")
+            return False
 
 
 # ================================================================================
@@ -1306,7 +1417,24 @@ class UIComponents:
         )
         period_selector.pack(side=tk.LEFT, padx=5, pady=2)
 
-        return toolbar, create_period_btn, create_task_btn, period_selector, period_var
+        # Add edit sprint button
+        edit_period_btn = ctk.CTkButton(
+            toolbar,
+            text="Edit Sprint",
+            command=callbacks["edit_period"],
+            fg_color=self.colors["secondary"],
+            **button_config,
+        )
+        edit_period_btn.pack(side=tk.LEFT, padx=5, pady=2)
+
+        return (
+            toolbar,
+            create_period_btn,
+            create_task_btn,
+            period_selector,
+            period_var,
+            edit_period_btn,
+        )
 
     # --------------------------------------------------------------------------------
 
@@ -1479,175 +1607,6 @@ class UIComponents:
         )
         notebook.add(self.stats_frame, text="Statistics")
         return self.stats_frame
-
-    # --------------------------------------------------------------------------------
-
-    def create_task_card(
-        self, parent: ctk.CTkFrame, task: Dict, callbacks: Dict
-    ) -> ctk.CTkFrame:
-        """
-        Create a visual card representing a task.
-
-        Creates a card displaying task information and appropriate action buttons
-        based on the task's status. The card includes title, description,
-        project info, and resource assignment if available.
-
-        Args:
-            parent (ctk.CTkFrame): Parent container for the card
-            task (Dict): Task data including:
-                - id: Task identifier
-                - title: Task title
-                - description: Task description
-                - status: Current status
-                - project: Project name
-                - resource: Assigned resource (optional)
-            callbacks (Dict): Callback functions for task actions:
-                - move_to_todo: For unassigned tasks
-                - assign_resource: For todo tasks
-                - start_task: For todo tasks
-                - complete_task: For in-progress tasks
-
-        Returns:
-            ctk.CTkFrame: The created task card
-        """
-        # Main card frame with shadow
-        card = ctk.CTkFrame(
-            parent,
-            fg_color="white",
-            corner_radius=8,
-            border_width=1,
-            border_color=self.colors["border"],
-        )
-        card.pack(fill=tk.X, padx=5, pady=5)
-
-        # Content padding
-        content = ctk.CTkFrame(card, fg_color="transparent")
-        content.pack(fill=tk.BOTH, expand=True, padx=12, pady=8)
-
-        # Title with primary color accent
-        title = ctk.CTkLabel(
-            content,
-            text=task["title"],
-            font=("Helvetica", 18, "bold"),
-            text_color=self.colors["text"],
-            anchor="w",
-        )
-        title.pack(fill=tk.X, pady=(0, 8))
-
-        # Description with secondary text color
-        desc = ctk.CTkLabel(
-            content,
-            text=(
-                task["description"][:50] + "..."
-                if len(task["description"]) > 50
-                else task["description"]
-            ),
-            text_color=self.colors["text_secondary"],
-            anchor="w",
-            wraplength=300,
-        )
-        desc.pack(fill=tk.X, pady=(0, 8))
-
-        # Info section with tags
-        info_frame = ctk.CTkFrame(content, fg_color="transparent")
-        info_frame.pack(fill=tk.X, pady=(0, 8))
-
-        # Project tag
-        project_tag = ctk.CTkFrame(
-            info_frame, fg_color=self.colors["bg_dark"], corner_radius=4
-        )
-        project_tag.pack(side=tk.LEFT, padx=(0, 5))
-
-        ctk.CTkLabel(
-            project_tag,
-            text=f"📁 {task['project']}",
-            font=("Helvetica", 13),
-            text_color=self.colors["text"],
-        ).pack(padx=8, pady=2)
-
-        # Resource tag if assigned
-        if task.get("resource"):
-            resource_tag = ctk.CTkFrame(
-                info_frame, fg_color=self.colors["bg_dark"], corner_radius=4
-            )
-            resource_tag.pack(side=tk.LEFT, padx=5)
-
-            ctk.CTkLabel(
-                resource_tag,
-                text=f"👤 {task['resource']}",
-                font=("Arial", 11),
-                text_color=self.colors["text"],
-            ).pack(padx=8, pady=2)
-
-        # Button configurations based on status
-        button_config = {
-            "corner_radius": 6,
-            "height": 32,
-            "border_width": 1,
-            "font": ("Helvetica", 15),
-        }
-
-        # Action buttons
-        button_frame = ctk.CTkFrame(content, fg_color="transparent")
-        button_frame.pack(fill=tk.X, pady=(8, 0))
-
-        if task["status"] == "unassigned":
-            move_btn = ctk.CTkButton(
-                button_frame,
-                text="Move to Todo",
-                command=lambda: callbacks["move_to_todo"](task["id"]),
-                fg_color=self.colors["primary"],
-                **button_config,
-            )
-            move_btn.pack(side=tk.LEFT, padx=2)
-
-        elif task["status"] == "todo":
-            assign_btn = ctk.CTkButton(
-                button_frame,
-                text="Assign Resource",
-                command=lambda: callbacks["assign_resource"](task["id"]),
-                fg_color=self.colors["secondary"],
-                **button_config,
-            )
-            assign_btn.pack(side=tk.LEFT, padx=2)
-
-            start_btn = ctk.CTkButton(
-                button_frame,
-                text="Start Work",
-                command=lambda: callbacks["start_task"](task["id"]),
-                fg_color=self.colors["primary"],
-                **button_config,
-            )
-            start_btn.pack(side=tk.LEFT, padx=2)
-
-        elif task["status"] == "inwork":
-            complete_btn = ctk.CTkButton(
-                button_frame,
-                text="Complete",
-                command=lambda: callbacks["complete_task"](task["id"]),
-                fg_color=self.colors["success"],
-                **button_config,
-            )
-            complete_btn.pack(side=tk.LEFT, padx=2)
-
-        # Add edit functionality to the entire card
-        if "edit_task" in callbacks:
-
-            def handle_click(event):
-                # Check if click was on a button
-                widget = event.widget
-                while widget is not None:
-                    if isinstance(widget, ctk.CTkButton):
-                        return  # Don't trigger edit if clicked on a button
-                    widget = widget.master
-                callbacks["edit_task"](task["id"])
-
-            # Make the card and all its children clickable
-            for widget in [card, content, title, desc, info_frame]:
-                widget.bind("<Button-1>", handle_click)
-                widget.configure(cursor="hand2")
-
-        return card
 
     # --------------------------------------------------------------------------------
 
@@ -1966,6 +1925,263 @@ class UIComponents:
         )
         save_btn.pack(fill=tk.X, pady=(10, 0))
 
+    # --------------------------------------------------------------------------------
+
+    def create_edit_period_dialog(self, period_data: Dict, callback) -> None:
+        """
+        Create a dialog for editing an existing sprint.
+
+        Args:
+            period_data (Dict): Current period data including id, name,
+                                start_date, end_date
+            callback: Function to call with updated period data.
+                     Expected signature: callback(id, name, start_date, end_date)
+                     Should return True if update successful, False otherwise
+        """
+        dialog = ctk.CTkToplevel(self.root)
+        dialog.title("Edit Sprint")
+        dialog.geometry("400x350")
+        dialog.configure(fg_color=self.colors["bg_light"])
+
+        content = ctk.CTkFrame(dialog, fg_color="transparent")
+        content.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+        # Sprint name
+        name_label = ctk.CTkLabel(
+            content,
+            text="Sprint Name:",
+            font=("Helvetica", 14, "bold"),
+            text_color=self.colors["text"],
+        )
+        name_label.pack(pady=(0, 5))
+
+        name_entry = ctk.CTkEntry(
+            content,
+            height=35,
+            font=("Helvetica", 14),
+            corner_radius=6,
+            border_width=1,
+            border_color=self.colors["border"],
+        )
+        name_entry.insert(0, period_data["name"])
+        name_entry.pack(fill=tk.X, pady=(0, 15))
+
+        # Date selectors
+        start_label = ctk.CTkLabel(
+            content,
+            text="Start Date:",
+            font=("Helvetica", 14, "bold"),
+            text_color=self.colors["text"],
+        )
+        start_label.pack(pady=(0, 5))
+
+        # Convert ISO dates to MM/DD/YY format for display
+        start_date_obj = datetime.strptime(period_data["start_date"], "%Y-%m-%d").date()
+        end_date_obj = datetime.strptime(period_data["end_date"], "%Y-%m-%d").date()
+
+        start_date = DateEntry(
+            content,
+            font=("Helvetica", 14),
+            borderwidth=1,
+            background=self.colors["primary"],
+            foreground="white",
+        )
+        start_date.set_date(start_date_obj)
+        start_date.pack(fill=tk.X, pady=(0, 15))
+
+        end_label = ctk.CTkLabel(
+            content,
+            text="End Date:",
+            font=("Helvetica", 14, "bold"),
+            text_color=self.colors["text"],
+        )
+        end_label.pack(pady=(0, 5))
+
+        end_date = DateEntry(
+            content,
+            font=("Helvetica", 14),
+            borderwidth=1,
+            background=self.colors["primary"],
+            foreground="white",
+        )
+        end_date.set_date(end_date_obj)
+        end_date.pack(fill=tk.X, pady=(0, 20))
+
+        def save_changes():
+            success = callback(
+                period_data["id"], name_entry.get(), start_date.get(), end_date.get()
+            )
+            if success:
+                dialog.destroy()
+
+        save_btn = ctk.CTkButton(
+            content,
+            text="Save Changes",
+            command=save_changes,
+            height=38,
+            corner_radius=8,
+            font=("Helvetica", 15, "bold"),
+            fg_color=self.colors["primary"],
+        )
+        save_btn.pack(fill=tk.X, pady=(10, 0))
+
+    # --------------------------------------------------------------------------------
+
+    def create_task_card(
+        self, parent: ctk.CTkFrame, task: Dict, callbacks: Dict
+    ) -> ctk.CTkFrame:
+        """Create a visual card representing a task."""
+        # Main card frame with shadow
+        card = ctk.CTkFrame(
+            parent,
+            fg_color="white",
+            corner_radius=8,
+            border_width=1,
+            border_color=self.colors["border"],
+        )
+        card.pack(fill=tk.X, padx=5, pady=5)
+
+        # Content padding
+        content = ctk.CTkFrame(card, fg_color="transparent")
+        content.pack(fill=tk.BOTH, expand=True, padx=12, pady=8)
+
+        # Title with primary color accent
+        title = ctk.CTkLabel(
+            content,
+            text=task["title"],
+            font=("Helvetica", 18, "bold"),
+            text_color=self.colors["text"],
+            anchor="w",
+        )
+        title.pack(fill=tk.X, pady=(0, 8))
+
+        # Description with secondary text color
+        desc = ctk.CTkLabel(
+            content,
+            text=(
+                task["description"][:50] + "..."
+                if len(task["description"]) > 50
+                else task["description"]
+            ),
+            text_color=self.colors["text_secondary"],
+            anchor="w",
+            wraplength=300,
+        )
+        desc.pack(fill=tk.X, pady=(0, 8))
+
+        # Info section with tags
+        info_frame = ctk.CTkFrame(content, fg_color="transparent")
+        info_frame.pack(fill=tk.X, pady=(0, 8))
+
+        # Project tag
+        project_tag = ctk.CTkFrame(
+            info_frame, fg_color=self.colors["bg_dark"], corner_radius=4
+        )
+        project_tag.pack(side=tk.LEFT, padx=(0, 5))
+
+        ctk.CTkLabel(
+            project_tag,
+            text=f"📁 {task['project']}",
+            font=("Helvetica", 13),
+            text_color=self.colors["text"],
+        ).pack(padx=8, pady=2)
+
+        # Resource tag if assigned
+        if task.get("resource"):
+            resource_tag = ctk.CTkFrame(
+                info_frame, fg_color=self.colors["bg_dark"], corner_radius=4
+            )
+            resource_tag.pack(side=tk.LEFT, padx=5)
+
+            ctk.CTkLabel(
+                resource_tag,
+                text=f"👤 {task['resource']}",
+                font=("Arial", 11),
+                text_color=self.colors["text"],
+            ).pack(padx=8, pady=2)
+
+        # Button configurations
+        button_config = {
+            "corner_radius": 6,
+            "height": 32,
+            "border_width": 1,
+            "font": ("Helvetica", 15),
+        }
+
+        # Action buttons
+        button_frame = ctk.CTkFrame(content, fg_color="transparent")
+        button_frame.pack(fill=tk.X, pady=(8, 0))
+
+        if task["status"] != "completed" and "delete_task" in callbacks:
+            delete_btn = ctk.CTkButton(
+                button_frame,
+                text="Delete",
+                command=lambda: callbacks["delete_task"](task["id"]),
+                fg_color="#dc2626",  # Red color for delete
+                hover_color="#b91c1c",  # Darker red on hover
+                **button_config,
+            )
+            delete_btn.pack(side=tk.RIGHT, padx=2)
+
+        # Original action buttons based on status
+        if task["status"] == "unassigned":
+            move_btn = ctk.CTkButton(
+                button_frame,
+                text="Move to Todo",
+                command=lambda: callbacks["move_to_todo"](task["id"]),
+                fg_color=self.colors["primary"],
+                **button_config,
+            )
+            move_btn.pack(side=tk.LEFT, padx=2)
+
+        elif task["status"] == "todo":
+            assign_btn = ctk.CTkButton(
+                button_frame,
+                text="Assign Resource",
+                command=lambda: callbacks["assign_resource"](task["id"]),
+                fg_color=self.colors["secondary"],
+                **button_config,
+            )
+            assign_btn.pack(side=tk.LEFT, padx=2)
+
+            start_btn = ctk.CTkButton(
+                button_frame,
+                text="Start Work",
+                command=lambda: callbacks["start_task"](task["id"]),
+                fg_color=self.colors["primary"],
+                **button_config,
+            )
+            start_btn.pack(side=tk.LEFT, padx=2)
+
+        elif task["status"] == "inwork":
+            complete_btn = ctk.CTkButton(
+                button_frame,
+                text="Complete",
+                command=lambda: callbacks["complete_task"](task["id"]),
+                fg_color=self.colors["success"],
+                **button_config,
+            )
+            complete_btn.pack(side=tk.LEFT, padx=2)
+
+        # Add edit functionality to the card
+        if "edit_task" in callbacks:
+
+            def handle_click(event):
+                # Check if click was on a button
+                widget = event.widget
+                while widget is not None:
+                    if isinstance(widget, ctk.CTkButton):
+                        return  # Don't trigger edit if clicked on a button
+                    widget = widget.master
+                callbacks["edit_task"](task["id"])
+
+            # Make the card and all its children clickable
+            for widget in [card, content, title, desc, info_frame]:
+                widget.bind("<Button-1>", handle_click)
+                widget.configure(cursor="hand2")
+
+        return card
+
 
 # ================================================================================
 # ================================================================================
@@ -2034,12 +2250,13 @@ class KanbanApp:
         }
         self.menubar = self.ui.create_menu_bar(self.menu_callbacks)
 
-        # Create toolbar with callbacks
         self.toolbar_callbacks = {
             "create_period": self.show_create_period_dialog,
             "create_task": self.show_create_task_dialog,
             "change_period": self.change_period,
+            "edit_period": self.show_edit_period_dialog,  # Add this line
         }
+
         toolbar_elements = self.ui.create_toolbar(self.toolbar_callbacks)
         (
             self.toolbar,
@@ -2047,8 +2264,8 @@ class KanbanApp:
             self.create_task_btn,
             self.period_selector,
             self.period_var,
+            self.edit_period_btn,  # Add this line
         ) = toolbar_elements
-
         # Create notebook and tabs
         self.notebook = self.ui.create_notebook()
 
@@ -2253,7 +2470,8 @@ class KanbanApp:
                     "assign_resource": self.show_assign_resource_dialog,
                     "start_task": self.start_task,
                     "complete_task": self.complete_task,
-                    "edit_task": self.show_edit_task_dialog,  # Add this line
+                    "edit_task": self.show_edit_task_dialog,
+                    "delete_task": self.delete_task,
                 }
 
                 # Sort tasks into columns
@@ -2288,7 +2506,8 @@ class KanbanApp:
         # Create callbacks for task cards
         callbacks = {
             "move_to_todo": self.move_to_todo,
-            "edit_task": self.show_edit_task_dialog,  # Add this line
+            "edit_task": self.show_edit_task_dialog,
+            "delete_task": self.delete_task,
         }
 
         # Create task cards
@@ -2529,6 +2748,67 @@ class KanbanApp:
                 return False
 
         self.ui.create_edit_task_dialog(task_data, save_task_changes)
+
+    # --------------------------------------------------------------------------------
+
+    def show_edit_period_dialog(self) -> None:
+        """
+        Show dialog for editing the currently selected sprint.
+
+        Displays error message if no sprint is selected.
+        Updates all views if the sprint is successfully modified.
+        Updates the sprint selector to show the new name if changed.
+        """
+        if not self.current_period:
+            messagebox.showinfo("Select Sprint", "Please select a sprint to edit")
+            return
+
+        period_data = self.period_manager.get_period_by_name(self.current_period)
+        if not period_data:
+            messagebox.showerror("Error", "Could not retrieve sprint details")
+            return
+
+        def save_period_changes(period_id, name, start_date, end_date):
+            try:
+                if self.period_manager.update_period(
+                    period_id, name, start_date, end_date
+                ):
+                    # Update current period name if it changed
+                    self.current_period = name.strip()
+                    self.period_var.set(self.current_period)
+
+                    # Refresh all views
+                    self.refresh_all_views()
+                    return True
+                return False
+            except KanbanDataError as e:
+                messagebox.showerror("Validation Error", str(e))
+                return False
+
+        self.ui.create_edit_period_dialog(period_data, save_period_changes)
+
+    # --------------------------------------------------------------------------------
+
+    def delete_task(self, task_id: int) -> None:
+        """Delete a task after confirmation.
+
+        Args:
+            task_id: The identifier of the task to delete
+
+        Shows confirmation dialog before deletion.
+        Updates views if deletion is successful.
+        """
+        if messagebox.askyesno(
+            "Confirm Delete", "Are you sure you want to delete this task?"
+        ):
+            try:
+                if self.task_manager.delete_task(task_id):
+                    self.update_kanban_board()
+                    self.update_unassigned_tasks()
+                else:
+                    messagebox.showerror("Error", "Failed to delete task")
+            except KanbanDataError as e:
+                messagebox.showerror("Error", str(e))
 
 
 # ================================================================================
