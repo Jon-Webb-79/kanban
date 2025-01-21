@@ -92,3 +92,17 @@ StatisticsManager
    :members:
    :undoc-members:
    :show-inheritance:
+
+UIComponents
+############
+.. autoclass:: kanban.kanban.UIComponents
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+KanbanApp
+#########
+.. autoclass:: kanban.kanban.KanbanApp
+   :members:
+   :undoc-members:
+   :show-inheritance:

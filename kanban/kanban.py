@@ -255,16 +255,16 @@ class DatabaseManager:
         Validate period data before insertion or update.
 
         Args:
-            name (str): Period name
-            start_date (str): Period start date (MM/DD/YY)
-            end_date (str): Period end date (MM/DD/YY)
+            name (str): Sprint name
+            start_date (str): Sprint start date (MM/DD/YY)
+            end_date (str): Sprint end date (MM/DD/YY)
 
         Raises:
             KanbanDataError: If validation fails
         """
         # Check for empty name
         if not name or not name.strip():
-            raise KanbanDataError("Period name cannot be empty")
+            raise KanbanDataError("Sprint name cannot be empty")
 
         try:
             # Parse dates using datetime.strptime for MM/DD/YY format
@@ -286,7 +286,7 @@ class DatabaseManager:
                 "SELECT name FROM performance_periods WHERE name = ?", (name.strip(),)
             )
             if self.cursor.fetchone():
-                raise KanbanDataError(f"Period with name '{name}' already exists")
+                raise KanbanDataError(f"Sprint with name '{name}' already exists")
 
 
 # ================================================================================
@@ -562,7 +562,7 @@ class TaskManager:
 # ================================================================================
 
 
-class PeriodManager:
+class SprintManager:
     """
     Manages performance periods in the Kanban system.
 
@@ -576,7 +576,7 @@ class PeriodManager:
 
     def __init__(self, db_manager: DatabaseManager):
         """
-        Initialize PeriodManager with a database manager.
+        Initialize SprintManager with a database manager.
 
         Args:
             db_manager (DatabaseManager): Database manager instance for period operations
@@ -592,7 +592,7 @@ class PeriodManager:
         The period name must be unique.
 
         Args:
-            name (str): Period name
+            name (str): Sprint name
             start_date (str): Start date in MM/DD/YY format (e.g., "01/15/24")
             end_date (str): End date in MM/DD/YY format (e.g., "02/15/24")
 
@@ -630,7 +630,7 @@ class PeriodManager:
             self.db.conn.commit()
             return self.db.cursor.lastrowid
         except sqlite3.Error as e:
-            print(f"Period creation error: {e}")
+            print(f"Sprint creation error: {e}")
             return None
 
     def get_all_periods(self) -> List[Dict]:
@@ -688,7 +688,7 @@ class PeriodManager:
             >>> if period:
             ...     print(f"Found period: {period['start_date']} to {period['end_date']}")
             ... else:
-            ...     print("Period not found")
+            ...     print("Sprint not found")
         """
         try:
             if not self.db.conn or not self.db.cursor:
@@ -973,9 +973,29 @@ class StatisticsManager:
 
 
 class UIComponents:
-    """Handles creation and management of UI elements"""
+    """
+    Handles creation and management of UI elements for the Kanban Task Manager.
+
+    This class is responsible for creating and managing all graphical user interface
+    elements, including the main window, toolbars, tabs, and task cards. It handles
+    styling, layout, and visual components while delegating action handling to the
+    main application.
+
+    Attributes:
+        root (tk.Tk): The root window of the application
+        columns (Dict): Dictionary storing references to Kanban board columns
+        colors (Dict): Color scheme definitions for UI elements
+        refresh_views_callback (Optional[Callable]): Callback for refreshing views
+    """
 
     def __init__(self, root: tk.Tk):
+        """
+        Initialize the UI Components manager.
+
+        Args:
+            root (tk.Tk): The root window of the application
+        """
+
         self.root = root
         self.columns = {}  # Store column references
         self.setup_theme()
@@ -985,7 +1005,14 @@ class UIComponents:
     # --------------------------------------------------------------------------------
 
     def setup_theme(self):
-        """Setup the application theme and styling"""
+        """
+        Setup the application theme and styling.
+
+        Configures the application's color scheme, visual theme, and default
+        styles. Defines colors for various UI elements and configures ttk
+        styles for consistent appearance across the application.
+        """
+
         # Set customtkinter theme
         ctk.set_appearance_mode("light")
         ctk.set_default_color_theme("blue")
@@ -1027,7 +1054,14 @@ class UIComponents:
     # --------------------------------------------------------------------------------
 
     def setup_main_window(self):
-        """Setup the main window configuration"""
+        """
+        Setup the main application window.
+
+        Configures the main window's title, size, and position. The window size
+        is calculated based on screen dimensions, and the window is centered on
+        the screen. Also sets minimum window size to ensure usability.
+        """
+
         self.root.title("Kanban Task Manager")
         # Get screen dimensions
         screen_width = self.root.winfo_screenwidth()
@@ -1049,13 +1083,23 @@ class UIComponents:
 
         self.root.configure(bg=self.colors["bg_light"])
 
-        # self.root.geometry("1200x800")
-        # self.root.configure(bg=self.colors['bg_light'])
-
     # --------------------------------------------------------------------------------
 
     def create_menu_bar(self, callbacks: Dict) -> tk.Menu:
-        """Create the application menu bar"""
+        """
+        Create the application menu bar.
+
+        Creates the main menu bar with File menu options including database
+        operations and application exit.
+
+        Args:
+            callbacks (Dict): Dictionary containing callback functions for menu actions:
+                - new_db: Callback for creating new database
+                - open_db: Callback for opening existing database
+
+        Returns:
+            tk.Menu: Configured menu bar instance
+        """
         menubar = tk.Menu(self.root, font=("Helvetica", 12))  # Main menu font
         self.root.config(menu=menubar)
 
@@ -1076,7 +1120,26 @@ class UIComponents:
     ) -> Tuple[
         ctk.CTkFrame, ctk.CTkButton, ctk.CTkButton, ctk.CTkOptionMenu, tk.StringVar
     ]:
-        """Create the main toolbar"""
+        """
+        Create the main toolbar with control buttons and period selector.
+
+        Creates a toolbar containing buttons for creating periods and tasks,
+        as well as a dropdown menu for selecting the active period.
+
+        Args:
+            callbacks (Dict): Dictionary containing callback functions:
+                - create_period: Callback for period creation
+                - create_task: Callback for task creation
+                - change_period: Callback for period selection change
+
+        Returns:
+            Tuple containing:
+                - ctk.CTkFrame: The toolbar frame
+                - ctk.CTkButton: Create period button
+                - ctk.CTkButton: Create task button
+                - ctk.CTkOptionMenu: Sprint selector dropdown
+                - tk.StringVar: Variable holding selected period
+        """
         toolbar = ctk.CTkFrame(
             self.root,
             fg_color=self.colors["bg_light"],
@@ -1097,13 +1160,10 @@ class UIComponents:
             "border_width": 1,
         }
 
-        # OptionMenu configurations (without border_width)
-        # option_config = {"corner_radius": 8, "height": 32, "font": ("Helvetica", 16)}
-
         # Create period button
         create_period_btn = ctk.CTkButton(
             toolbar,
-            text="Create Period",
+            text="Create Sprint",
             command=callbacks["create_period"],
             fg_color=self.colors["primary"],
             **button_config,
@@ -1120,7 +1180,7 @@ class UIComponents:
         )
         create_task_btn.pack(side=tk.LEFT, padx=5, pady=2)
 
-        # Period selector
+        # Sprint selector
         period_var = tk.StringVar()
         period_selector = ctk.CTkOptionMenu(
             toolbar,
@@ -1144,7 +1204,17 @@ class UIComponents:
     # --------------------------------------------------------------------------------
 
     def create_notebook(self) -> ttk.Notebook:
-        """Create the main notebook with tabs"""
+        """
+        Create the main notebook widget for tab organization.
+
+        Creates and configures a notebook widget that holds the main
+        application tabs: Kanban Board, Unassigned Tasks, and Statistics.
+
+        Returns:
+            ttk.Notebook: Configured notebook widget for the main application
+                          tabs
+        """
+
         style = ttk.Style()
         style.configure(
             "Custom.TNotebook",
@@ -1166,7 +1236,20 @@ class UIComponents:
     # --------------------------------------------------------------------------------
 
     def create_kanban_board(self, notebook: ttk.Notebook) -> Tuple[ctk.CTkFrame, Dict]:
-        """Create the Kanban board tab and its columns"""
+        """
+        Create the Kanban board tab and its columns.
+
+        Creates the main Kanban board interface with Todo, In Progress, and
+        Completed columns. Each column is set up to display task cards.
+
+        Args:
+            notebook (ttk.Notebook): Parent notebook widget
+
+        Returns:
+            Tuple containing:
+                - ctk.CTkFrame: Main Kanban board frame
+                - Dict: Dictionary of column containers, keyed by column name
+        """
         # Store frame references as class attributes
         self.kanban_frame = ctk.CTkFrame(
             notebook, fg_color=self.colors["bg_light"], corner_radius=0
@@ -1192,7 +1275,22 @@ class UIComponents:
     # --------------------------------------------------------------------------------
 
     def create_kanban_column(self, parent: ctk.CTkFrame, title: str) -> Dict:
-        """Create a single Kanban column"""
+        """
+        Create a single Kanban column.
+
+        Creates a column for the Kanban board with a header and scrollable
+        container for task cards. Each column has a distinct visual style
+        and can hold multiple task cards.
+
+        Args:
+            parent (ctk.CTkFrame): Parent frame to contain the column
+            title (str): Column title (e.g., "Todo", "In Progress", "Completed")
+
+        Returns:
+            Dict: Dictionary containing:
+                - frame: Column's main frame
+                - task_container: Scrollable container for task cards
+        """
         # Column frame with shadow effect
         column = ctk.CTkFrame(
             parent,
@@ -1227,7 +1325,20 @@ class UIComponents:
     def create_unassigned_tab(
         self, notebook: ttk.Notebook
     ) -> Tuple[ctk.CTkFrame, ctk.CTkScrollableFrame]:
-        """Create the unassigned tasks tab"""
+        """
+        Create the tab for displaying unassigned tasks.
+
+        Creates a tab containing a scrollable frame for displaying tasks that
+        haven't been assigned to any period yet.
+
+        Args:
+            notebook (ttk.Notebook): Parent notebook widget
+
+        Returns:
+            Tuple containing:
+                - ctk.CTkFrame: Main frame for unassigned tasks tab
+                - ctk.CTkScrollableFrame: Scrollable container for task cards
+        """
         self.unassigned_frame = ctk.CTkFrame(  # Store reference
             notebook, fg_color=self.colors["bg_light"], corner_radius=0
         )
@@ -1243,7 +1354,19 @@ class UIComponents:
     # --------------------------------------------------------------------------------
 
     def create_statistics_tab(self, notebook: ttk.Notebook) -> ctk.CTkFrame:
-        """Create the statistics tab"""
+        """
+        Create the tab for displaying task statistics.
+
+        Creates a tab for showing various metrics and statistics about tasks,
+        including completion times and resource utilization.
+
+        Args:
+            notebook (ttk.Notebook): Parent notebook widget
+
+        Returns:
+            ctk.CTkFrame: Main frame for statistics display
+        """
+
         self.stats_frame = ctk.CTkFrame(  # Store reference
             notebook, fg_color=self.colors["bg_light"], corner_radius=0
         )
@@ -1255,7 +1378,31 @@ class UIComponents:
     def create_task_card(
         self, parent: ctk.CTkFrame, task: Dict, callbacks: Dict
     ) -> ctk.CTkFrame:
-        """Create a task card widget"""
+        """
+        Create a visual card representing a task.
+
+        Creates a card displaying task information and appropriate action buttons
+        based on the task's status. The card includes title, description,
+        project info, and resource assignment if available.
+
+        Args:
+            parent (ctk.CTkFrame): Parent container for the card
+            task (Dict): Task data including:
+                - id: Task identifier
+                - title: Task title
+                - description: Task description
+                - status: Current status
+                - project: Project name
+                - resource: Assigned resource (optional)
+            callbacks (Dict): Callback functions for task actions:
+                - move_to_todo: For unassigned tasks
+                - assign_resource: For todo tasks
+                - start_task: For todo tasks
+                - complete_task: For in-progress tasks
+
+        Returns:
+            ctk.CTkFrame: The created task card
+        """
         # Main card frame with shadow
         card = ctk.CTkFrame(
             parent,
@@ -1381,9 +1528,20 @@ class UIComponents:
     # --------------------------------------------------------------------------------
 
     def create_period_dialog(self, callback) -> None:
-        """Show dialog for creating a new performance period"""
+        """
+        Create a dialog for adding a new performance period.
+
+        Displays a modal dialog with inputs for period name and date range.
+        The dialog includes validation and proper formatting of dates.
+
+        Args:
+            callback: Function to call with period data when saved.
+                      Expected signature: callback(name: str, start_date: str,
+                      end_date: str)
+        """
+
         dialog = ctk.CTkToplevel(self.root)
-        dialog.title("Create Performance Period")
+        dialog.title("Create Performance Sprint")
         dialog.geometry("400x350")
         dialog.configure(fg_color=self.colors["bg_light"])
 
@@ -1391,10 +1549,10 @@ class UIComponents:
         content = ctk.CTkFrame(dialog, fg_color="transparent")
         content.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
-        # Period name
+        # Sprint name
         name_label = ctk.CTkLabel(
             content,
-            text="Period Name:",
+            text="Sprint Name:",
             font=("Helvetica", 14, "bold"),
             text_color=self.colors["text"],
         )
@@ -1451,7 +1609,7 @@ class UIComponents:
 
         save_btn = ctk.CTkButton(
             content,
-            text="Save Period",
+            text="Save Sprting",
             command=save_period,
             height=38,
             corner_radius=8,
@@ -1463,7 +1621,17 @@ class UIComponents:
     # --------------------------------------------------------------------------------
 
     def create_task_dialog(self, callback) -> None:
-        """Show dialog for creating a new task"""
+        """
+        Create a dialog for adding a new task.
+
+        Displays a modal dialog with inputs for task details including
+        title, description, and project type.
+
+        Args:
+            callback: Function to call with task data when saved.
+                      Expected signature: callback(title: str,
+                      description: str, project: str)
+        """
         dialog = ctk.CTkToplevel(self.root)
         dialog.title("Create Task")
         dialog.geometry("500x600")
@@ -1547,20 +1715,20 @@ class UIComponents:
         )
         save_btn.pack(fill=tk.X, pady=(10, 0))
 
-        # --------------------------------------------------------------------------------
-
-        def save_task():
-            callback(
-                title_entry.get(), desc_entry.get("1.0", tk.END), project_entry.get()
-            )
-            dialog.destroy()
-
-        save_btn = ctk.CTkButton(dialog, text="Save", command=save_task)
-        save_btn.pack(pady=20)
-
     # --------------------------------------------------------------------------------
 
     def set_ui_state(self, state: str, elements: Dict) -> None:
+        """
+        Enable or disable multiple UI elements.
+
+        Updates the state (enabled/disabled) of multiple UI elements at once.
+
+        Args:
+            state (str): New state ('normal' or 'disabled')
+            elements (Dict): Dictionary of UI elements to update,
+                           where each element supports the configure method
+        """
+
         """Enable or disable UI elements"""
         for element in elements.values():
             if hasattr(element, "configure"):
@@ -1572,13 +1740,38 @@ class UIComponents:
 
 
 class KanbanApp:
-    """Main application class that orchestrates all components"""
+    """
+    Main application class that orchestrates all components of the Kanban Task Manager.
+
+    This class serves as the central coordinator for the application, managing the
+    interaction between the UI components and the data management classes. It handles
+    all high-level operations including database operations, UI state management,
+    and view updates.
+
+    Attributes:
+        db_manager (DatabaseManager): Manages database operations
+        task_manager (TaskManager): Handles task-related operations
+        period_manager (SprintManager): Manages performance periods
+        stats_manager (StatisticsManager): Handles statistical calculations
+        ui (UIComponents): Manages GUI components
+        current_period (Optional[str]): Name of currently selected period
+    """
 
     def __init__(self, root: tk.Tk):
+        """
+        Initialize the Kanban Task Manager application.
+
+        Sets up all manager classes, initializes the UI, and starts with UI
+        in disabled state until a database is loaded.
+
+        Args:
+            root (tk.Tk): Root window of the application
+        """
+
         # Initialize managers
         self.db_manager = DatabaseManager()
         self.task_manager = TaskManager(self.db_manager)
-        self.period_manager = PeriodManager(self.db_manager)
+        self.period_manager = SprintManager(self.db_manager)
         self.stats_manager = StatisticsManager(self.db_manager)
 
         # Initialize UI
@@ -1596,7 +1789,12 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def setup_ui(self):
-        """Setup the main UI structure and callbacks"""
+        """
+        Setup the main UI structure and callbacks.
+
+        Creates and configures all UI elements including menu bar, toolbar,
+        and tabs. Sets up all necessary callback functions for UI interactions.
+        """
         # Create menu with callbacks
         self.menu_callbacks = {
             "new_db": self.create_new_database,
@@ -1638,7 +1836,18 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def create_new_database(self):
-        """Create a new database file"""
+        """
+        Create a new database file.
+
+        Opens a file dialog for the user to specify the location and name
+        of the new database. Creates the database with the required schema
+        and enables the UI if successful.
+
+        Effects:
+            - Creates a new SQLite database file
+            - Enables UI elements on success
+            - Shows success/error messages to user
+        """
         filename = filedialog.asksaveasfilename(
             defaultextension=".db",
             filetypes=[("SQLite Database", "*.db"), ("All Files", "*.*")],
@@ -1659,7 +1868,20 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def open_database(self):
-        """Open an existing database file and load current period"""
+        """
+        Open an existing database file and load current period.
+
+        Opens a file dialog for selecting an existing database file, verifies
+        its schema, and loads the current period if one exists. Enables the UI
+        if the database is successfully opened.
+
+        Effects:
+            - Connects to existing database file
+            - Loads current period if available
+            - Enables UI elements on success
+            - Updates all views
+            - Shows success/error messages to user
+        """
         filename = filedialog.askopenfilename(
             defaultextension=".db",
             filetypes=[("SQLite Database", "*.db"), ("All Files", "*.*")],
@@ -1689,7 +1911,16 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def show_create_period_dialog(self):
-        """Show dialog for creating a new period"""
+        """
+        Show dialog for creating a new period.
+
+        Displays a dialog for entering new period details. On successful
+        creation, updates the period selector to include the new period.
+
+        Effects:
+            - Creates new period in database
+            - Updates period selector dropdown
+        """
 
         def save_period(name, start_date, end_date):
             period_id = self.period_manager.create_period(name, start_date, end_date)
@@ -1698,10 +1929,17 @@ class KanbanApp:
 
         self.ui.create_period_dialog(save_period)
 
-    # --------------------------------------------------------------------------------
-
     def show_create_task_dialog(self):
-        """Show dialog for creating a new task"""
+        """
+        Show dialog for creating a new task.
+
+        Displays a dialog for entering new task details. On successful
+        creation, updates the unassigned tasks view to show the new task.
+
+        Effects:
+            - Creates new task in database
+            - Updates unassigned tasks view
+        """
 
         def save_task(title, description, project):
             task_id = self.task_manager.create_task(title, description, project)
@@ -1710,17 +1948,35 @@ class KanbanApp:
 
         self.ui.create_task_dialog(save_task)
 
-    # --------------------------------------------------------------------------------
-
     def change_period(self, period_name):
-        """Handle period change"""
+        """
+        Handle period change in the UI.
+
+        Updates the current period selection and refreshes the Kanban board
+        to show tasks for the newly selected period.
+
+        Args:
+            period_name (str): Name of the newly selected period
+
+        Effects:
+            - Updates current_period attribute
+            - Refreshes Kanban board view
+        """
         self.current_period = period_name
         self.update_kanban_board()
 
-    # --------------------------------------------------------------------------------
-
     def update_period_selector(self):
-        """Update the period selector dropdown"""
+        """
+        Update the period selector dropdown.
+
+        Refreshes the period selector with current list of periods from the
+        database. If no period is currently selected and periods exist,
+        selects the first available period.
+
+        Effects:
+            - Updates period selector options
+            - May update current period selection
+        """
         periods = self.period_manager.get_all_periods()
         self.period_selector.configure(values=[p["name"] for p in periods])
         if periods and not self.current_period:
@@ -1730,7 +1986,14 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def update_kanban_board(self):
-        """Update the Kanban board view"""
+        """Update the Kanban board view with current tasks.
+
+        Clears and repopulates all Kanban board columns (todo, in_progress, completed)
+        with task cards based on the current period selection. Sets up appropriate
+        callbacks for task card interactions including resource assignment, starting
+        tasks, and completing tasks.
+        """
+
         # Clear current board
         for column in self.columns.values():
             for widget in column["task_container"].winfo_children():
@@ -1764,7 +2027,12 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def update_unassigned_tasks(self):
-        """Update the unassigned tasks view"""
+        """Update the unassigned tasks view.
+
+        Clears and repopulates the unassigned tasks container with task cards for
+        all tasks that haven't been assigned to a period. Sets up callbacks for
+        moving tasks to the todo column.
+        """
         # Clear current tasks
         for widget in self.unassigned_container.winfo_children():
             widget.destroy()
@@ -1782,7 +2050,13 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def update_statistics(self):
-        """Update the statistics view"""
+        """Update the statistics view with current metrics.
+
+        Clears and recalculates statistics based on the current period selection.
+        If a period is selected, calculates and displays metrics specific to that
+        period. Otherwise, shows overall statistics.
+        """
+
         # Clear current statistics
         for widget in self.stats_frame.winfo_children():
             widget.destroy()
@@ -1804,7 +2078,7 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def create_statistics_display(self, metrics):
-        """Create the statistics display"""
+        """Create and display a statistical summary of task metrics"""
         # Overall metrics
         overall_frame = ctk.CTkFrame(self.stats_frame)
         overall_frame.pack(fill=tk.X, padx=10, pady=10)
@@ -1859,9 +2133,19 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def move_to_todo(self, task_id):
-        """Move a task to the Todo column"""
+        """Move a task to the Todo column of the current period.
+
+        Args:
+            task_id: The identifier of the task to move
+
+        Verifies that a period is selected before moving the task.
+        If successful, updates both the unassigned tasks view and
+        the Kanban board to reflect the change.
+
+        Displays an error message if no period is selected.
+        """
         if not self.current_period:
-            messagebox.showinfo("Select Period", "Please select a period first.")
+            messagebox.showinfo("Select Sprint", "Please select a sprint first.")
             return
 
         period = self.period_manager.get_period_by_name(self.current_period)
@@ -1872,7 +2156,15 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def show_assign_resource_dialog(self, task_id):
-        """Show dialog for assigning a resource"""
+        """Show dialog for assigning a resource to a task.
+
+        Args:
+            task_id: The identifier of the task to assign
+
+        Opens a modal dialog with an entry field for the resource name.
+        Upon successful assignment, updates the Kanban board to reflect
+        the change and closes the dialog.
+        """
         dialog = ctk.CTkToplevel(self.ui.root)
         dialog.title("Assign Resource")
         dialog.geometry("300x150")
@@ -1895,14 +2187,28 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def start_task(self, task_id):
-        """Start a task"""
+        """Start a task by moving it to the in-progress state.
+
+        Args:
+            task_id: The identifier of the task to start
+
+        Updates the Kanban board to reflect the task's new status
+        if the operation is successful.
+        """
         if self.task_manager.start_task(task_id):
             self.update_kanban_board()
 
     # --------------------------------------------------------------------------------
 
     def complete_task(self, task_id):
-        """Complete a task"""
+        """Complete a task by moving it to the completed state.
+
+        Args:
+            task_id: The identifier of the task to complete
+
+        Updates both the Kanban board and statistics views to reflect
+        the task's completion if the operation is successful.
+        """
         if self.task_manager.complete_task(task_id):
             self.update_kanban_board()
             self.update_statistics()
@@ -1910,7 +2216,16 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def refresh_all_views(self):
-        """Refresh all views"""
+        """Refresh all views in the application.
+
+        Updates all major components of the UI including:
+        - Sprint selector
+        - Unassigned tasks view
+        - Kanban board
+        - Statistics view
+
+        Typically called after major state changes that affect multiple views.
+        """
         self.update_period_selector()
         self.update_unassigned_tasks()
         self.update_kanban_board()
@@ -1919,7 +2234,18 @@ class KanbanApp:
     # --------------------------------------------------------------------------------
 
     def set_ui_state(self, state):
-        """Enable or disable UI elements"""
+        """Enable or disable UI elements based on the provided state.
+
+        Args:
+            state (bool): True to enable elements, False to disable them
+
+        Affects the following UI elements:
+        - Create period button
+        - Create task button
+        - Sprint selector
+
+        Used to prevent user interactions during certain operations or states.
+        """
         elements = {
             "create_period_btn": self.create_period_btn,
             "create_task_btn": self.create_task_btn,

@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
-  
+
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=01f34227"></script>
@@ -19,17 +19,17 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to PyKanban documentation! (V0.1.0)" href="index.html" /> 
+    <link rel="prev" title="Welcome to PyKanban documentation! (V0.1.0)" href="index.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="index.html" class="icon icon-home">
             Kanban
           </a>
@@ -92,6 +92,49 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#uicomponents">UIComponents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.UIComponents"><code class="docutils literal notranslate"><span class="pre">UIComponents</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_kanban_board"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_kanban_board()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_kanban_column"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_kanban_column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_menu_bar"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_menu_bar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_notebook"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_notebook()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_period_dialog"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_period_dialog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_statistics_tab"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_statistics_tab()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_task_card"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_task_card()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_task_dialog"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_task_dialog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_toolbar"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_toolbar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.create_unassigned_tab"><code class="docutils literal notranslate"><span class="pre">UIComponents.create_unassigned_tab()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.set_ui_state"><code class="docutils literal notranslate"><span class="pre">UIComponents.set_ui_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.setup_main_window"><code class="docutils literal notranslate"><span class="pre">UIComponents.setup_main_window()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.setup_theme"><code class="docutils literal notranslate"><span class="pre">UIComponents.setup_theme()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.UIComponents.toggle_theme"><code class="docutils literal notranslate"><span class="pre">UIComponents.toggle_theme()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kanbanapp">KanbanApp</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kanban.kanban.KanbanApp"><code class="docutils literal notranslate"><span class="pre">KanbanApp</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.change_period"><code class="docutils literal notranslate"><span class="pre">KanbanApp.change_period()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.complete_task"><code class="docutils literal notranslate"><span class="pre">KanbanApp.complete_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.create_new_database"><code class="docutils literal notranslate"><span class="pre">KanbanApp.create_new_database()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.create_statistics_display"><code class="docutils literal notranslate"><span class="pre">KanbanApp.create_statistics_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.move_to_todo"><code class="docutils literal notranslate"><span class="pre">KanbanApp.move_to_todo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.open_database"><code class="docutils literal notranslate"><span class="pre">KanbanApp.open_database()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.refresh_all_views"><code class="docutils literal notranslate"><span class="pre">KanbanApp.refresh_all_views()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.set_ui_state"><code class="docutils literal notranslate"><span class="pre">KanbanApp.set_ui_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.setup_ui"><code class="docutils literal notranslate"><span class="pre">KanbanApp.setup_ui()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.show_assign_resource_dialog"><code class="docutils literal notranslate"><span class="pre">KanbanApp.show_assign_resource_dialog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.show_create_period_dialog"><code class="docutils literal notranslate"><span class="pre">KanbanApp.show_create_period_dialog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.show_create_task_dialog"><code class="docutils literal notranslate"><span class="pre">KanbanApp.show_create_task_dialog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.start_task"><code class="docutils literal notranslate"><span class="pre">KanbanApp.start_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.update_kanban_board"><code class="docutils literal notranslate"><span class="pre">KanbanApp.update_kanban_board()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.update_period_selector"><code class="docutils literal notranslate"><span class="pre">KanbanApp.update_period_selector()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.update_statistics"><code class="docutils literal notranslate"><span class="pre">KanbanApp.update_statistics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kanban.kanban.KanbanApp.update_unassigned_tasks"><code class="docutils literal notranslate"><span class="pre">KanbanApp.update_unassigned_tasks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -119,7 +162,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <section id="code-documentation">
 <h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Link to this heading"></a></h1>
 <p>This section contains the automatically generated API documentation for the
@@ -617,6 +660,511 @@ Can be filtered to a specific period or return history for all periods.</p>
 </dd></dl>
 
 </section>
+<section id="uicomponents">
+<h2>UIComponents<a class="headerlink" href="#uicomponents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">UIComponents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles creation and management of UI elements for the Kanban Task Manager.</p>
+<p>This class is responsible for creating and managing all graphical user interface
+elements, including the main window, toolbars, tabs, and task cards. It handles
+styling, layout, and visual components while delegating action handling to the
+main application.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>root (tk.Tk): The root window of the application
+columns (Dict): Dictionary storing references to Kanban board columns
+colors (Dict): Color scheme definitions for UI elements
+refresh_views_callback (Optional[Callable]): Callback for refreshing views</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_kanban_board">
+<span class="sig-name descname"><span class="pre">create_kanban_board</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notebook</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Notebook</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">CTkFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_kanban_board"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_kanban_board" title="Link to this definition"></a></dt>
+<dd><p>Create the Kanban board tab and its columns.</p>
+<p>Creates the main Kanban board interface with Todo, In Progress, and
+Completed columns. Each column is set up to display task cards.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>notebook (ttk.Notebook): Parent notebook widget</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Tuple containing:</dt><dd><ul class="simple">
+<li><p>ctk.CTkFrame: Main Kanban board frame</p></li>
+<li><p>Dict: Dictionary of column containers, keyed by column name</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_kanban_column">
+<span class="sig-name descname"><span class="pre">create_kanban_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CTkFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_kanban_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_kanban_column" title="Link to this definition"></a></dt>
+<dd><p>Create a single Kanban column.</p>
+<p>Creates a column for the Kanban board with a header and scrollable
+container for task cards. Each column has a distinct visual style
+and can hold multiple task cards.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>parent (ctk.CTkFrame): Parent frame to contain the column
+title (str): Column title (e.g., “Todo”, “In Progress”, “Completed”)</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Dict: Dictionary containing:</dt><dd><ul class="simple">
+<li><p>frame: Column’s main frame</p></li>
+<li><p>task_container: Scrollable container for task cards</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_menu_bar">
+<span class="sig-name descname"><span class="pre">create_menu_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Menu</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_menu_bar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_menu_bar" title="Link to this definition"></a></dt>
+<dd><p>Create the application menu bar.</p>
+<p>Creates the main menu bar with File menu options including database
+operations and application exit.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>callbacks (Dict): Dictionary containing callback functions for menu actions:</dt><dd><ul class="simple">
+<li><p>new_db: Callback for creating new database</p></li>
+<li><p>open_db: Callback for opening existing database</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>tk.Menu: Configured menu bar instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_notebook">
+<span class="sig-name descname"><span class="pre">create_notebook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Notebook</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_notebook"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_notebook" title="Link to this definition"></a></dt>
+<dd><p>Create the main notebook widget for tab organization.</p>
+<p>Creates and configures a notebook widget that holds the main
+application tabs: Kanban Board, Unassigned Tasks, and Statistics.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>ttk.Notebook: Configured notebook widget for the main application </dt><dd><p>tabs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_period_dialog">
+<span class="sig-name descname"><span class="pre">create_period_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_period_dialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_period_dialog" title="Link to this definition"></a></dt>
+<dd><p>Create a dialog for adding a new performance period.</p>
+<p>Displays a modal dialog with inputs for period name and date range.
+The dialog includes validation and proper formatting of dates.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>callback: Function to call with period data when saved.</dt><dd><p>Expected signature: callback(name: str, start_date: str, end_date: str)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_statistics_tab">
+<span class="sig-name descname"><span class="pre">create_statistics_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notebook</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Notebook</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">CTkFrame</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_statistics_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_statistics_tab" title="Link to this definition"></a></dt>
+<dd><p>Create the tab for displaying task statistics.</p>
+<p>Creates a tab for showing various metrics and statistics about tasks,
+including completion times and resource utilization.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>notebook (ttk.Notebook): Parent notebook widget</p>
+</dd>
+<dt>Returns:</dt><dd><p>ctk.CTkFrame: Main frame for statistics display</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_task_card">
+<span class="sig-name descname"><span class="pre">create_task_card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CTkFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">CTkFrame</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_task_card"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_task_card" title="Link to this definition"></a></dt>
+<dd><p>Create a visual card representing a task.</p>
+<p>Creates a card displaying task information and appropriate action buttons
+based on the task’s status. The card includes title, description,
+project info, and resource assignment if available.</p>
+<dl>
+<dt>Args:</dt><dd><p>parent (ctk.CTkFrame): Parent container for the card
+task (Dict): Task data including:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>id: Task identifier</p></li>
+<li><p>title: Task title</p></li>
+<li><p>description: Task description</p></li>
+<li><p>status: Current status</p></li>
+<li><p>project: Project name</p></li>
+<li><p>resource: Assigned resource (optional)</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>callbacks (Dict): Callback functions for task actions:</dt><dd><ul class="simple">
+<li><p>move_to_todo: For unassigned tasks</p></li>
+<li><p>assign_resource: For todo tasks</p></li>
+<li><p>start_task: For todo tasks</p></li>
+<li><p>complete_task: For in-progress tasks</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>ctk.CTkFrame: The created task card</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_task_dialog">
+<span class="sig-name descname"><span class="pre">create_task_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_task_dialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_task_dialog" title="Link to this definition"></a></dt>
+<dd><p>Create a dialog for adding a new task.</p>
+<p>Displays a modal dialog with inputs for task details including
+title, description, and project type.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>callback: Function to call with task data when saved.</dt><dd><p>Expected signature: callback(title: str, description: str, project: str)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_toolbar">
+<span class="sig-name descname"><span class="pre">create_toolbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">CTkFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">CTkButton</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">CTkButton</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">CTkOptionMenu</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_toolbar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_toolbar" title="Link to this definition"></a></dt>
+<dd><p>Create the main toolbar with control buttons and period selector.</p>
+<p>Creates a toolbar containing buttons for creating periods and tasks,
+as well as a dropdown menu for selecting the active period.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>callbacks (Dict): Dictionary containing callback functions:</dt><dd><ul class="simple">
+<li><p>create_period: Callback for period creation</p></li>
+<li><p>create_task: Callback for task creation</p></li>
+<li><p>change_period: Callback for period selection change</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Tuple containing:</dt><dd><ul class="simple">
+<li><p>ctk.CTkFrame: The toolbar frame</p></li>
+<li><p>ctk.CTkButton: Create period button</p></li>
+<li><p>ctk.CTkButton: Create task button</p></li>
+<li><p>ctk.CTkOptionMenu: Period selector dropdown</p></li>
+<li><p>tk.StringVar: Variable holding selected period</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.create_unassigned_tab">
+<span class="sig-name descname"><span class="pre">create_unassigned_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notebook</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Notebook</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">CTkFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">CTkScrollableFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.create_unassigned_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.create_unassigned_tab" title="Link to this definition"></a></dt>
+<dd><p>Create the tab for displaying unassigned tasks.</p>
+<p>Creates a tab containing a scrollable frame for displaying tasks that
+haven’t been assigned to any period yet.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>notebook (ttk.Notebook): Parent notebook widget</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Tuple containing:</dt><dd><ul class="simple">
+<li><p>ctk.CTkFrame: Main frame for unassigned tasks tab</p></li>
+<li><p>ctk.CTkScrollableFrame: Scrollable container for task cards</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.set_ui_state">
+<span class="sig-name descname"><span class="pre">set_ui_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.set_ui_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.set_ui_state" title="Link to this definition"></a></dt>
+<dd><p>Enable or disable multiple UI elements.</p>
+<p>Updates the state (enabled/disabled) of multiple UI elements at once.</p>
+<dl>
+<dt>Args:</dt><dd><p>state (str): New state (‘normal’ or ‘disabled’)
+elements (Dict): Dictionary of UI elements to update,</p>
+<blockquote>
+<div><p>where each element supports the configure method</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.setup_main_window">
+<span class="sig-name descname"><span class="pre">setup_main_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.setup_main_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.setup_main_window" title="Link to this definition"></a></dt>
+<dd><p>Setup the main application window.</p>
+<p>Configures the main window’s title, size, and position. The window size
+is calculated based on screen dimensions, and the window is centered on
+the screen. Also sets minimum window size to ensure usability.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.setup_theme">
+<span class="sig-name descname"><span class="pre">setup_theme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.setup_theme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.setup_theme" title="Link to this definition"></a></dt>
+<dd><p>Setup the application theme and styling.</p>
+<p>Configures the application’s color scheme, visual theme, and default
+styles. Defines colors for various UI elements and configures ttk
+styles for consistent appearance across the application.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.UIComponents.toggle_theme">
+<span class="sig-name descname"><span class="pre">toggle_theme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#UIComponents.toggle_theme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.UIComponents.toggle_theme" title="Link to this definition"></a></dt>
+<dd><p>Toggle between light and dark theme</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="kanbanapp">
+<h2>KanbanApp<a class="headerlink" href="#kanbanapp" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kanban.kanban.</span></span><span class="sig-name descname"><span class="pre">KanbanApp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Main application class that orchestrates all components of the Kanban Task Manager.</p>
+<p>This class serves as the central coordinator for the application, managing the
+interaction between the UI components and the data management classes. It handles
+all high-level operations including database operations, UI state management,
+and view updates.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>db_manager (DatabaseManager): Manages database operations
+task_manager (TaskManager): Handles task-related operations
+period_manager (PeriodManager): Manages performance periods
+stats_manager (StatisticsManager): Handles statistical calculations
+ui (UIComponents): Manages GUI components
+current_period (Optional[str]): Name of currently selected period</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.change_period">
+<span class="sig-name descname"><span class="pre">change_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.change_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.change_period" title="Link to this definition"></a></dt>
+<dd><p>Handle period change in the Kanban board.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>period_name (str): The name of the period to switch to</p>
+</dd>
+</dl>
+<p>Updates the current period and refreshes the Kanban board view to show
+tasks for the selected period.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.complete_task">
+<span class="sig-name descname"><span class="pre">complete_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.complete_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.complete_task" title="Link to this definition"></a></dt>
+<dd><p>Complete a task by moving it to the completed state.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>task_id: The identifier of the task to complete</p>
+</dd>
+</dl>
+<p>Updates both the Kanban board and statistics views to reflect
+the task’s completion if the operation is successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.create_new_database">
+<span class="sig-name descname"><span class="pre">create_new_database</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.create_new_database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.create_new_database" title="Link to this definition"></a></dt>
+<dd><p>Create a new database file.</p>
+<p>Opens a file dialog for the user to specify the location and name
+of the new database. Creates the database with the required schema
+and enables the UI if successful.</p>
+<dl class="simple">
+<dt>Effects:</dt><dd><ul class="simple">
+<li><p>Creates a new SQLite database file</p></li>
+<li><p>Enables UI elements on success</p></li>
+<li><p>Shows success/error messages to user</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.create_statistics_display">
+<span class="sig-name descname"><span class="pre">create_statistics_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.create_statistics_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.create_statistics_display" title="Link to this definition"></a></dt>
+<dd><p>Create and display a statistical summary of task metrics</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.move_to_todo">
+<span class="sig-name descname"><span class="pre">move_to_todo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.move_to_todo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.move_to_todo" title="Link to this definition"></a></dt>
+<dd><p>Move a task to the Todo column of the current period.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>task_id: The identifier of the task to move</p>
+</dd>
+</dl>
+<p>Verifies that a period is selected before moving the task.
+If successful, updates both the unassigned tasks view and
+the Kanban board to reflect the change.</p>
+<p>Displays an error message if no period is selected.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.open_database">
+<span class="sig-name descname"><span class="pre">open_database</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.open_database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.open_database" title="Link to this definition"></a></dt>
+<dd><p>Open an existing database file and load current period.</p>
+<p>Opens a file dialog for selecting an existing database file, verifies
+its schema, and loads the current period if one exists. Enables the UI
+if the database is successfully opened.</p>
+<dl class="simple">
+<dt>Effects:</dt><dd><ul class="simple">
+<li><p>Connects to existing database file</p></li>
+<li><p>Loads current period if available</p></li>
+<li><p>Enables UI elements on success</p></li>
+<li><p>Updates all views</p></li>
+<li><p>Shows success/error messages to user</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.refresh_all_views">
+<span class="sig-name descname"><span class="pre">refresh_all_views</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.refresh_all_views"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.refresh_all_views" title="Link to this definition"></a></dt>
+<dd><p>Refresh all views in the application.</p>
+<p>Updates all major components of the UI including:
+- Period selector
+- Unassigned tasks view
+- Kanban board
+- Statistics view</p>
+<p>Typically called after major state changes that affect multiple views.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.set_ui_state">
+<span class="sig-name descname"><span class="pre">set_ui_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.set_ui_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.set_ui_state" title="Link to this definition"></a></dt>
+<dd><p>Enable or disable UI elements based on the provided state.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>state (bool): True to enable elements, False to disable them</p>
+</dd>
+</dl>
+<p>Affects the following UI elements:
+- Create period button
+- Create task button
+- Period selector</p>
+<p>Used to prevent user interactions during certain operations or states.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.setup_ui">
+<span class="sig-name descname"><span class="pre">setup_ui</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.setup_ui"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.setup_ui" title="Link to this definition"></a></dt>
+<dd><p>Setup the main UI structure and callbacks.</p>
+<p>Creates and configures all UI elements including menu bar, toolbar,
+and tabs. Sets up all necessary callback functions for UI interactions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.show_assign_resource_dialog">
+<span class="sig-name descname"><span class="pre">show_assign_resource_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.show_assign_resource_dialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.show_assign_resource_dialog" title="Link to this definition"></a></dt>
+<dd><p>Show dialog for assigning a resource to a task.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>task_id: The identifier of the task to assign</p>
+</dd>
+</dl>
+<p>Opens a modal dialog with an entry field for the resource name.
+Upon successful assignment, updates the Kanban board to reflect
+the change and closes the dialog.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.show_create_period_dialog">
+<span class="sig-name descname"><span class="pre">show_create_period_dialog</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.show_create_period_dialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.show_create_period_dialog" title="Link to this definition"></a></dt>
+<dd><p>Show dialog for creating a new period.</p>
+<p>Displays a dialog for entering new period details. On successful
+creation, updates the period selector to include the new period.</p>
+<dl class="simple">
+<dt>Effects:</dt><dd><ul class="simple">
+<li><p>Creates new period in database</p></li>
+<li><p>Updates period selector dropdown</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.show_create_task_dialog">
+<span class="sig-name descname"><span class="pre">show_create_task_dialog</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.show_create_task_dialog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.show_create_task_dialog" title="Link to this definition"></a></dt>
+<dd><p>Create the statistics display with detailed metrics.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>metrics (dict): A dictionary containing various task metrics including:</dt><dd><ul class="simple">
+<li><p>total_tasks: Total number of tasks</p></li>
+<li><p>avg_todo_to_inwork: Average time from todo to in-work state</p></li>
+<li><p>avg_inwork_to_complete: Average time from in-work to completion</p></li>
+<li><p>avg_total_time: Average total time to complete tasks</p></li>
+<li><p>by_resource: Dictionary of metrics grouped by resource</p></li>
+<li><p>by_project: Dictionary of metrics grouped by project</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Creates and displays three sections of statistics:
+1. Overall metrics showing aggregate task statistics
+2. Resource-specific metrics showing performance by resource
+3. Project-specific metrics showing statistics by project</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.start_task">
+<span class="sig-name descname"><span class="pre">start_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.start_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.start_task" title="Link to this definition"></a></dt>
+<dd><p>Start a task by moving it to the in-progress state.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>task_id: The identifier of the task to start</p>
+</dd>
+</dl>
+<p>Updates the Kanban board to reflect the task’s new status
+if the operation is successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.update_kanban_board">
+<span class="sig-name descname"><span class="pre">update_kanban_board</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.update_kanban_board"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.update_kanban_board" title="Link to this definition"></a></dt>
+<dd><p>Update the Kanban board view with current tasks.</p>
+<p>Clears and repopulates all Kanban board columns (todo, in_progress, completed)
+with task cards based on the current period selection. Sets up appropriate
+callbacks for task card interactions including resource assignment, starting
+tasks, and completing tasks.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.update_period_selector">
+<span class="sig-name descname"><span class="pre">update_period_selector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.update_period_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.update_period_selector" title="Link to this definition"></a></dt>
+<dd><p>Update the period selector dropdown with available periods.</p>
+<p>Retrieves all periods from the period manager and populates the period
+selector dropdown. If no period is currently selected and periods exist,
+sets the first period as the current selection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.update_statistics">
+<span class="sig-name descname"><span class="pre">update_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.update_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.update_statistics" title="Link to this definition"></a></dt>
+<dd><p>Update the statistics view with current metrics.</p>
+<p>Clears and recalculates statistics based on the current period selection.
+If a period is selected, calculates and displays metrics specific to that
+period. Otherwise, shows overall statistics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kanban.kanban.KanbanApp.update_unassigned_tasks">
+<span class="sig-name descname"><span class="pre">update_unassigned_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kanban/kanban.html#KanbanApp.update_unassigned_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kanban.kanban.KanbanApp.update_unassigned_tasks" title="Link to this definition"></a></dt>
+<dd><p>Update the unassigned tasks view.</p>
+<p>Clears and repopulates the unassigned tasks container with task cards for
+all tasks that haven’t been assigned to a period. Sets up callbacks for
+moving tasks to the todo column.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -635,7 +1183,7 @@ Can be filtered to a specific period or return history for all periods.</p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -646,7 +1194,7 @@ Can be filtered to a specific period or return history for all periods.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>

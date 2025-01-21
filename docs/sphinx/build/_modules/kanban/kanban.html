@@ -9,7 +9,7 @@
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
-  
+
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
@@ -17,17 +17,17 @@
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="../../index.html" class="icon icon-home">
             Kanban
           </a>
@@ -67,7 +67,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <h1>Source code for kanban.kanban</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tk</span>
@@ -1115,10 +1115,32 @@
 <span class="c1"># ================================================================================</span>
 
 
+<div class="viewcode-block" id="UIComponents">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UIComponents</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles creation and management of UI elements&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles creation and management of UI elements for the Kanban Task Manager.</span>
+
+<span class="sd">    This class is responsible for creating and managing all graphical user interface</span>
+<span class="sd">    elements, including the main window, toolbars, tabs, and task cards. It handles</span>
+<span class="sd">    styling, layout, and visual components while delegating action handling to the</span>
+<span class="sd">    main application.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        root (tk.Tk): The root window of the application</span>
+<span class="sd">        columns (Dict): Dictionary storing references to Kanban board columns</span>
+<span class="sd">        colors (Dict): Color scheme definitions for UI elements</span>
+<span class="sd">        refresh_views_callback (Optional[Callable]): Callback for refreshing views</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the UI Components manager.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            root (tk.Tk): The root window of the application</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Store column references</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setup_theme</span><span class="p">()</span>
@@ -1127,8 +1149,17 @@
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.setup_theme">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.setup_theme">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_theme</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup the application theme and styling&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Setup the application theme and styling.</span>
+
+<span class="sd">        Configures the application&#39;s color scheme, visual theme, and default </span>
+<span class="sd">        styles. Defines colors for various UI elements and configures ttk </span>
+<span class="sd">        styles for consistent appearance across the application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1"># Set customtkinter theme</span>
         <span class="n">ctk</span><span class="o">.</span><span class="n">set_appearance_mode</span><span class="p">(</span><span class="s2">&quot;light&quot;</span><span class="p">)</span>
         <span class="n">ctk</span><span class="o">.</span><span class="n">set_default_color_theme</span><span class="p">(</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
@@ -1154,10 +1185,13 @@
             <span class="n">background</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;bg_light&quot;</span><span class="p">],</span>
             <span class="n">padding</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
             <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.toggle_theme">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.toggle_theme">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">toggle_theme</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle between light and dark theme&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">=</span> <span class="s2">&quot;dark&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">==</span> <span class="s2">&quot;light&quot;</span> <span class="k">else</span> <span class="s2">&quot;light&quot;</span>
@@ -1165,12 +1199,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">theme_colors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">theme_label</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>
             <span class="n">text</span><span class="o">=</span><span class="s2">&quot;🌙&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_theme</span> <span class="o">==</span> <span class="s2">&quot;dark&quot;</span> <span class="k">else</span> <span class="s2">&quot;🌞&quot;</span>  <span class="c1"># Smiling sun with face</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.setup_main_window">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.setup_main_window">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_main_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup the main window configuration&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Setup the main application window.</span>
+
+<span class="sd">        Configures the main window&#39;s title, size, and position. The window size</span>
+<span class="sd">        is calculated based on screen dimensions, and the window is centered on</span>
+<span class="sd">        the screen. Also sets minimum window size to ensure usability.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Kanban Task Manager&quot;</span><span class="p">)</span>
         <span class="c1"># Get screen dimensions</span>
         <span class="n">screen_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">winfo_screenwidth</span><span class="p">()</span>
@@ -1190,15 +1234,28 @@
         <span class="c1"># Optionally, set minimum size to prevent window from being too small</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">minsize</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;bg_light&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;bg_light&quot;</span><span class="p">])</span></div>
 
-        <span class="c1"># self.root.geometry(&quot;1200x800&quot;)</span>
-        <span class="c1"># self.root.configure(bg=self.colors[&#39;bg_light&#39;])</span>
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_menu_bar">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_menu_bar">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_menu_bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the application menu bar&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the application menu bar.</span>
+
+<span class="sd">        Creates the main menu bar with File menu options including database</span>
+<span class="sd">        operations and application exit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            callbacks (Dict): Dictionary containing callback functions for menu actions:</span>
+<span class="sd">                - new_db: Callback for creating new database</span>
+<span class="sd">                - open_db: Callback for opening existing database</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tk.Menu: Configured menu bar instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">menubar</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>  <span class="c1"># Main menu font</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">menu</span><span class="o">=</span><span class="n">menubar</span><span class="p">)</span>
 
@@ -1210,16 +1267,38 @@
         <span class="n">file_menu</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
         <span class="n">file_menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exit&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">quit</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">menubar</span>
+        <span class="k">return</span> <span class="n">menubar</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_toolbar">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_toolbar">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_toolbar</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">Dict</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span>
         <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">,</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkButton</span><span class="p">,</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkButton</span><span class="p">,</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkOptionMenu</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span>
     <span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the main toolbar&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the main toolbar with control buttons and period selector.</span>
+
+<span class="sd">        Creates a toolbar containing buttons for creating periods and tasks, </span>
+<span class="sd">        as well as a dropdown menu for selecting the active period.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            callbacks (Dict): Dictionary containing callback functions:</span>
+<span class="sd">                - create_period: Callback for period creation</span>
+<span class="sd">                - create_task: Callback for task creation</span>
+<span class="sd">                - change_period: Callback for period selection change</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple containing:</span>
+<span class="sd">                - ctk.CTkFrame: The toolbar frame</span>
+<span class="sd">                - ctk.CTkButton: Create period button</span>
+<span class="sd">                - ctk.CTkButton: Create task button</span>
+<span class="sd">                - ctk.CTkOptionMenu: Period selector dropdown</span>
+<span class="sd">                - tk.StringVar: Variable holding selected period</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">toolbar</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span>
             <span class="n">fg_color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;bg_light&quot;</span><span class="p">],</span>
@@ -1239,9 +1318,6 @@
             <span class="s2">&quot;font&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
             <span class="s2">&quot;border_width&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">}</span>
-
-        <span class="c1"># OptionMenu configurations (without border_width)</span>
-        <span class="c1"># option_config = {&quot;corner_radius&quot;: 8, &quot;height&quot;: 32, &quot;font&quot;: (&quot;Helvetica&quot;, 16)}</span>
 
         <span class="c1"># Create period button</span>
         <span class="n">create_period_btn</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkButton</span><span class="p">(</span>
@@ -1282,12 +1358,25 @@
         <span class="p">)</span>
         <span class="n">period_selector</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">toolbar</span><span class="p">,</span> <span class="n">create_period_btn</span><span class="p">,</span> <span class="n">create_task_btn</span><span class="p">,</span> <span class="n">period_selector</span><span class="p">,</span> <span class="n">period_var</span>
+        <span class="k">return</span> <span class="n">toolbar</span><span class="p">,</span> <span class="n">create_period_btn</span><span class="p">,</span> <span class="n">create_task_btn</span><span class="p">,</span> <span class="n">period_selector</span><span class="p">,</span> <span class="n">period_var</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_notebook">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_notebook">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_notebook</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Notebook</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the main notebook with tabs&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the main notebook widget for tab organization.</span>
+
+<span class="sd">        Creates and configures a notebook widget that holds the main </span>
+<span class="sd">        application tabs: Kanban Board, Unassigned Tasks, and Statistics.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ttk.Notebook: Configured notebook widget for the main application </span>
+<span class="sd">                          tabs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">style</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span>
         <span class="n">style</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>
             <span class="s2">&quot;Custom.TNotebook&quot;</span><span class="p">,</span>
@@ -1304,12 +1393,28 @@
 
         <span class="n">notebook</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Notebook</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;Custom.TNotebook&quot;</span><span class="p">)</span>
         <span class="n">notebook</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">notebook</span>
+        <span class="k">return</span> <span class="n">notebook</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_kanban_board">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_kanban_board">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_kanban_board</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notebook</span><span class="p">:</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Notebook</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the Kanban board tab and its columns&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the Kanban board tab and its columns.</span>
+
+<span class="sd">        Creates the main Kanban board interface with Todo, In Progress, and </span>
+<span class="sd">        Completed columns. Each column is set up to display task cards.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            notebook (ttk.Notebook): Parent notebook widget</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple containing:</span>
+<span class="sd">                - ctk.CTkFrame: Main Kanban board frame</span>
+<span class="sd">                - Dict: Dictionary of column containers, keyed by column name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Store frame references as class attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kanban_frame</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">(</span>
             <span class="n">notebook</span><span class="p">,</span> <span class="n">fg_color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;bg_light&quot;</span><span class="p">],</span> <span class="n">corner_radius</span><span class="o">=</span><span class="mi">0</span>
@@ -1330,12 +1435,30 @@
             <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_kanban_column</span><span class="p">(</span><span class="n">columns_container</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="n">columns</span><span class="p">[</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">column</span>
 
-        <span class="k">return</span> <span class="n">kanban_frame</span><span class="p">,</span> <span class="n">columns</span>
+        <span class="k">return</span> <span class="n">kanban_frame</span><span class="p">,</span> <span class="n">columns</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_kanban_column">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_kanban_column">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_kanban_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a single Kanban column&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a single Kanban column.</span>
+
+<span class="sd">        Creates a column for the Kanban board with a header and scrollable</span>
+<span class="sd">        container for task cards. Each column has a distinct visual style</span>
+<span class="sd">        and can hold multiple task cards.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parent (ctk.CTkFrame): Parent frame to contain the column</span>
+<span class="sd">            title (str): Column title (e.g., &quot;Todo&quot;, &quot;In Progress&quot;, &quot;Completed&quot;)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict: Dictionary containing:</span>
+<span class="sd">                - frame: Column&#39;s main frame</span>
+<span class="sd">                - task_container: Scrollable container for task cards</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Column frame with shadow effect</span>
         <span class="n">column</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">(</span>
             <span class="n">parent</span><span class="p">,</span>
@@ -1364,13 +1487,29 @@
         <span class="p">)</span>
         <span class="n">task_container</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;frame&quot;</span><span class="p">:</span> <span class="n">column</span><span class="p">,</span> <span class="s2">&quot;task_container&quot;</span><span class="p">:</span> <span class="n">task_container</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;frame&quot;</span><span class="p">:</span> <span class="n">column</span><span class="p">,</span> <span class="s2">&quot;task_container&quot;</span><span class="p">:</span> <span class="n">task_container</span><span class="p">}</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="UIComponents.create_unassigned_tab">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_unassigned_tab">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_unassigned_tab</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">notebook</span><span class="p">:</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Notebook</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">,</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkScrollableFrame</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the unassigned tasks tab&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the tab for displaying unassigned tasks.</span>
+
+<span class="sd">        Creates a tab containing a scrollable frame for displaying tasks that</span>
+<span class="sd">        haven&#39;t been assigned to any period yet.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            notebook (ttk.Notebook): Parent notebook widget</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple containing:</span>
+<span class="sd">                - ctk.CTkFrame: Main frame for unassigned tasks tab</span>
+<span class="sd">                - ctk.CTkScrollableFrame: Scrollable container for task cards</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unassigned_frame</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">(</span>  <span class="c1"># Store reference</span>
             <span class="n">notebook</span><span class="p">,</span> <span class="n">fg_color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;bg_light&quot;</span><span class="p">],</span> <span class="n">corner_radius</span><span class="o">=</span><span class="mi">0</span>
         <span class="p">)</span>
@@ -1381,24 +1520,66 @@
         <span class="p">)</span>
         <span class="n">container</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unassigned_frame</span><span class="p">,</span> <span class="n">container</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unassigned_frame</span><span class="p">,</span> <span class="n">container</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_statistics_tab">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_statistics_tab">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_statistics_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notebook</span><span class="p">:</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Notebook</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the statistics tab&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the tab for displaying task statistics.</span>
+
+<span class="sd">        Creates a tab for showing various metrics and statistics about tasks,</span>
+<span class="sd">        including completion times and resource utilization.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            notebook (ttk.Notebook): Parent notebook widget</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ctk.CTkFrame: Main frame for statistics display</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">stats_frame</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">(</span>  <span class="c1"># Store reference</span>
             <span class="n">notebook</span><span class="p">,</span> <span class="n">fg_color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;bg_light&quot;</span><span class="p">],</span> <span class="n">corner_radius</span><span class="o">=</span><span class="mi">0</span>
         <span class="p">)</span>
         <span class="n">notebook</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Statistics&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats_frame</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats_frame</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_task_card">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_task_card">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_task_card</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">Dict</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a task card widget&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a visual card representing a task.</span>
+
+<span class="sd">        Creates a card displaying task information and appropriate action buttons</span>
+<span class="sd">        based on the task&#39;s status. The card includes title, description,</span>
+<span class="sd">        project info, and resource assignment if available.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parent (ctk.CTkFrame): Parent container for the card</span>
+<span class="sd">            task (Dict): Task data including:</span>
+<span class="sd">                - id: Task identifier</span>
+<span class="sd">                - title: Task title</span>
+<span class="sd">                - description: Task description</span>
+<span class="sd">                - status: Current status</span>
+<span class="sd">                - project: Project name</span>
+<span class="sd">                - resource: Assigned resource (optional)</span>
+<span class="sd">            callbacks (Dict): Callback functions for task actions:</span>
+<span class="sd">                - move_to_todo: For unassigned tasks</span>
+<span class="sd">                - assign_resource: For todo tasks</span>
+<span class="sd">                - start_task: For todo tasks</span>
+<span class="sd">                - complete_task: For in-progress tasks</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ctk.CTkFrame: The created task card</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Main card frame with shadow</span>
         <span class="n">card</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">(</span>
             <span class="n">parent</span><span class="p">,</span>
@@ -1519,12 +1700,25 @@
             <span class="p">)</span>
             <span class="n">complete_btn</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">card</span>
+        <span class="k">return</span> <span class="n">card</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_period_dialog">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_period_dialog">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_period_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show dialog for creating a new performance period&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a dialog for adding a new performance period.</span>
+
+<span class="sd">        Displays a modal dialog with inputs for period name and date range.</span>
+<span class="sd">        The dialog includes validation and proper formatting of dates.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            callback: Function to call with period data when saved.</span>
+<span class="sd">                     Expected signature: callback(name: str, start_date: str, end_date: str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkToplevel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
         <span class="n">dialog</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Create Performance Period&quot;</span><span class="p">)</span>
         <span class="n">dialog</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s2">&quot;400x350&quot;</span><span class="p">)</span>
@@ -1601,12 +1795,24 @@
             <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="s2">&quot;bold&quot;</span><span class="p">),</span>
             <span class="n">fg_color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;primary&quot;</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="n">save_btn</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">save_btn</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.create_task_dialog">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.create_task_dialog">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_task_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show dialog for creating a new task&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a dialog for adding a new task.</span>
+
+<span class="sd">        Displays a modal dialog with inputs for task details including</span>
+<span class="sd">        title, description, and project type.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            callback: Function to call with task data when saved.</span>
+<span class="sd">                     Expected signature: callback(title: str, description: str, project: str)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkToplevel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
         <span class="n">dialog</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Create Task&quot;</span><span class="p">)</span>
         <span class="n">dialog</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s2">&quot;500x600&quot;</span><span class="p">)</span>
@@ -1688,36 +1894,67 @@
             <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="s2">&quot;bold&quot;</span><span class="p">),</span>
             <span class="n">fg_color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="s2">&quot;primary&quot;</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="n">save_btn</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">save_btn</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
 
-        <span class="c1"># --------------------------------------------------------------------------------</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">save_task</span><span class="p">():</span>
-            <span class="n">callback</span><span class="p">(</span>
-                <span class="n">title_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">desc_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">),</span> <span class="n">project_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-            <span class="p">)</span>
-            <span class="n">dialog</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
-
-        <span class="n">save_btn</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkButton</span><span class="p">(</span><span class="n">dialog</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Save&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">save_task</span><span class="p">)</span>
-        <span class="n">save_btn</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="UIComponents.set_ui_state">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.UIComponents.set_ui_state">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_ui_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">elements</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enable or disable multiple UI elements.</span>
+
+<span class="sd">        Updates the state (enabled/disabled) of multiple UI elements at once.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            state (str): New state (&#39;normal&#39; or &#39;disabled&#39;)</span>
+<span class="sd">            elements (Dict): Dictionary of UI elements to update,</span>
+<span class="sd">                           where each element supports the configure method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable or disable UI elements&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s2">&quot;configure&quot;</span><span class="p">):</span>
-                <span class="n">element</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
+                <span class="n">element</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="c1"># ================================================================================</span>
 <span class="c1"># ================================================================================</span>
 
 
+<div class="viewcode-block" id="KanbanApp">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">KanbanApp</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main application class that orchestrates all components&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main application class that orchestrates all components of the Kanban Task Manager.</span>
 
+<span class="sd">    This class serves as the central coordinator for the application, managing the</span>
+<span class="sd">    interaction between the UI components and the data management classes. It handles</span>
+<span class="sd">    all high-level operations including database operations, UI state management,</span>
+<span class="sd">    and view updates.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        db_manager (DatabaseManager): Manages database operations</span>
+<span class="sd">        task_manager (TaskManager): Handles task-related operations</span>
+<span class="sd">        period_manager (PeriodManager): Manages performance periods</span>
+<span class="sd">        stats_manager (StatisticsManager): Handles statistical calculations</span>
+<span class="sd">        ui (UIComponents): Manages GUI components</span>
+<span class="sd">        current_period (Optional[str]): Name of currently selected period</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the Kanban Task Manager application.</span>
+
+<span class="sd">        Sets up all manager classes, initializes the UI, and starts with UI</span>
+<span class="sd">        in disabled state until a database is loaded.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            root (tk.Tk): Root window of the application</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1"># Initialize managers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db_manager</span> <span class="o">=</span> <span class="n">DatabaseManager</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">task_manager</span> <span class="o">=</span> <span class="n">TaskManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db_manager</span><span class="p">)</span>
@@ -1738,8 +1975,15 @@
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.setup_ui">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.setup_ui">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup the main UI structure and callbacks&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Setup the main UI structure and callbacks.</span>
+
+<span class="sd">        Creates and configures all UI elements including menu bar, toolbar,</span>
+<span class="sd">        and tabs. Sets up all necessary callback functions for UI interactions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Create menu with callbacks</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_callbacks</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;new_db&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_new_database</span><span class="p">,</span>
@@ -1776,12 +2020,26 @@
         <span class="c1"># Create statistics tab</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stats_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_statistics_tab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">notebook</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">refresh_views_callback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_all_views</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">refresh_views_callback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_all_views</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.create_new_database">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.create_new_database">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_new_database</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new database file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new database file.</span>
+
+<span class="sd">        Opens a file dialog for the user to specify the location and name</span>
+<span class="sd">        of the new database. Creates the database with the required schema</span>
+<span class="sd">        and enables the UI if successful.</span>
+
+<span class="sd">        Effects:</span>
+<span class="sd">            - Creates a new SQLite database file</span>
+<span class="sd">            - Enables UI elements on success</span>
+<span class="sd">            - Shows success/error messages to user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span>
             <span class="n">defaultextension</span><span class="o">=</span><span class="s2">&quot;.db&quot;</span><span class="p">,</span>
             <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;SQLite Database&quot;</span><span class="p">,</span> <span class="s2">&quot;*.db&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;All Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.*&quot;</span><span class="p">)],</span>
@@ -1797,12 +2055,28 @@
                     <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Failed to create database schema&quot;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">set_ui_state</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Failed to create database&quot;</span><span class="p">)</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Failed to create database&quot;</span><span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.open_database">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.open_database">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">open_database</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open an existing database file and load current period&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open an existing database file and load current period.</span>
+
+<span class="sd">        Opens a file dialog for selecting an existing database file, verifies</span>
+<span class="sd">        its schema, and loads the current period if one exists. Enables the UI</span>
+<span class="sd">        if the database is successfully opened.</span>
+
+<span class="sd">        Effects:</span>
+<span class="sd">            - Connects to existing database file</span>
+<span class="sd">            - Loads current period if available</span>
+<span class="sd">            - Enables UI elements on success</span>
+<span class="sd">            - Updates all views</span>
+<span class="sd">            - Shows success/error messages to user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">askopenfilename</span><span class="p">(</span>
             <span class="n">defaultextension</span><span class="o">=</span><span class="s2">&quot;.db&quot;</span><span class="p">,</span>
             <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;SQLite Database&quot;</span><span class="p">,</span> <span class="s2">&quot;*.db&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;All Files&quot;</span><span class="p">,</span> <span class="s2">&quot;*.*&quot;</span><span class="p">)],</span>
@@ -1827,25 +2101,43 @@
                     <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Invalid database schema&quot;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">set_ui_state</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Failed to open database&quot;</span><span class="p">)</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;Failed to open database&quot;</span><span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.show_create_period_dialog">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.show_create_period_dialog">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">show_create_period_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show dialog for creating a new period&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Show dialog for creating a new period.</span>
 
+<span class="sd">        Displays a dialog for entering new period details. On successful</span>
+<span class="sd">        creation, updates the period selector to include the new period.</span>
+
+<span class="sd">        Effects:</span>
+<span class="sd">            - Creates new period in database</span>
+<span class="sd">            - Updates period selector dropdown</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">save_period</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
             <span class="n">period_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">period_manager</span><span class="o">.</span><span class="n">create_period</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">period_id</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">update_period_selector</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_period_dialog</span><span class="p">(</span><span class="n">save_period</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_period_dialog</span><span class="p">(</span><span class="n">save_period</span><span class="p">)</span></div>
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">show_create_task_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show dialog for creating a new task&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Show dialog for creating a new task.</span>
 
+<span class="sd">        Displays a dialog for entering new task details. On successful</span>
+<span class="sd">        creation, updates the unassigned tasks view to show the new task.</span>
+
+<span class="sd">        Effects:</span>
+<span class="sd">            - Creates new task in database</span>
+<span class="sd">            - Updates unassigned tasks view</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">save_task</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">project</span><span class="p">):</span>
             <span class="n">task_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_manager</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">project</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">task_id</span><span class="p">:</span>
@@ -1853,17 +2145,35 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_task_dialog</span><span class="p">(</span><span class="n">save_task</span><span class="p">)</span>
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">change_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handle period change&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle period change in the UI.</span>
+
+<span class="sd">        Updates the current period selection and refreshes the Kanban board</span>
+<span class="sd">        to show tasks for the newly selected period.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            period_name (str): Name of the newly selected period</span>
+
+<span class="sd">        Effects:</span>
+<span class="sd">            - Updates current_period attribute</span>
+<span class="sd">            - Refreshes Kanban board view</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_period</span> <span class="o">=</span> <span class="n">period_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_kanban_board</span><span class="p">()</span>
 
-    <span class="c1"># --------------------------------------------------------------------------------</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">update_period_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the period selector dropdown&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the period selector dropdown.</span>
+
+<span class="sd">        Refreshes the period selector with current list of periods from the</span>
+<span class="sd">        database. If no period is currently selected and periods exist,</span>
+<span class="sd">        selects the first available period.</span>
+
+<span class="sd">        Effects:</span>
+<span class="sd">            - Updates period selector options</span>
+<span class="sd">            - May update current period selection</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">periods</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">period_manager</span><span class="o">.</span><span class="n">get_all_periods</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">period_selector</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">periods</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">periods</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_period</span><span class="p">:</span>
@@ -1872,8 +2182,82 @@
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.show_create_task_dialog">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.show_create_task_dialog">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show_create_task_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the statistics display with detailed metrics.</span>
+<span class="sd">    </span>
+<span class="sd">        Args:</span>
+<span class="sd">            metrics (dict): A dictionary containing various task metrics including:</span>
+<span class="sd">                - total_tasks: Total number of tasks</span>
+<span class="sd">                - avg_todo_to_inwork: Average time from todo to in-work state</span>
+<span class="sd">                - avg_inwork_to_complete: Average time from in-work to completion</span>
+<span class="sd">                - avg_total_time: Average total time to complete tasks</span>
+<span class="sd">                - by_resource: Dictionary of metrics grouped by resource</span>
+<span class="sd">                - by_project: Dictionary of metrics grouped by project</span>
+<span class="sd">            </span>
+<span class="sd">        Creates and displays three sections of statistics:</span>
+<span class="sd">        1. Overall metrics showing aggregate task statistics</span>
+<span class="sd">        2. Resource-specific metrics showing performance by resource</span>
+<span class="sd">        3. Project-specific metrics showing statistics by project</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">save_task</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">project</span><span class="p">):</span>
+            <span class="n">task_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_manager</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">project</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">task_id</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_unassigned_tasks</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_task_dialog</span><span class="p">(</span><span class="n">save_task</span><span class="p">)</span></div>
+
+
+    <span class="c1"># --------------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="KanbanApp.change_period">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.change_period">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">change_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handle period change in the Kanban board.</span>
+<span class="sd">    </span>
+<span class="sd">        Args:</span>
+<span class="sd">            period_name (str): The name of the period to switch to</span>
+<span class="sd">        </span>
+<span class="sd">        Updates the current period and refreshes the Kanban board view to show</span>
+<span class="sd">        tasks for the selected period.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_period</span> <span class="o">=</span> <span class="n">period_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_kanban_board</span><span class="p">()</span></div>
+
+
+    <span class="c1"># --------------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="KanbanApp.update_period_selector">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.update_period_selector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_period_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the period selector dropdown with available periods.</span>
+<span class="sd">    </span>
+<span class="sd">        Retrieves all periods from the period manager and populates the period</span>
+<span class="sd">        selector dropdown. If no period is currently selected and periods exist,</span>
+<span class="sd">        sets the first period as the current selection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">periods</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">period_manager</span><span class="o">.</span><span class="n">get_all_periods</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">period_selector</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">periods</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">periods</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_period</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_period</span> <span class="o">=</span> <span class="n">periods</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">period_var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_period</span><span class="p">)</span></div>
+
+
+    <span class="c1"># --------------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="KanbanApp.update_kanban_board">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.update_kanban_board">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_kanban_board</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the Kanban board view&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the Kanban board view with current tasks.</span>
+<span class="sd">    </span>
+<span class="sd">        Clears and repopulates all Kanban board columns (todo, in_progress, completed)</span>
+<span class="sd">        with task cards based on the current period selection. Sets up appropriate</span>
+<span class="sd">        callbacks for task card interactions including resource assignment, starting</span>
+<span class="sd">        tasks, and completing tasks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1"># Clear current board</span>
         <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">widget</span> <span class="ow">in</span> <span class="n">column</span><span class="p">[</span><span class="s2">&quot;task_container&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">winfo_children</span><span class="p">():</span>
@@ -1902,12 +2286,20 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">continue</span>
 
-                    <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_task_card</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_task_card</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.update_unassigned_tasks">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.update_unassigned_tasks">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_unassigned_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the unassigned tasks view&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the unassigned tasks view.</span>
+<span class="sd">    </span>
+<span class="sd">        Clears and repopulates the unassigned tasks container with task cards for</span>
+<span class="sd">        all tasks that haven&#39;t been assigned to a period. Sets up callbacks for</span>
+<span class="sd">        moving tasks to the todo column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Clear current tasks</span>
         <span class="k">for</span> <span class="n">widget</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unassigned_container</span><span class="o">.</span><span class="n">winfo_children</span><span class="p">():</span>
             <span class="n">widget</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
@@ -1920,12 +2312,21 @@
 
         <span class="c1"># Create task cards</span>
         <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_task_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unassigned_container</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">create_task_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unassigned_container</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.update_statistics">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.update_statistics">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the statistics view&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the statistics view with current metrics.</span>
+<span class="sd">    </span>
+<span class="sd">        Clears and recalculates statistics based on the current period selection.</span>
+<span class="sd">        If a period is selected, calculates and displays metrics specific to that</span>
+<span class="sd">        period. Otherwise, shows overall statistics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1"># Clear current statistics</span>
         <span class="k">for</span> <span class="n">widget</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats_frame</span><span class="o">.</span><span class="n">winfo_children</span><span class="p">():</span>
             <span class="n">widget</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
@@ -1942,12 +2343,15 @@
 
         <span class="c1"># Create statistics display</span>
         <span class="k">if</span> <span class="n">metrics</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">create_statistics_display</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_statistics_display</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.create_statistics_display">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.create_statistics_display">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_statistics_display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the statistics display&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create and display a statistical summary of task metrics&quot;&quot;&quot;</span>
         <span class="c1"># Overall metrics</span>
         <span class="n">overall_frame</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats_frame</span><span class="p">)</span>
         <span class="n">overall_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -1997,12 +2401,25 @@
 <span class="s2">                Tasks Completed: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tasks_completed&#39;</span><span class="p">]</span><span class="si">}</span>
 <span class="s2">                Average Completion Time: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;avg_completion_time&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> hours</span>
 <span class="s2">                &quot;&quot;&quot;</span>
-                <span class="n">ctk</span><span class="o">.</span><span class="n">CTkLabel</span><span class="p">(</span><span class="n">project_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">project_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+                <span class="n">ctk</span><span class="o">.</span><span class="n">CTkLabel</span><span class="p">(</span><span class="n">project_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">project_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.move_to_todo">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.move_to_todo">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">move_to_todo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move a task to the Todo column&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move a task to the Todo column of the current period.</span>
+<span class="sd">    </span>
+<span class="sd">        Args:</span>
+<span class="sd">            task_id: The identifier of the task to move</span>
+<span class="sd">        </span>
+<span class="sd">        Verifies that a period is selected before moving the task.</span>
+<span class="sd">        If successful, updates both the unassigned tasks view and</span>
+<span class="sd">        the Kanban board to reflect the change.</span>
+<span class="sd">    </span>
+<span class="sd">        Displays an error message if no period is selected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_period</span><span class="p">:</span>
             <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;Select Period&quot;</span><span class="p">,</span> <span class="s2">&quot;Please select a period first.&quot;</span><span class="p">)</span>
             <span class="k">return</span>
@@ -2010,12 +2427,23 @@
         <span class="n">period</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">period_manager</span><span class="o">.</span><span class="n">get_period_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_period</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">period</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_manager</span><span class="o">.</span><span class="n">move_to_todo</span><span class="p">(</span><span class="n">task_id</span><span class="p">,</span> <span class="n">period</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">update_unassigned_tasks</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">update_kanban_board</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_kanban_board</span><span class="p">()</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.show_assign_resource_dialog">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.show_assign_resource_dialog">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">show_assign_resource_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show dialog for assigning a resource&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show dialog for assigning a resource to a task.</span>
+<span class="sd">    </span>
+<span class="sd">        Args:</span>
+<span class="sd">            task_id: The identifier of the task to assign</span>
+<span class="sd">        </span>
+<span class="sd">        Opens a modal dialog with an entry field for the resource name.</span>
+<span class="sd">        Upon successful assignment, updates the Kanban board to reflect</span>
+<span class="sd">        the change and closes the dialog.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkToplevel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
         <span class="n">dialog</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Assign Resource&quot;</span><span class="p">)</span>
         <span class="n">dialog</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s2">&quot;300x150&quot;</span><span class="p">)</span>
@@ -2033,42 +2461,90 @@
                 <span class="n">dialog</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
 
         <span class="n">save_btn</span> <span class="o">=</span> <span class="n">ctk</span><span class="o">.</span><span class="n">CTkButton</span><span class="p">(</span><span class="n">dialog</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Save&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">save_resource</span><span class="p">)</span>
-        <span class="n">save_btn</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">save_btn</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.start_task">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.start_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start a task&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start a task by moving it to the in-progress state.</span>
+<span class="sd">    </span>
+<span class="sd">        Args:</span>
+<span class="sd">            task_id: The identifier of the task to start</span>
+<span class="sd">        </span>
+<span class="sd">        Updates the Kanban board to reflect the task&#39;s new status</span>
+<span class="sd">        if the operation is successful.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_manager</span><span class="o">.</span><span class="n">start_task</span><span class="p">(</span><span class="n">task_id</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">update_kanban_board</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_kanban_board</span><span class="p">()</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.complete_task">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.complete_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">complete_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Complete a task&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Complete a task by moving it to the completed state.</span>
+<span class="sd">    </span>
+<span class="sd">        Args:</span>
+<span class="sd">            task_id: The identifier of the task to complete</span>
+<span class="sd">        </span>
+<span class="sd">        Updates both the Kanban board and statistics views to reflect</span>
+<span class="sd">        the task&#39;s completion if the operation is successful.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_manager</span><span class="o">.</span><span class="n">complete_task</span><span class="p">(</span><span class="n">task_id</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">update_kanban_board</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">update_statistics</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_statistics</span><span class="p">()</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.refresh_all_views">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.refresh_all_views">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">refresh_all_views</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh all views&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh all views in the application.</span>
+<span class="sd">    </span>
+<span class="sd">        Updates all major components of the UI including:</span>
+<span class="sd">        - Period selector</span>
+<span class="sd">        - Unassigned tasks view</span>
+<span class="sd">        - Kanban board</span>
+<span class="sd">        - Statistics view</span>
+<span class="sd">    </span>
+<span class="sd">        Typically called after major state changes that affect multiple views.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_period_selector</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_unassigned_tasks</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_kanban_board</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">update_statistics</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_statistics</span><span class="p">()</span></div>
+
 
     <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<div class="viewcode-block" id="KanbanApp.set_ui_state">
+<a class="viewcode-back" href="../../Code.html#kanban.kanban.KanbanApp.set_ui_state">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_ui_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable or disable UI elements&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable or disable UI elements based on the provided state.</span>
+<span class="sd">    </span>
+<span class="sd">        Args:</span>
+<span class="sd">            state (bool): True to enable elements, False to disable them</span>
+<span class="sd">        </span>
+<span class="sd">        Affects the following UI elements:</span>
+<span class="sd">        - Create period button</span>
+<span class="sd">        - Create task button</span>
+<span class="sd">        - Period selector</span>
+<span class="sd">    </span>
+<span class="sd">        Used to prevent user interactions during certain operations or states.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">elements</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;create_period_btn&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_period_btn</span><span class="p">,</span>
             <span class="s2">&quot;create_task_btn&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_task_btn</span><span class="p">,</span>
             <span class="s2">&quot;period_selector&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">period_selector</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">set_ui_state</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">elements</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">set_ui_state</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">elements</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="c1"># ================================================================================</span>
@@ -2096,7 +2572,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -2107,7 +2583,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>

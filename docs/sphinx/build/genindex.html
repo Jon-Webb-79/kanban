@@ -9,7 +9,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
-  
+
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=01f34227"></script>
@@ -17,17 +17,17 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="index.html" class="icon icon-home">
             Kanban
           </a>
@@ -66,7 +66,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
 
 <h1 id="index">Index</h1>
 
@@ -77,11 +77,14 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
- 
+
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
@@ -96,19 +99,49 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Code.html#kanban.kanban.StatisticsManager.calculate_task_metrics">calculate_task_metrics() (kanban.kanban.StatisticsManager method)</a>
 </li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.change_period">change_period() (kanban.kanban.KanbanApp method)</a>
+</li>
       <li><a href="Code.html#kanban.kanban.DatabaseManager.close">close() (kanban.kanban.DatabaseManager method)</a>
 </li>
-      <li><a href="Code.html#kanban.kanban.TaskManager.complete_task">complete_task() (kanban.kanban.TaskManager method)</a>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.complete_task">complete_task() (kanban.kanban.KanbanApp method)</a>
+
+      <ul>
+        <li><a href="Code.html#kanban.kanban.TaskManager.complete_task">(kanban.kanban.TaskManager method)</a>
+</li>
+      </ul></li>
+      <li><a href="Code.html#kanban.kanban.DatabaseManager.connect">connect() (kanban.kanban.DatabaseManager method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_kanban_board">create_kanban_board() (kanban.kanban.UIComponents method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_kanban_column">create_kanban_column() (kanban.kanban.UIComponents method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_menu_bar">create_menu_bar() (kanban.kanban.UIComponents method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.create_new_database">create_new_database() (kanban.kanban.KanbanApp method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Code.html#kanban.kanban.DatabaseManager.connect">connect() (kanban.kanban.DatabaseManager method)</a>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_notebook">create_notebook() (kanban.kanban.UIComponents method)</a>
 </li>
       <li><a href="Code.html#kanban.kanban.PeriodManager.create_period">create_period() (kanban.kanban.PeriodManager method)</a>
 </li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_period_dialog">create_period_dialog() (kanban.kanban.UIComponents method)</a>
+</li>
       <li><a href="Code.html#kanban.kanban.DatabaseManager.create_schema">create_schema() (kanban.kanban.DatabaseManager method)</a>
 </li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.create_statistics_display">create_statistics_display() (kanban.kanban.KanbanApp method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_statistics_tab">create_statistics_tab() (kanban.kanban.UIComponents method)</a>
+</li>
       <li><a href="Code.html#kanban.kanban.TaskManager.create_task">create_task() (kanban.kanban.TaskManager method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_task_card">create_task_card() (kanban.kanban.UIComponents method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_task_dialog">create_task_dialog() (kanban.kanban.UIComponents method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_toolbar">create_toolbar() (kanban.kanban.UIComponents method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.create_unassigned_tab">create_unassigned_tab() (kanban.kanban.UIComponents method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -144,6 +177,10 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Code.html#kanban.kanban.KanbanApp">KanbanApp (class in kanban.kanban)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Code.html#kanban.kanban.KanbanDataError">KanbanDataError (class in kanban.kanban)</a>
 </li>
   </ul></td>
@@ -152,7 +189,19 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Code.html#kanban.kanban.TaskManager.move_to_todo">move_to_todo() (kanban.kanban.TaskManager method)</a>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.move_to_todo">move_to_todo() (kanban.kanban.KanbanApp method)</a>
+
+      <ul>
+        <li><a href="Code.html#kanban.kanban.TaskManager.move_to_todo">(kanban.kanban.TaskManager method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.open_database">open_database() (kanban.kanban.KanbanApp method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -165,13 +214,43 @@
   </ul></td>
 </tr></table>
 
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.refresh_all_views">refresh_all_views() (kanban.kanban.KanbanApp method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Code.html#kanban.kanban.TaskManager.start_task">start_task() (kanban.kanban.TaskManager method)</a>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.set_ui_state">set_ui_state() (kanban.kanban.KanbanApp method)</a>
+
+      <ul>
+        <li><a href="Code.html#kanban.kanban.UIComponents.set_ui_state">(kanban.kanban.UIComponents method)</a>
+</li>
+      </ul></li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.setup_main_window">setup_main_window() (kanban.kanban.UIComponents method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.UIComponents.setup_theme">setup_theme() (kanban.kanban.UIComponents method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.setup_ui">setup_ui() (kanban.kanban.KanbanApp method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.show_assign_resource_dialog">show_assign_resource_dialog() (kanban.kanban.KanbanApp method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.show_create_period_dialog">show_create_period_dialog() (kanban.kanban.KanbanApp method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.show_create_task_dialog">show_create_task_dialog() (kanban.kanban.KanbanApp method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.start_task">start_task() (kanban.kanban.KanbanApp method)</a>
+
+      <ul>
+        <li><a href="Code.html#kanban.kanban.TaskManager.start_task">(kanban.kanban.TaskManager method)</a>
+</li>
+      </ul></li>
       <li><a href="Code.html#kanban.kanban.StatisticsManager">StatisticsManager (class in kanban.kanban)</a>
 </li>
   </ul></td>
@@ -181,6 +260,28 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Code.html#kanban.kanban.TaskManager">TaskManager (class in kanban.kanban)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Code.html#kanban.kanban.UIComponents.toggle_theme">toggle_theme() (kanban.kanban.UIComponents method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Code.html#kanban.kanban.UIComponents">UIComponents (class in kanban.kanban)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.update_kanban_board">update_kanban_board() (kanban.kanban.KanbanApp method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.update_period_selector">update_period_selector() (kanban.kanban.KanbanApp method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.update_statistics">update_statistics() (kanban.kanban.KanbanApp method)</a>
+</li>
+      <li><a href="Code.html#kanban.kanban.KanbanApp.update_unassigned_tasks">update_unassigned_tasks() (kanban.kanban.KanbanApp method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -214,7 +315,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -225,7 +326,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>
