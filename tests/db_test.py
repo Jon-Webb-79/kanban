@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from kanban.kanban import DatabaseManager, KanbanDataError, PeriodManager, TaskManager
+from kanban.kanban import DatabaseManager, KanbanDataError, SprintManager, TaskManager
 
 # ==========================================================================================
 # ==========================================================================================
@@ -202,7 +202,7 @@ class TestDatabaseManager:
 
     # --------------------------------------------------------------------------------
 
-    class TestGetCurrentPeriod:
+    class TestGetCurrentSprint:
         def test_get_current_period_success(self, db_manager, temp_db_file):
             """Test getting current period with valid data."""
             db_manager.connect(temp_db_file)
@@ -218,11 +218,11 @@ class TestDatabaseManager:
                 INSERT INTO performance_periods (name, start_date, end_date)
                 VALUES (?, ?, ?)
                 """,
-                ("Current Period", start_date, end_date),
+                ("Current Sprint", start_date, end_date),
             )
             db_manager.conn.commit()
 
-            assert db_manager.get_current_period() == "Current Period"
+            assert db_manager.get_current_period() == "Current Sprint"
 
         # --------------------------------------------------------------------------------
 
@@ -241,7 +241,7 @@ class TestDatabaseManager:
                 INSERT INTO performance_periods (name, start_date, end_date)
                 VALUES (?, ?, ?)
                 """,
-                ("Future Period", start_date, end_date),
+                ("Future Sprint", start_date, end_date),
             )
             db_manager.conn.commit()
 
@@ -263,7 +263,7 @@ class TestDatabaseManager:
             current_date = datetime.now()
 
             # Create two overlapping periods
-            periods = [("Period 1", -5, 5), ("Period 2", -3, 3)]
+            periods = [("Sprint 1", -5, 5), ("Sprint 2", -3, 3)]
 
             for name, start_offset, end_offset in periods:
                 start_date = (
@@ -282,7 +282,7 @@ class TestDatabaseManager:
             db_manager.conn.commit()
 
             # Should return the first matching period
-            assert db_manager.get_current_period() in ["Period 1", "Period 2"]
+            assert db_manager.get_current_period() in ["Sprint 1", "Sprint 2"]
 
     # ================================================================================
     # ================================================================================
@@ -411,18 +411,18 @@ class TestDatabaseManager:
     # ================================================================================
     # ================================================================================
 
-    class TestPeriodValidation:
+    class TestSprintValidation:
         """Test suite for period validation functionality"""
 
         def test_create_period_with_empty_name(self, db_manager, temp_db_file):
             """Test creating period with empty name."""
             db_manager.connect(temp_db_file)
             db_manager.create_schema()
-            period_manager = PeriodManager(db_manager)
+            period_manager = SprintManager(db_manager)
 
             with pytest.raises(KanbanDataError) as exc:
                 period_manager.create_period("", "1/1/24", "12/31/24")
-            assert "Period name cannot be empty" in str(exc.value)
+            assert "Sprint name cannot be empty" in str(exc.value)
 
         # --------------------------------------------------------------------------------
 
@@ -430,11 +430,11 @@ class TestDatabaseManager:
             """Test creating period with whitespace-only name."""
             db_manager.connect(temp_db_file)
             db_manager.create_schema()
-            period_manager = PeriodManager(db_manager)
+            period_manager = SprintManager(db_manager)
 
             with pytest.raises(KanbanDataError) as exc:
                 period_manager.create_period("   ", "1/1/24", "12/31/24")
-            assert "Period name cannot be empty" in str(exc.value)
+            assert "Sprint name cannot be empty" in str(exc.value)
 
         # --------------------------------------------------------------------------------
 
@@ -442,10 +442,10 @@ class TestDatabaseManager:
             """Test creating period with invalid date format."""
             db_manager.connect(temp_db_file)
             db_manager.create_schema()
-            period_manager = PeriodManager(db_manager)
+            period_manager = SprintManager(db_manager)
 
             with pytest.raises(KanbanDataError) as exc:
-                period_manager.create_period("Test Period", "invalid-date", "12/31/24")
+                period_manager.create_period("Test Sprint", "invalid-date", "12/31/24")
             assert "Invalid date format" in str(exc.value)
 
         # --------------------------------------------------------------------------------
@@ -454,10 +454,10 @@ class TestDatabaseManager:
             """Test creating period with end date before start date."""
             db_manager.connect(temp_db_file)
             db_manager.create_schema()
-            period_manager = PeriodManager(db_manager)
+            period_manager = SprintManager(db_manager)
 
             with pytest.raises(KanbanDataError) as exc:
-                period_manager.create_period("Test Period", "12/31/24", "1/1/24")
+                period_manager.create_period("Test Sprint", "12/31/24", "1/1/24")
             assert "End date cannot be before start date" in str(exc.value)
 
         # --------------------------------------------------------------------------------
@@ -466,23 +466,23 @@ class TestDatabaseManager:
             """Test creating period with duplicate name."""
             db_manager.connect(temp_db_file)
             db_manager.create_schema()
-            period_manager = PeriodManager(db_manager)
+            period_manager = SprintManager(db_manager)
 
             # Create first period
-            period_manager.create_period("Test Period", "1/1/24", "6/30/24")
+            period_manager.create_period("Test Sprint", "1/1/24", "6/30/24")
 
             # Try to create second period with same name
             with pytest.raises(KanbanDataError) as exc:
-                period_manager.create_period("Test Period", "7/1/24", "12/31/24")
+                period_manager.create_period("Test Sprint", "7/1/24", "12/31/24")
             assert "already exists" in str(exc.value)
 
         # --------------------------------------------------------------------------------
 
         def test_create_period_without_connection(self, db_manager):
             """Test creating period without database connection."""
-            period_manager = PeriodManager(db_manager)  # No connection established
+            period_manager = SprintManager(db_manager)  # No connection established
 
-            result = period_manager.create_period("Test Period", "1/1/24", "12/31/24")
+            result = period_manager.create_period("Test Sprint", "1/1/24", "12/31/24")
             assert result is None
 
         # --------------------------------------------------------------------------------
@@ -491,9 +491,9 @@ class TestDatabaseManager:
             """Test creating period with valid data."""
             db_manager.connect(temp_db_file)
             db_manager.create_schema()
-            period_manager = PeriodManager(db_manager)
+            period_manager = SprintManager(db_manager)
 
-            period_id = period_manager.create_period("Test Period", "1/1/24", "12/31/24")
+            period_id = period_manager.create_period("Test Sprint", "1/1/24", "12/31/24")
             assert period_id is not None
 
             # Verify period was created correctly
@@ -503,7 +503,7 @@ class TestDatabaseManager:
             )
             period = db_manager.cursor.fetchone()
             assert period is not None
-            assert period[0] == "Test Period"
+            assert period[0] == "Test Sprint"
             # The dates will be stored in ISO format in the database
             assert period[1] == "2024-01-01"
             assert period[2] == "2024-12-31"
@@ -514,10 +514,10 @@ class TestDatabaseManager:
             """Test that whitespace is stripped from period name."""
             db_manager.connect(temp_db_file)
             db_manager.create_schema()
-            period_manager = PeriodManager(db_manager)
+            period_manager = SprintManager(db_manager)
 
             period_id = period_manager.create_period(
-                "  Test Period  ", "1/1/24", "12/31/24"
+                "  Test Sprint  ", "1/1/24", "12/31/24"
             )
             assert period_id is not None
 
@@ -526,7 +526,7 @@ class TestDatabaseManager:
                 "SELECT name FROM performance_periods WHERE id = ?", (period_id,)
             )
             period = db_manager.cursor.fetchone()
-            assert period[0] == "Test Period"
+            assert period[0] == "Test Sprint"
 
 
 # ==========================================================================================

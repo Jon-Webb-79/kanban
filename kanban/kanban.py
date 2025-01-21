@@ -1625,12 +1625,14 @@ class UIComponents:
         Create a dialog for adding a new task.
 
         Displays a modal dialog with inputs for task details including
-        title, description, and project type.
+        title, description, and project type. The dialog remains open
+        if validation fails.
 
         Args:
             callback: Function to call with task data when saved.
                       Expected signature: callback(title: str,
                       description: str, project: str)
+                      Should return True if save successful, False otherwise.
         """
         dialog = ctk.CTkToplevel(self.root)
         dialog.title("Create Task")
@@ -1699,10 +1701,11 @@ class UIComponents:
         project_entry.pack(fill=tk.X, pady=(0, 20))
 
         def save_task():
-            callback(
+            success = callback(
                 title_entry.get(), desc_entry.get("1.0", tk.END), project_entry.get()
             )
-            dialog.destroy()
+            if success:
+                dialog.destroy()
 
         save_btn = ctk.CTkButton(
             content,
@@ -1942,9 +1945,15 @@ class KanbanApp:
         """
 
         def save_task(title, description, project):
-            task_id = self.task_manager.create_task(title, description, project)
-            if task_id:
-                self.update_unassigned_tasks()
+            try:
+                task_id = self.task_manager.create_task(title, description, project)
+                if task_id:
+                    self.update_unassigned_tasks()
+                    return True  # Indicate success
+                return False  # Indicate failure
+            except KanbanDataError as e:
+                messagebox.showerror("Validation Error", str(e))
+                return False  # Indicate failure so dialog stays open
 
         self.ui.create_task_dialog(save_task)
 
