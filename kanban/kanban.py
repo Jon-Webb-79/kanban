@@ -1533,13 +1533,14 @@ class UIComponents:
 
         Displays a modal dialog with inputs for period name and date range.
         The dialog includes validation and proper formatting of dates.
+        Remains open if validation fails.
 
         Args:
             callback: Function to call with period data when saved.
-                      Expected signature: callback(name: str, start_date: str,
-                      end_date: str)
+                      Expected signature: callback(name: str,
+                      start_date: str, end_date: str)
+                      Should return True if save successful, False otherwise.
         """
-
         dialog = ctk.CTkToplevel(self.root)
         dialog.title("Create Performance Sprint")
         dialog.geometry("400x350")
@@ -1604,12 +1605,13 @@ class UIComponents:
         end_date.pack(fill=tk.X, pady=(0, 20))
 
         def save_period():
-            callback(name_entry.get(), start_date.get(), end_date.get())
-            dialog.destroy()
+            success = callback(name_entry.get(), start_date.get(), end_date.get())
+            if success:
+                dialog.destroy()
 
         save_btn = ctk.CTkButton(
             content,
-            text="Save Sprting",
+            text="Save Sprint",  # Fixed typo in button text
             command=save_period,
             height=38,
             corner_radius=8,
@@ -1926,9 +1928,15 @@ class KanbanApp:
         """
 
         def save_period(name, start_date, end_date):
-            period_id = self.period_manager.create_period(name, start_date, end_date)
-            if period_id:
-                self.update_period_selector()
+            try:
+                period_id = self.period_manager.create_period(name, start_date, end_date)
+                if period_id:
+                    self.update_period_selector()
+                    return True  # Indicate success
+                return False  # Indicate failure
+            except KanbanDataError as e:
+                messagebox.showerror("Validation Error", str(e))
+                return False  # Keep dialog open
 
         self.ui.create_period_dialog(save_period)
 
